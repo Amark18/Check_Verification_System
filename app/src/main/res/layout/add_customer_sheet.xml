@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbarThumbVertical="@color/orangeRed"
+    android:scrollbarSize="2dp"
+    android:scrollbars="vertical"
+    android:background="@color/grayDark">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grayDark">
+
+        <ImageView
+            android:id="@+id/close_filter"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="13dp"
+            android:src="@drawable/close_icon"
+            app:layout_constraintEnd_toEndOf="@+id/title"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/edit_customer"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="13dp"
+            android:visibility="gone"
+            android:src="@drawable/edit_icon"
+            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/baloo_bhai"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="@string/customer_sheet_title"
+            android:textColor="@color/blueDark"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/warning_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:gravity="center"
+            android:weightSum="100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/warning_animation"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="30"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/warning_animation">
+            </com.airbnb.lottie.LottieAnimationView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="20"
+                android:gravity="center"
+                android:text="@string/warning_message"
+                android:textColor="@color/red"
+                android:textSize="16sp">
+            </TextView>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/do_not_cash_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:visibility="gone"
+                android:theme="@style/SwitchTheme">
+            </com.google.android.material.switchmaterial.SwitchMaterial>
+
+        </LinearLayout>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/tap_history_animation"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/dimen_12"
+            android:maxWidth="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toTopOf="@+id/change_profile_pic_text"
+            app:layout_constraintEnd_toStartOf="@+id/customer_photo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/warning_layout"
+            android:backgroundTint="@color/cerulean_blue"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/history_animation">
+        </com.airbnb.lottie.LottieAnimationView>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/customer_photo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:padding="15dp"
+            android:src="@drawable/user_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/warning_layout"
+            app:shapeAppearanceOverlay="@style/profileImage"
+            app:strokeColor="@color/blueDark"
+            app:strokeWidth="2dp" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/nfc_tap_animation"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toTopOf="@+id/change_profile_pic_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/customer_photo"
+            app:layout_constraintTop_toBottomOf="@+id/warning_layout"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/nfc_animation">
+        </com.airbnb.lottie.LottieAnimationView>
+
+        <TextView
+            android:id="@+id/change_profile_pic_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:text="@string/change_photo"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimen_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customer_photo"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/insert_name_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="20dp"
+            android:hint="@string/name_input_hint"
+            android:textColorHint="@color/white"
+            android:theme="@style/TextInputLayout"
+            app:boxBackgroundColor="@color/space_transparent"
+            app:boxStrokeColor="@color/blueDark"
+            app:boxStrokeErrorColor="@color/red"
+            app:boxStrokeWidth="2dp"
+            app:errorIconTint="@color/red"
+            app:hintTextColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/change_profile_pic_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/insert_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:imeOptions="actionGo" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/insert_dob_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp"
+            android:hint="@string/dob_input_hint"
+            android:textColorHint="@color/white"
+            android:theme="@style/TextInputLayout"
+            app:boxBackgroundColor="@color/space_transparent"
+            app:boxStrokeColor="@color/blueDark"
+            app:boxStrokeErrorColor="@color/red"
+            app:boxStrokeWidth="2dp"
+            app:errorIconTint="@color/red"
+            app:hintTextColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/insert_name_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/insert_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="4"
+                android:textColor="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/customer_license_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="15dp"
+            app:cardBackgroundColor="@color/gray"
+            app:cardCornerRadius="@dimen/dimen_24"
+            app:layout_constraintBottom_toTopOf="@+id/add_customer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/insert_dob_layout"
+            app:strokeColor="@color/blueDark"
+            app:strokeWidth="0dp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/customer_license"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:padding="15dp"
+                    android:src="@drawable/user_icon" />
+
+                <TextView
+                    android:id="@+id/change_id_pic_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="@string/take_id_photo"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimen_16">
+                </TextView>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_customer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:padding="15dp"
+            android:text="@string/add_customer"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/flamingo"
+            app:cornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+        </com.google.android.material.button.MaterialButton>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

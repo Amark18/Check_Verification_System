@@ -1,0 +1,105 @@
+<resources>
+    <string name="app_name">Check Verification System</string>
+    <string name="app_name_proper">Check Verification System</string>
+
+    <!-- Login screen !-->
+    <string name="login_message_pin_only">LOGIN WITH PASSCODE</string>
+    <string name="login_message_both">LOGIN WITH FINGERPRINT OR PASSCODE</string>
+    <string name="fingerprint_error_text">Fingerprint Error</string>
+    <string name="login_message_timeout">Last login more than 24 hours ago</string>
+    <string name="fingerprint">Biometric login</string>
+
+    <!-- Main screen - Text !-->
+    <string name="dash_text">Dashboard</string>
+    <string name="date_text">Date</string>
+    <string name="total_text">Total in System</string>
+    <string name="verified_text">Verified</string>
+    <string name="added_text">Added</string>
+    <string name="today_text">Today</string>
+    <string name="search_hint">Find someone…</string>
+    <string name="number_placeholder">9999</string>
+    <string name="nfc_text">NFC Disabled</string>
+
+    <!-- Commands !-->
+    <string name="try_again">TRY AGAIN</string>
+    <string name="nfc_message">Please enable NFC</string>
+    <string name="login_again">Logic Again</string>
+    <string name="fingerprint_error">Fingerprint not read, try again!</string>
+    <string name="change_photo">Change Customer Photo</string>
+    <string name="take_id_photo">Take Picture of ID</string>
+    <string name="add_customer">ADD</string>
+    <string name="close_text">Close</string>
+
+    <!-- Firestore Database !-->
+    <string name="database_main_collection">customers</string>
+    <string name="database_error_title">Database Error</string>
+    <string name="database_error">Not able to get data</string>
+    <!-- Database Fields !-->
+    <string name="field_profilePicPath">profilePicPath</string>
+    <string name="field_customerIDPath">customerIDPath</string>
+    <!-- Error !-->
+    <string name="year_error">Insert Year (Ex. 1999)</string>
+    <string name="name_error">First + Last Name</string>
+
+    <!-- PlaceHolder !-->
+    <string name="fullname_placeholder">Full Name</string>
+    <string name="year_placeholder">Year of Birth</string>
+    <string name="empty_placeholder">man, it\'s so empty...</string>
+    <string name="output_data">output_data</string>
+
+    <!-- Symbol !-->
+    <string name="split">\`</string>
+
+    <!-- User Choices !-->
+    <string name="cancel">CANCEL</string>
+
+    <!-- Add Customer Sheet !-->
+    <string name="customer_sheet_title">New</string>
+    <string name="name_input_hint">Full Name</string>
+    <string name="dob_input_hint">Birth Year</string>
+    <string name="license_pic_message_title">ID Picture Missing</string>
+    <string name="license_pic_message">ID picture is required</string>
+    <string name="upload_error_title">Upload Error</string>
+    <string name="upload_error_message">Issue Uploading images</string>
+    <string name="add_text">Add</string>
+    <string name="view_text">View</string>
+    <string name="edit_text">Edit</string>
+    <string name="delete_customer_title">Delete Instruction</string>
+    <string name="delete_customer_instruction">Long press delete button to delete Customer</string>
+    <string name="editing_message_title">No Changes</string>
+    <string name="editing_message">Nothing was changed</string>
+    <string name="customer_exists_title">Customer Exists</string>
+    <string name="customer_exists_message">Can\'t add existing customers</string>
+    <string name="warning_message">Do not cash for this customer!</string>
+    <string name="customer_updated_title">Customer Updated</string>
+    <string name="customer_updated_message">Pull Down to refresh</string>
+
+    <!-- NFC Sheet !-->
+    <string name="nfc_title">Tap Card</string>
+    <string name="write_nfc_title">Write Successful</string>
+    <string name="write_nfc_message">Tap to verify</string>
+    <string name="read_nfc_title">Not Found</string>
+    <string name="read_nfc_message">Customer not in system, update and try again</string>
+    <string name="read_nfc_empty_message">Card has no data</string>
+
+    <!-- History Sheet !-->
+    <string name="history_title">History</string>
+    <string name="history_error_title">No History</string>
+    <string name="history_error_message">Customer has not used the NFC Card</string>
+    <string name="ago_text">ago</string>
+    <string name="store_text">Oasis</string>
+    <string name="time_ago_text">Time ago</string>
+
+    <!-- Settings Sheet !-->
+    <string name="settings_title">Settings</string>
+    <string name="reset_nfc_text">Reset NFC Card</string>
+    <string name="see_nfc_card">Check NFC Card Data</string>
+    <string name="reset_app">Reset App</string>
+    <string name="reset_app_message">App will close, open app again.</string>
+
+    <!-- Saved Preference Data !-->
+    <string name="fingerprint_pref">fingerprint</string>
+    <string name="fingerprint_enabled">enabled</string>
+    <string name="login_pref">login</string>
+
+</resources>

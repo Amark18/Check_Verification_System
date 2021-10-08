@@ -1,0 +1,2 @@
+rootProject.name = "Check_Vertification_System_V1"
+include ':app'
