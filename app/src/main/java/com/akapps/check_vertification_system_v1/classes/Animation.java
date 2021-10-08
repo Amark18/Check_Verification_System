@@ -45,7 +45,7 @@ public class Animation {
     }
 
     // slides up the search bar to be on the top and sets whatever on top to be invisible
-    public void slideUp(View move, View other){
+    public void slideUp(View move, View other, boolean showKeyboard){
         new Handler().postDelayed(() -> {
             if(nfcAdapter != null) {
                 nfcStatus.animate().alpha(0.0f).setDuration(mediumAnimationDuration).withEndAction(() -> nfcStatus.setVisibility(View.GONE));
@@ -58,9 +58,11 @@ public class Animation {
             ObjectAnimator searchAnimation = ObjectAnimator.ofFloat(searchLayout, "translationY",(-1 * (move.getY() - other.getY())) + 40);
             searchAnimation.setDuration(longAnimationDuration);
             searchAnimation.start();
-            // focuses on search and opens keyboard
-            searchView.setIconified(true);
-            searchView.setIconified(false);
+            if(showKeyboard) {
+                // focuses on search and opens keyboard
+                searchView.setIconified(true);
+                searchView.setIconified(false);
+            }
             // clear recyclerview data
             customerRecyclerview.setAdapter(null);
         }, smallDelay);

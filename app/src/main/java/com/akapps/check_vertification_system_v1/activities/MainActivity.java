@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean readNfcMode = false;
     private String writeString = "";
     public BottomSheetHelper bottomSheetHelper;
+    private boolean showKeyboard = true;
 
     // database
     private ArrayList<Customer> customers;
@@ -246,8 +247,10 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(int itemIndex, String itemName) {
                 // search is selected
                if(itemIndex == 1) {
-                   animation.slideUp(searchLayout, dash);
+                   animation.slideUp(searchLayout, dash, showKeyboard);
                    firestoreDatabase.loadCustomerData(false);
+                   // resets boolean
+                   showKeyboard = true;
                }
                // home is selected
                else if(itemIndex == 0)
@@ -280,6 +283,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         totalInSystemCardView.setOnClickListener(v -> {
+            showKeyboard = false;
             spaceNavigationView.changeCurrentItem(1);
             new Handler().postDelayed(() -> {
                 populateRecyclerview(customers);
@@ -287,6 +291,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         addedTodayCardView.setOnClickListener(v -> {
+            showKeyboard = false;
             ArrayList<Customer> addedCustomersToday = (ArrayList<Customer>) customers.stream().filter(customer ->
                     customer.getDateAdded().contains(Helper.getDatabaseDate())).collect(Collectors.toList());
             if(addedCustomersToday.size() > 0) {
@@ -298,6 +303,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         verifiedTodayCardView.setOnClickListener(v -> {
+            showKeyboard = false;
             ArrayList<Customer> verifiedCustomersToday = (ArrayList<Customer>) customers.stream().filter(customer ->
                     customer.getDateVerified().contains(Helper.getDatabaseDate())).collect(Collectors.toList());
             if(verifiedCustomersToday.size() > 0) {
