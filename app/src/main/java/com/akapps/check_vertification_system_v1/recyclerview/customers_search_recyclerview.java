@@ -68,7 +68,7 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
             holder.warningLayoutColor.setVisibility(View.VISIBLE);
         }
         else
-            holder.warningLayoutColor.setVisibility(View.GONE);
+            holder.warningLayoutColor.setVisibility(View.INVISIBLE);
 
         if(!currentCustomer.getProfilePicPath().isEmpty()) {
             StorageReference profilePicRef = FirebaseStorage.getInstance().getReference(currentCustomer.getProfilePicPath());
