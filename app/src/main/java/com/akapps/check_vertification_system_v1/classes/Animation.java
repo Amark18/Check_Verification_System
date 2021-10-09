@@ -83,6 +83,8 @@ public class Animation {
             animation.start();
             // clears recyclerview data
             customerRecyclerview.setAdapter(null);
+            // clear search input
+            searchView.setQuery("", false);
         }, smallDelay);
     }
 }

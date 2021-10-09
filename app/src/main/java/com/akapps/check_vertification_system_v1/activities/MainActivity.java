@@ -359,6 +359,11 @@ public class MainActivity extends AppCompatActivity {
             populateRecyclerview(customers);
     }
 
+    public void updateCustomerWarningStatus(boolean updatedStatus, int positionInList){
+        customers.get(positionInList).setDoNotCash(updatedStatus);
+        new Handler().postDelayed(() -> adapterCustomers.notifyItemChanged(positionInList), 2000);
+    }
+
     // closes search by "pressing on" home icon at position 0
     // this will run the spaceNavigationView OnItemClick Method
     // which does the slide down animation for search bar

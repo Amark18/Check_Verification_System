@@ -71,8 +71,8 @@
     <string name="customer_exists_title">Customer Exists</string>
     <string name="customer_exists_message">Can\'t add existing customers</string>
     <string name="warning_message">Do not cash for this customer!</string>
-    <string name="customer_updated_title">Customer Updated</string>
-    <string name="customer_updated_message">Pull Down to refresh</string>
+    <string name="customer_updated_title">Success</string>
+    <string name="customer_updated_message">Customer Updated</string>
 
     <!-- NFC Sheet !-->
     <string name="nfc_title">Tap Card</string>

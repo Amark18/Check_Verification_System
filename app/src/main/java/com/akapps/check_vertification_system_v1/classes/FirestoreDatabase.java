@@ -96,8 +96,12 @@ public class FirestoreDatabase {
         collectionCustomers.document(customerID).update(field, updatedValue);
     }
 
-    public void updateCustomerStatus(String customerID, String field, boolean updatedValue){
+    public void updateCustomerStatus(String customerID, String field, boolean updatedValue, int positionInList){
         collectionCustomers.document(customerID).update(field, updatedValue);
+        // positionInList is -1 only when using NFC card and it opens customer info
+        // But if searching, then this value is the position of customer in recyclerview
+        if(positionInList != -1)
+            ((MainActivity) context).updateCustomerWarningStatus(updatedValue, positionInList);
     }
 
     public void deleteCustomer(String customerID){

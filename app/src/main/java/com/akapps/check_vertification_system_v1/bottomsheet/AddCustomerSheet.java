@@ -57,6 +57,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
     private boolean isEditing;
     private boolean isViewing;
     private Customer customer;
+    private int positionInList;
 
     // layout
     private TextView title;
@@ -90,10 +91,12 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         this.currentActivity = currentActivity;
     }
 
-    public AddCustomerSheet(Customer customer, FragmentActivity currentActivity){
+    public AddCustomerSheet(Customer customer, FragmentActivity currentActivity,
+                            int positionInList){
         isViewing = true;
         this.customer = customer;
         this.currentActivity = currentActivity;
+        this.positionInList = positionInList;
     }
 
     @Override
@@ -120,6 +123,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         if(isProfilePicSelected)
             camera.cropOval();
 
+        // required function to use kotlin library
         camera.createIntentFromDialog((Function1) (new Function1() {
             public Object invoke(Object var1) {
                 this.invoke((Intent) var1);
@@ -163,7 +167,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                             profileImageUri = uri;
                             Glide.with(getContext())
                                     .load(uri)
-                                    .centerInside()
+                                    .circleCrop()
                                     .placeholder(getActivity().getDrawable(R.drawable.user_icon))
                                     .into(customerPhoto);
                         }
@@ -236,10 +240,12 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         addCustomer.setOnClickListener(v -> {
             if(isEditing){
                 if(profileImageUri != null || licenseImageUri != null  || customer.isDoNotCash() != doNotCashSwitch.isChecked()){
-                    if(profileImageUri != null || licenseImageUri != null)
+                    if(profileImageUri != null || licenseImageUri != null) {
                         firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customer.getCustomerUniqueId());
-                    if(customer.isDoNotCash() != doNotCashSwitch.isChecked())
-                        firestoreDatabase.updateCustomerStatus(customer.getCustomerUniqueId(), "doNotCash", doNotCashSwitch.isChecked());
+                    }
+                    if(customer.isDoNotCash() != doNotCashSwitch.isChecked()) {
+                        firestoreDatabase.updateCustomerStatus(customer.getCustomerUniqueId(), "doNotCash", doNotCashSwitch.isChecked(), positionInList);
+                    }
                     this.dismiss();
                     Helper.showMessage(getActivity(), getString(R.string.customer_updated_title),
                             getString(R.string.customer_updated_message),
