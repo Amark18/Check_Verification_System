@@ -116,8 +116,7 @@ public class Login extends AppCompatActivity{
             @Override
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
-                Helper.showMessage(Login.this, getString(R.string.fingerprint_error_text),
-                        getString(R.string.fingerprint_error),
+                Helper.showMessage(Login.this, getString(R.string.fingerprint_error_text), getString(R.string.fingerprint_error),
                         MotionToast.TOAST_ERROR);
             }
         });
@@ -156,8 +155,7 @@ public class Login extends AppCompatActivity{
             if (!isLoginNeeded)
                 openMainPage();
             else
-                Helper.showMessage(Login.this, getString(R.string.login_again),
-                        getString(R.string.login_message_timeout),
+                Helper.showMessage(Login.this, getString(R.string.login_again), getString(R.string.login_message_timeout),
                         MotionToast.TOAST_WARNING);
         }
     }

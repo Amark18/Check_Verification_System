@@ -26,6 +26,7 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
     private FragmentActivity activity;
     private Context context;
 
+    // variables
     private final long ONE_MEGABYTE = 1024 * 1024;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -73,8 +74,8 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
         else
             holder.warningLayoutColor.setVisibility(View.INVISIBLE);
 
+        // if there is a profile picture saved in database, show customer profile picture
         if(!currentCustomer.getProfilePicPath().isEmpty()) {
-            Log.d("Heeree", "Current customer photo is being updated!");
             StorageReference profilePicRef = FirebaseStorage.getInstance().getReference(currentCustomer.getProfilePicPath());
             // gets profile photo from firebase storage
             profilePicRef.getBytes(ONE_MEGABYTE)

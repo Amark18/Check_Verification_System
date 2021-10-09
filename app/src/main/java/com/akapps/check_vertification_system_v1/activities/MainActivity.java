@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     // animation
     private Animation animation;
 
+    // bottom sheets helper
+    public BottomSheetHelper bottomSheetHelper;
+
     // layout
     private TextView date;
     private LinearLayout dash;
@@ -68,11 +71,10 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
 
     // variables
-    private final int longAnimationDuration = 800;
+    private final int mediumDuration = 1000;
     private boolean writeNfcMode = false;
     private boolean readNfcMode = false;
     private String writeString = "";
-    public BottomSheetHelper bottomSheetHelper;
     private boolean showKeyboard = true;
 
     // database
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
         // ensures sheets only have one instance
         bottomSheetHelper = new BottomSheetHelper(this);
+
         initializeNFC();
 
         // initialize animation
@@ -166,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     private void initializeNFC(){
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter == null) {
-            return;
+            return; // does not initialize if NFC is not available for device
         }
         pendingIntent = PendingIntent.getActivity(context, 0, new Intent(this,
                 getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
@@ -282,14 +285,16 @@ public class MainActivity extends AppCompatActivity {
                 nfc.isNfcDisabled();
         });
 
+        // displays all customers
         totalInSystemCardView.setOnClickListener(v -> {
             showKeyboard = false;
             spaceNavigationView.changeCurrentItem(1);
             new Handler().postDelayed(() -> {
                 populateRecyclerview(customers);
-            }, 1000);
+            }, mediumDuration);
         });
 
+        // displays customers added today
         addedTodayCardView.setOnClickListener(v -> {
             showKeyboard = false;
             ArrayList<Customer> addedCustomersToday = (ArrayList<Customer>) customers.stream().filter(customer ->
@@ -298,10 +303,11 @@ public class MainActivity extends AppCompatActivity {
                 spaceNavigationView.changeCurrentItem(1);
                 new Handler().postDelayed(() -> {
                     populateRecyclerview(addedCustomersToday);
-                }, 1000);
+                }, mediumDuration);
             }
         });
 
+        // displays customers verified today (a.k.a they used an NFC card)
         verifiedTodayCardView.setOnClickListener(v -> {
             showKeyboard = false;
             ArrayList<Customer> verifiedCustomersToday = (ArrayList<Customer>) customers.stream().filter(customer ->
@@ -310,11 +316,12 @@ public class MainActivity extends AppCompatActivity {
                 spaceNavigationView.changeCurrentItem(1);
                 new Handler().postDelayed(() -> {
                     populateRecyclerview(verifiedCustomersToday);
-                }, 1000);
+                }, mediumDuration);
             }
         });
     }
 
+    // populates recyclerview and if empty, shows an empty message
     public void populateRecyclerview(ArrayList<Customer> customers){
         if(customers.size() == 0) {
             emptyRecyclerviewMessage.setVisibility(View.VISIBLE);
@@ -327,16 +334,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // finds customer and opens their information via bottom sheet
     public void findCustomer(String customerId){
         ArrayList<Customer> result = (ArrayList<Customer>) customers.stream().filter(customer -> customer.getCustomerUniqueId().contains(customerId)).collect(Collectors.toList());
 
         if(customerId.isEmpty())
-            Helper.showMessage(this, context.getString(R.string.read_nfc_title),
-                    context.getString(R.string.read_nfc_empty_message),
+            Helper.showMessage(this, context.getString(R.string.read_nfc_title), context.getString(R.string.read_nfc_empty_message),
                     MotionToast.TOAST_ERROR);
         else if(result.size() != 1) {
-            Helper.showMessage(this, context.getString(R.string.read_nfc_title),
-                    context.getString(R.string.read_nfc_message),
+            Helper.showMessage(this, context.getString(R.string.read_nfc_title), context.getString(R.string.read_nfc_message),
                     MotionToast.TOAST_ERROR);
         }
         else{
@@ -345,6 +351,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // updates customers to be up-to-date and updates dashboard data
+    // if searching, then recyclerview is shown with updated data
     public void updateLayoutData(ArrayList<Customer> updatedCustomers, boolean updateRecyclerview){
         customers = updatedCustomers;
         String total = "" + customers.size();
@@ -359,6 +367,8 @@ public class MainActivity extends AppCompatActivity {
             populateRecyclerview(customers);
     }
 
+    // updates do not cash status of customer after updating it
+    // prevents unnecessary and inefficient call to database
     public void updateCustomerWarningStatus(boolean updatedStatus, int positionInList){
         customers.get(positionInList).setDoNotCash(updatedStatus);
     }
