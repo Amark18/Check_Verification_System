@@ -30,7 +30,7 @@ public class BottomSheetHelper {
         if(currentActivity!=null && customer == null)
             addCustomerSheet = new AddCustomerSheet(currentActivity);
         else if(customer != null)
-            addCustomerSheet = new AddCustomerSheet(customer, currentActivity, -1);
+            addCustomerSheet = new AddCustomerSheet(customer, currentActivity, -1, null, null);
         if(currentActivity != null || customer!= null)
             addCustomerSheet.show(currentActivity.getSupportFragmentManager(), addCustomerSheet.getTag());
     }

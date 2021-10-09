@@ -153,18 +153,18 @@ public class FirestoreDatabase {
         if(profileImageUri != null) {
             StorageReference profileImageRef = storage.getReference(profileImagePath);
             UploadTask uploadProfileImage = profileImageRef.putFile(profileImageUri);
-            upLoadImage(uploadProfileImage, profileImagePath, customerID, idImageUri==null);
+            upLoadImage(uploadProfileImage, profileImagePath, customerID);
         }
 
         // upload identification
         if(idImageUri != null) {
             StorageReference idImageRef = storage.getReference(idImagePath);
             UploadTask uploadIdImage = idImageRef.putFile(idImageUri);
-            upLoadImage(uploadIdImage, idImagePath, customerID, true);
+            upLoadImage(uploadIdImage, idImagePath, customerID);
         }
     }
 
-    private void upLoadImage(UploadTask uploadTask, String imagePath, String customerID, boolean updateData){
+    private void upLoadImage(UploadTask uploadTask, String imagePath, String customerID){
         // Register observers to listen for when the download is done or if it fails
         uploadTask.addOnFailureListener(exception ->
                 Helper.showMessage(currentActivity, context.getString(R.string.upload_error_title),
@@ -174,9 +174,6 @@ public class FirestoreDatabase {
                         updateCustomer(customerID, context.getString(R.string.field_customerIDPath), imagePath);
                     else
                         updateCustomer(customerID, context.getString(R.string.field_profilePicPath), imagePath);
-
-                    if(updateData)
-                        loadCustomerData(false);
         });
     }
 

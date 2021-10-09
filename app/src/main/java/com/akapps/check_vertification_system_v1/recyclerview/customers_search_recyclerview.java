@@ -1,6 +1,7 @@
 package com.akapps.check_vertification_system_v1.recyclerview;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
     private ArrayList<Customer> customers;
     private FragmentActivity activity;
     private Context context;
+
+    private final long ONE_MEGABYTE = 1024 * 1024;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private final MaterialCardView customerLayout;
@@ -71,9 +74,9 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
             holder.warningLayoutColor.setVisibility(View.INVISIBLE);
 
         if(!currentCustomer.getProfilePicPath().isEmpty()) {
+            Log.d("Heeree", "Current customer photo is being updated!");
             StorageReference profilePicRef = FirebaseStorage.getInstance().getReference(currentCustomer.getProfilePicPath());
             // gets profile photo from firebase storage
-            final long ONE_MEGABYTE = 1024 * 1024;
             profilePicRef.getBytes(ONE_MEGABYTE)
                     .addOnSuccessListener(bytes -> Glide.with(context)
                             .load(bytes)
@@ -90,7 +93,8 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
 
         // if customer layout is clicked, bottom sheet opens with their info
         holder.customerLayout.setOnClickListener(v -> {
-            AddCustomerSheet addCustomer = new AddCustomerSheet(currentCustomer, activity, position);
+            AddCustomerSheet addCustomer = new AddCustomerSheet(currentCustomer, activity,
+                    position, holder.customerImage, holder.warningLayoutColor);
             addCustomer.show(activity.getSupportFragmentManager(), addCustomer.getTag());
         });
     }

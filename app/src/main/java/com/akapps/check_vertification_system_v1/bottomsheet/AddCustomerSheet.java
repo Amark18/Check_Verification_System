@@ -77,6 +77,9 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
     private LottieAnimationView verificationHistoryButton;
     private LinearLayout warningLayout;
     private SwitchMaterial doNotCashSwitch;
+    // recyclerview
+    private ImageView profilePic;
+    private MaterialCardView warningLayoutColor;
 
     // activity
     private FragmentActivity currentActivity;
@@ -92,11 +95,13 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
     }
 
     public AddCustomerSheet(Customer customer, FragmentActivity currentActivity,
-                            int positionInList){
+                            int positionInList, ImageView profilePic, MaterialCardView warningLayoutColor){
         isViewing = true;
         this.customer = customer;
         this.currentActivity = currentActivity;
         this.positionInList = positionInList;
+        this.profilePic = profilePic;
+        this.warningLayoutColor = warningLayoutColor;
     }
 
     @Override
@@ -242,9 +247,29 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                 if(profileImageUri != null || licenseImageUri != null  || customer.isDoNotCash() != doNotCashSwitch.isChecked()){
                     if(profileImageUri != null || licenseImageUri != null) {
                         firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customer.getCustomerUniqueId());
+                        // updates customer recyclerview layout to reflect change of profile picture
+                        if(profilePic != null){
+                            Glide.with(getContext())
+                                    .load(profileImageUri)
+                                    .circleCrop()
+                                    .placeholder(getActivity().getDrawable(R.drawable.user_icon))
+                                    .into(profilePic);
+                        }
+
                     }
                     if(customer.isDoNotCash() != doNotCashSwitch.isChecked()) {
                         firestoreDatabase.updateCustomerStatus(customer.getCustomerUniqueId(), "doNotCash", doNotCashSwitch.isChecked(), positionInList);
+                        // updates customer recyclerview layout to reflect change of warning status
+                        if(warningLayoutColor != null){
+                            if(doNotCashSwitch.isChecked()) {
+                                warningLayoutColor.setCardBackgroundColor(getContext().getColor(R.color.red));
+                                warningLayoutColor.setVisibility(View.VISIBLE);
+                                // fixes issue of warningLayoutColor width, resets it to what is it supposed to be
+                                warningLayoutColor.getLayoutParams().width = Helper.getWidthScreen(getActivity()) / 4;
+                            }
+                            else
+                                warningLayoutColor.setVisibility(View.INVISIBLE);
+                        }
                     }
                     this.dismiss();
                     Helper.showMessage(getActivity(), getString(R.string.customer_updated_title),
@@ -294,6 +319,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         title.setText(getContext().getString(R.string.add_text));
         nfcTapButton.setVisibility(View.GONE);
         verificationHistoryButton.setVisibility(View.GONE);
+        warningLayout.setVisibility(View.GONE);
     }
 
     private void enableViewMode(){
