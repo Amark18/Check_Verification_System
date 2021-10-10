@@ -26,9 +26,6 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
     private FragmentActivity activity;
     private Context context;
 
-    // variables
-    private final long ONE_MEGABYTE = 1024 * 1024;
-
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private final MaterialCardView customerLayout;
         private final MaterialCardView warningLayoutColor;
@@ -66,9 +63,9 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
         // retrieves current customer object
         Customer currentCustomer= customers.get(position);
 
+        holder.warningLayoutColor.getLayoutParams().width = Helper.getWidthScreen(activity) / 4;
         // if customer is set to do not cash, there is an indicator above their photo to reflect that
         if(currentCustomer.isDoNotCash()) {
-            holder.warningLayoutColor.getLayoutParams().width = Helper.getWidthScreen(activity) / 4;
             holder.warningLayoutColor.setVisibility(View.VISIBLE);
         }
         else
@@ -78,15 +75,11 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
         if(!currentCustomer.getProfilePicPath().isEmpty()) {
             StorageReference profilePicRef = FirebaseStorage.getInstance().getReference(currentCustomer.getProfilePicPath());
             // gets profile photo from firebase storage
-            profilePicRef.getBytes(ONE_MEGABYTE)
-                    .addOnSuccessListener(bytes -> Glide.with(context)
-                            .load(bytes)
-                            .circleCrop()
-                            .placeholder(context.getDrawable(R.drawable.user_icon))
-                            .into(holder.customerImage))
-                    .addOnFailureListener(exception -> Glide.with(context)
-                            .load(context.getDrawable(R.drawable.user_icon))
-                            .into(holder.customerImage));
+            Glide.with(context)
+                    .load(profilePicRef)
+                    .circleCrop()
+                    .placeholder(context.getDrawable(R.drawable.user_icon))
+                    .into(holder.customerImage);
         }
 
         holder.customerFullName.setText(currentCustomer.getFirstName() + " " + currentCustomer.getLastName());

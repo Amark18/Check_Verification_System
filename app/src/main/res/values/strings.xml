@@ -73,6 +73,8 @@
     <string name="warning_message">Do not cash for this customer!</string>
     <string name="customer_updated_title">Success</string>
     <string name="customer_updated_message">Customer Updated</string>
+    <string name="customer_added_title">Success</string>
+    <string name="customer_added_message">Customer Added</string>
 
     <!-- NFC Sheet !-->
     <string name="nfc_title">Tap Card</string>

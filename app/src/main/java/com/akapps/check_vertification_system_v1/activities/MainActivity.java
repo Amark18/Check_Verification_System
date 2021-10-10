@@ -373,6 +373,12 @@ public class MainActivity extends AppCompatActivity {
         customers.get(positionInList).setDoNotCash(updatedStatus);
     }
 
+    public void customerDeletedUpdateLayout(int positionInList){
+        customers.remove(positionInList);
+        adapterCustomers.notifyItemRemoved(positionInList);
+        firestoreDatabase.loadCustomerData(true);
+    }
+
     // closes search by "pressing on" home icon at position 0
     // this will run the spaceNavigationView OnItemClick Method
     // which does the slide down animation for search bar

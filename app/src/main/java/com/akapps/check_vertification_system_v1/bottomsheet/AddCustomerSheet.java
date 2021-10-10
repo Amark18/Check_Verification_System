@@ -206,6 +206,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
 
         editCustomer.setOnLongClickListener(v -> {
             firestoreDatabase.deleteCustomer(customer.getCustomerUniqueId());
+            ((MainActivity) getContext()).customerDeletedUpdateLayout(positionInList);
             this.dismiss();
             return false;
         });
@@ -249,11 +250,11 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                         firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customer.getCustomerUniqueId());
                         // updates customer recyclerview layout to reflect change of profile picture
                         if(profilePic != null){
-                            Glide.with(getContext())
-                                    .load(profileImageUri)
-                                    .circleCrop()
-                                    .placeholder(getActivity().getDrawable(R.drawable.user_icon))
-                                    .into(profilePic);
+//                            Glide.with(getContext())
+//                                    .load(profileImageUri)
+//                                    .circleCrop()
+//                                    .placeholder(getActivity().getDrawable(R.drawable.user_icon))
+//                                    .into(profilePic);
                         }
 
                     }
@@ -262,10 +263,8 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                         // updates customer recyclerview layout to reflect change of warning status
                         if(warningLayoutColor != null){
                             if(doNotCashSwitch.isChecked()) {
-                                warningLayoutColor.setCardBackgroundColor(getContext().getColor(R.color.red));
                                 warningLayoutColor.setVisibility(View.VISIBLE);
-                                // fixes issue of warningLayoutColor width, resets it to what is it supposed to be
-                                warningLayoutColor.getLayoutParams().width = Helper.getWidthScreen(getActivity()) / 4;
+                                warningLayoutColor.setCardBackgroundColor(getContext().getColor(R.color.red));
                             }
                             else
                                 warningLayoutColor.setVisibility(View.INVISIBLE);
@@ -300,6 +299,11 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                                 firestoreDatabase.addCustomer(firstName, lastName, Integer.parseInt(year), "", "");
                                 firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customerID);
                                 ((MainActivity) getContext()).showNfcPrompt(customerID, false);
+                                // update dashboard
+                                firestoreDatabase.loadCustomerData(true);
+                                Helper.showMessage(getActivity(), getString(R.string.customer_added_title),
+                                        getString(R.string.customer_added_message),
+                                        MotionToast.TOAST_SUCCESS);
                                 this.dismiss();
                             }
                         } else
@@ -383,30 +387,28 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
     }
 
     private void loadData(Customer customer){
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         String fullName = customer.getFirstName() + " " + customer.getLastName();
         nameInput.setText(fullName);
         yearInput.setText("" + customer.getDobYear());
 
-        final long ONE_MEGABYTE = 1024 * 1024;
         if(!customer.getProfilePicPath().isEmpty()) {
-            StorageReference profilePicRef = FirebaseStorage.getInstance().getReference(customer.getProfilePicPath());
+            StorageReference profilePicRef = firebaseStorage.getReference(customer.getProfilePicPath());
             // gets profile photo from firebase storage
-            profilePicRef.getBytes(ONE_MEGABYTE)
-                    .addOnSuccessListener(bytes -> Glide.with(getContext())
-                            .load(bytes)
-                            .circleCrop()
-                            .placeholder(getActivity().getDrawable(R.drawable.user_icon))
-                            .into(customerPhoto));
+            Glide.with(getContext())
+                    .load(profilePicRef)
+                    .circleCrop()
+                    .placeholder(getActivity().getDrawable(R.drawable.user_icon))
+                    .into(customerPhoto);
         }
 
-        StorageReference idPicRef = FirebaseStorage.getInstance().getReference(customer.getCustomerIDPath());
+        StorageReference idPicRef = firebaseStorage.getReference(customer.getCustomerIDPath());
         // gets ID photo from firebase storage
-        idPicRef.getBytes(ONE_MEGABYTE)
-                .addOnSuccessListener(bytes -> Glide.with(getContext())
-                        .load(bytes)
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(60)))
-                        .placeholder(getActivity().getDrawable(R.drawable.user_icon))
-                        .into(customerLicense));
+        Glide.with(getContext())
+                .load(idPicRef)
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(60)))
+                .placeholder(getActivity().getDrawable(R.drawable.user_icon))
+                .into(customerLicense);
     }
 
     @Override

@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 import java.util.stream.Collectors;
 import www.sanju.motiontoast.MotionToast;
 
@@ -111,7 +112,6 @@ public class FirestoreDatabase {
         deleteImage(profileImagePath);
         deleteImage(idImagePath);
         collectionCustomers.document(customerID).delete();
-        loadCustomerData(true);
     }
 
     // determines if customer exists in database
@@ -134,7 +134,7 @@ public class FirestoreDatabase {
 
     public ArrayList<VerificationHistory> getSortedHistory(Customer customer){
         ArrayList<VerificationHistory> history = (ArrayList<VerificationHistory>) customer.getVerificationHistory();
-        Collections.sort(history, (o1, o2) -> {
+        history.sort((o1, o2) -> {
             DateFormat f = new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm:ss a");
             try {
                 return f.parse(o2.getDateVerified()).compareTo(f.parse(o1.getDateVerified()));
@@ -146,7 +146,8 @@ public class FirestoreDatabase {
     }
 
     public void uploadImages(Uri profileImageUri, Uri idImageUri, String customerID){
-        String profileImagePath = customerID + profilePicturePath + ".jpg";
+        int uniqueID = new Random().nextInt(1001) + 200;
+        String profileImagePath = customerID + profilePicturePath + "_" + uniqueID +  ".jpg";
         String idImagePath = customerID + idPicturePath + ".jpg";
 
         // uploads profile picture
@@ -180,8 +181,7 @@ public class FirestoreDatabase {
     private void deleteImage(String imagePath){
         StorageReference imagePathRef = storage.getReference(imagePath);
 
-        imagePathRef.delete()
-                .addOnSuccessListener(aVoid -> { })
-                .addOnFailureListener(exception -> { });
+        imagePathRef.delete().addOnSuccessListener(aVoid -> { })
+                .addOnFailureListener(exception -> {});
     }
 }

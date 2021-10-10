@@ -23,6 +23,7 @@
                 android:id="@+id/warningColor"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
+                android:layout_marginHorizontal="10dp"
                 app:cardBackgroundColor="@color/red"
                 android:layout_marginTop="10dp"
                 app:cardCornerRadius="15dp">
