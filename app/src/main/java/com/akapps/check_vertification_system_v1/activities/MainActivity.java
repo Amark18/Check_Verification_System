@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -76,6 +77,12 @@ public class MainActivity extends AppCompatActivity {
     private boolean readNfcMode = false;
     private String writeString = "";
     private boolean showKeyboard = true;
+    ////////////////////////////////////
+    private boolean isViewingTotalInSystem;
+    private boolean isViewingAddedToday;
+    private boolean isViewingVerifiedToday;
+    private boolean isSearching;
+    private boolean isViewingDashboard;
 
     // database
     private ArrayList<Customer> customers;
@@ -219,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
         searchView.setIconified(false);
         searchView.clearFocus();
         date.setText(Helper.getTodaysDate());
+        isViewingDashboard = true;
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -250,14 +258,26 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(int itemIndex, String itemName) {
                 // search is selected
                if(itemIndex == 1) {
+                   // if search is selected, that means that dashboard is not in view
+                   if(isViewingTotalInSystem || isViewingAddedToday || isViewingVerifiedToday)
+                       isSearching = isViewingDashboard = false;
+                   else {
+                       isSearching = true;
+                       isViewingDashboard = isViewingTotalInSystem = isViewingAddedToday = isViewingVerifiedToday = false;
+                   }
                    animation.slideUp(searchLayout, dash, showKeyboard);
                    firestoreDatabase.loadCustomerData(false);
                    // resets boolean
                    showKeyboard = true;
                }
                // home is selected
-               else if(itemIndex == 0)
+               else if(itemIndex == 0) {
+                   // if home is selected, that means that search/recyclerview was closed
+                   // thus, we are back to dashboard and not viewing anything
+                   isSearching = isViewingTotalInSystem = isViewingAddedToday = isViewingVerifiedToday = false;
+                   isViewingDashboard = true;
                    animation.slideDown(searchLayout, dash);
+               }
             }
 
             @Override
@@ -269,6 +289,7 @@ public class MainActivity extends AppCompatActivity {
             // retrieves data from database to see if there is any updates
             firestoreDatabase.loadCustomerData(customerRecyclerview.getAdapter() != null ? true : false);
             swipeRefreshLayout.setRefreshing(false);
+            printCurrentView();
         });
 
         closeSearch.setOnClickListener(v -> {
@@ -288,6 +309,7 @@ public class MainActivity extends AppCompatActivity {
         // displays all customers
         totalInSystemCardView.setOnClickListener(v -> {
             showKeyboard = false;
+            isViewingTotalInSystem = true;
             spaceNavigationView.changeCurrentItem(1);
             new Handler().postDelayed(() -> {
                 populateRecyclerview(customers);
@@ -296,29 +318,30 @@ public class MainActivity extends AppCompatActivity {
 
         // displays customers added today
         addedTodayCardView.setOnClickListener(v -> {
-            showKeyboard = false;
-            ArrayList<Customer> addedCustomersToday = (ArrayList<Customer>) customers.stream().filter(customer ->
-                    customer.getDateAdded().contains(Helper.getDatabaseDate())).collect(Collectors.toList());
-            if(addedCustomersToday.size() > 0) {
-                spaceNavigationView.changeCurrentItem(1);
-                new Handler().postDelayed(() -> {
-                    populateRecyclerview(addedCustomersToday);
-                }, mediumDuration);
-            }
+            isViewingAddedToday = true;
+            isViewingVerifiedToday = false;
+            isViewingTotalInSystem = isViewingVerifiedToday = isViewingDashboard = false;
+            showFilterResults(firestoreDatabase.getAddedTodayList());
         });
 
-        // displays customers verified today (a.k.a they used an NFC card)
+        // displays customers verified today (a.k.a they used an NFC card today)
         verifiedTodayCardView.setOnClickListener(v -> {
-            showKeyboard = false;
-            ArrayList<Customer> verifiedCustomersToday = (ArrayList<Customer>) customers.stream().filter(customer ->
-                    customer.getDateVerified().contains(Helper.getDatabaseDate())).collect(Collectors.toList());
-            if(verifiedCustomersToday.size() > 0) {
-                spaceNavigationView.changeCurrentItem(1);
-                new Handler().postDelayed(() -> {
-                    populateRecyclerview(verifiedCustomersToday);
-                }, mediumDuration);
-            }
+            isViewingVerifiedToday = true;
+            isViewingAddedToday = false;
+            showFilterResults(firestoreDatabase.getVerifiedTodayList());
         });
+    }
+
+    private void showFilterResults(ArrayList<Customer> list){
+        showKeyboard = false;
+        // when filtering, these two views will always be false
+        isViewingTotalInSystem = isViewingDashboard = false;
+        if(list.size() > 0) {
+            spaceNavigationView.changeCurrentItem(1);
+            new Handler().postDelayed(() -> {
+                populateRecyclerview(list);
+            }, mediumDuration);
+        }
     }
 
     // populates recyclerview and if empty, shows an empty message
@@ -346,8 +369,15 @@ public class MainActivity extends AppCompatActivity {
                     MotionToast.TOAST_ERROR);
         }
         else{
+            // customer has been found using NFC card, so open a bottom sheet so their data can be viewed
             bottomSheetHelper.openCustomerSheet(MainActivity.this, result.get(0));
+            // customer has tapped card, so it is logged in their history
             firestoreDatabase.addHistoryRecord(result.get(0));
+            // update customer verification date to today to reflect in dashboard
+            if(!result.get(0).getDateVerified().equals(Helper.getDatabaseDate())) {
+                firestoreDatabase.updateCustomer(result.get(0).getCustomerUniqueId(),
+                        getString(R.string.field_verifiedToday), Helper.getDatabaseDate());
+            }
         }
     }
 
@@ -363,8 +393,19 @@ public class MainActivity extends AppCompatActivity {
         totalInSystemText.setText(total);
         addedTodayText.setText(added);
         verifiedTodayText.setText(verified);
-        if(updateRecyclerview)
-            populateRecyclerview(customers);
+        // after getting updated data from database, this ensures that the
+        // respective list is updated with the new data
+        if(updateRecyclerview) {
+            if(isSearching)
+                firestoreDatabase.searchCustomer(searchView.getQuery().toString());
+            else if(isViewingAddedToday)
+                showFilterResults(firestoreDatabase.getAddedTodayList());
+            else if(isViewingVerifiedToday)
+                showFilterResults(firestoreDatabase.getVerifiedTodayList());
+            else if(isViewingTotalInSystem)
+                populateRecyclerview(customers);
+            printCurrentView();
+        }
     }
 
     // updates do not cash status of customer after updating it
@@ -384,6 +425,21 @@ public class MainActivity extends AppCompatActivity {
     // which does the slide down animation for search bar
     private void closeSearch(){
         spaceNavigationView.changeCurrentItem(0);
+    }
+
+    private void printCurrentView(){
+        String s = "";
+        if(isSearching)
+            s = "searching";
+        else if(isViewingAddedToday)
+            s = "viewing added today";
+        else if(isViewingVerifiedToday)
+            s = "viewing verified today";
+        else if(isViewingTotalInSystem)
+            s = "viewing total in system";
+        else if(isViewingDashboard)
+            s = "viewing dashboard";
+        Log.d("Heeree", "Currently at " + s);
     }
 
 }

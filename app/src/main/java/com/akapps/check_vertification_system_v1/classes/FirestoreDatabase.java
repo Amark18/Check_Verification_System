@@ -105,13 +105,13 @@ public class FirestoreDatabase {
             ((MainActivity) context).updateCustomerWarningStatus(updatedValue, positionInList);
     }
 
-    public void deleteCustomer(String customerID){
+    public void deleteCustomer(Customer customer){
         // deleted customer data, his profile picture, and ID picture
-        String profileImagePath = customerID + profilePicturePath + ".jpg";
-        String idImagePath = customerID + idPicturePath + ".jpg";
+        String profileImagePath = customer.getProfilePicPath();
+        String idImagePath = customer.getCustomerIDPath();
         deleteImage(profileImagePath);
         deleteImage(idImagePath);
-        collectionCustomers.document(customerID).delete();
+        collectionCustomers.document(customer.getCustomerUniqueId()).delete();
     }
 
     // determines if customer exists in database
@@ -145,10 +145,20 @@ public class FirestoreDatabase {
         return history;
     }
 
+    public ArrayList<Customer> getVerifiedTodayList(){
+        return  (ArrayList<Customer>) customers.stream().filter(customer ->
+                customer.getDateVerified().contains(Helper.getDatabaseDate())).collect(Collectors.toList());
+    }
+
+    public ArrayList<Customer> getAddedTodayList(){
+        return  (ArrayList<Customer>) customers.stream().filter(customer ->
+                customer.getDateAdded().contains(Helper.getDatabaseDate())).collect(Collectors.toList());
+    }
+
     public void uploadImages(Uri profileImageUri, Uri idImageUri, String customerID){
         int uniqueID = new Random().nextInt(1001) + 200;
         String profileImagePath = customerID + profilePicturePath + "_" + uniqueID +  ".jpg";
-        String idImagePath = customerID + idPicturePath + ".jpg";
+        String idImagePath = customerID + idPicturePath + "_" + uniqueID + ".jpg";
 
         // uploads profile picture
         if(profileImageUri != null) {

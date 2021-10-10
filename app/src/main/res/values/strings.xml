@@ -37,6 +37,7 @@
     <!-- Database Fields !-->
     <string name="field_profilePicPath">profilePicPath</string>
     <string name="field_customerIDPath">customerIDPath</string>
+    <string name="field_verifiedToday">dateVerified</string>
     <!-- Error !-->
     <string name="year_error">Insert Year (Ex. 1999)</string>
     <string name="name_error">First + Last Name</string>

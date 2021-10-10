@@ -205,7 +205,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         });
 
         editCustomer.setOnLongClickListener(v -> {
-            firestoreDatabase.deleteCustomer(customer.getCustomerUniqueId());
+            firestoreDatabase.deleteCustomer(customer);
             ((MainActivity) getContext()).customerDeletedUpdateLayout(positionInList);
             this.dismiss();
             return false;
@@ -249,12 +249,13 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                     if(profileImageUri != null || licenseImageUri != null) {
                         firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customer.getCustomerUniqueId());
                         // updates customer recyclerview layout to reflect change of profile picture
+                        // prevents need to pull down to refresh
                         if(profilePic != null){
-//                            Glide.with(getContext())
-//                                    .load(profileImageUri)
-//                                    .circleCrop()
-//                                    .placeholder(getActivity().getDrawable(R.drawable.user_icon))
-//                                    .into(profilePic);
+                            Glide.with(getContext())
+                                    .load(profileImageUri)
+                                    .circleCrop()
+                                    .placeholder(getActivity().getDrawable(R.drawable.user_icon))
+                                    .into(profilePic);
                         }
 
                     }
