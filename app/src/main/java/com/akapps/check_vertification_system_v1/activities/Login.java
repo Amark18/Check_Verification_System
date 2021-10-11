@@ -29,7 +29,7 @@ public class Login extends AppCompatActivity{
     private OtpView pinInput;
     private LottieAnimationView fingerprintIcon;
     private ImageView lockIcon;
-    private TextView noteTitleText;
+    private TextView loginMessage;
 
     // variables
     private final int loginErrorDuration = 1500;
@@ -61,7 +61,7 @@ public class Login extends AppCompatActivity{
         // initialize layout
         pinInput = findViewById(R.id.pin_input);
         fingerprintIcon = findViewById(R.id.fingerprint_icon);
-        noteTitleText = findViewById(R.id.note_title);
+        loginMessage = findViewById(R.id.login_message);
         lockIcon = findViewById(R.id.lock_icon);
 
         // initializing fingerprint
@@ -69,7 +69,7 @@ public class Login extends AppCompatActivity{
         if(!isFingerprintWorking() || Helper.getPreference(context, getString(R.string.fingerprint_pref)) == null)
             fingerprintIcon.setVisibility(View.INVISIBLE);
         else
-               noteTitleText.setText(getString(R.string.login_message_both));
+            loginMessage.setText(getString(R.string.login_message_both));
 
         // sets the size of fingerprint based on device size
         int screenWidth = Helper.getWidthScreen(this);
@@ -88,12 +88,12 @@ public class Login extends AppCompatActivity{
                 // user entered wrong input
                 lockIcon.setColorFilter(getColor(R.color.vermilion));
                 pinInput.setText("");
-                noteTitleText.setText(getString(R.string.try_again));
+                loginMessage.setText(getString(R.string.try_again));
 
                 new Handler().postDelayed(() -> {
                     // resets lock icon color and message after 1.5 seconds
                     lockIcon.setColorFilter(getColor(R.color.blueDark));
-                    noteTitleText.setText(getString(R.string.login_message_pin_only));
+                    loginMessage.setText(getString(R.string.login_message_pin_only));
                 }, loginErrorDuration);
             }
         });
