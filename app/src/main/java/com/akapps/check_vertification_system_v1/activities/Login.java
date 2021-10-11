@@ -86,7 +86,7 @@ public class Login extends AppCompatActivity{
                 openMainPage();
             else{
                 // user entered wrong input
-                lockIcon.setColorFilter(getColor(R.color.red));
+                lockIcon.setColorFilter(getColor(R.color.vermilion));
                 pinInput.setText("");
                 noteTitleText.setText(getString(R.string.try_again));
 

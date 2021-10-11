@@ -289,7 +289,6 @@ public class MainActivity extends AppCompatActivity {
             // retrieves data from database to see if there is any updates
             firestoreDatabase.loadCustomerData(customerRecyclerview.getAdapter() != null ? true : false);
             swipeRefreshLayout.setRefreshing(false);
-            printCurrentView();
         });
 
         closeSearch.setOnClickListener(v -> {
@@ -404,7 +403,9 @@ public class MainActivity extends AppCompatActivity {
                 showFilterResults(firestoreDatabase.getVerifiedTodayList());
             else if(isViewingTotalInSystem)
                 populateRecyclerview(customers);
-            printCurrentView();
+            else if(isViewingDashboard){
+                // do nothing, recyclerview is not being viewed
+            }
         }
     }
 
@@ -425,21 +426,6 @@ public class MainActivity extends AppCompatActivity {
     // which does the slide down animation for search bar
     private void closeSearch(){
         spaceNavigationView.changeCurrentItem(0);
-    }
-
-    private void printCurrentView(){
-        String s = "";
-        if(isSearching)
-            s = "searching";
-        else if(isViewingAddedToday)
-            s = "viewing added today";
-        else if(isViewingVerifiedToday)
-            s = "viewing verified today";
-        else if(isViewingTotalInSystem)
-            s = "viewing total in system";
-        else if(isViewingDashboard)
-            s = "viewing dashboard";
-        Log.d("Heeree", "Currently at " + s);
     }
 
 }

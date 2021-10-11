@@ -25,7 +25,7 @@ public class Animation {
     private final int longAnimationDuration = 1000;
     private final int mediumAnimationDuration = 500;
     private final int smallDelay = 100;
-    private NfcAdapter nfcAdapter;
+    private final NfcAdapter nfcAdapter;
 
     public Animation(SearchView searchView, TextView closeSearch, ImageView nfcStatus,
                      LinearLayout searchLayout, RecyclerView customerRecyclerview,

@@ -265,7 +265,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                         if(warningLayoutColor != null){
                             if(doNotCashSwitch.isChecked()) {
                                 warningLayoutColor.setVisibility(View.VISIBLE);
-                                warningLayoutColor.setCardBackgroundColor(getContext().getColor(R.color.red));
+                                warningLayoutColor.setCardBackgroundColor(getContext().getColor(R.color.vermilion));
                             }
                             else
                                 warningLayoutColor.setVisibility(View.INVISIBLE);

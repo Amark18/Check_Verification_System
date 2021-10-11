@@ -60,7 +60,7 @@ public class NFC {
         }
         else if(adapter != null && !adapter.isEnabled()){
             nfcStatus.setColorFilter(ContextCompat.getColor(context,
-                    R.color.red));
+                    R.color.vermilion));
         }
         return false;
     }

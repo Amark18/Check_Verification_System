@@ -2,7 +2,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grayDark">
@@ -26,21 +25,20 @@
                     android:layout_width="32dp"
                     android:layout_height="36dp"
                     android:layout_marginTop="@dimen/dimen_12"
-                    android:layout_marginLeft="15dp"
-                    android:backgroundTint="@color/red"
+                    android:layout_marginLeft="5dp"
                     android:src="@drawable/settings_icon"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"></ImageView>
 
                 <TextView
                     android:id="@+id/date"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/date_text"
                     android:textColor="@color/gray"
                     android:textSize="@dimen/dimen_16"
                     android:fontFamily="@font/baloo_bhai"
-                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginHorizontal="10dp"
                     android:gravity="center"
                     android:layout_marginVertical="@dimen/dimen_24"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -52,12 +50,12 @@
                     android:id="@+id/close_search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/dimen_24"
+                    android:layout_marginHorizontal="5dp"
                     android:fontFamily="@font/baloo_bhai"
                     android:gravity="top|right"
                     android:paddingTop="@dimen/dimen_24"
                     android:text="@string/close_text"
-                    android:textColor="@color/red"
+                    android:textColor="@color/vermilion"
                     android:textSize="@dimen/dimen_16"
                     android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -70,8 +68,8 @@
                     android:layout_height="30dp"
                     android:layout_gravity="right"
                     android:layout_marginTop="15dp"
-                    android:layout_marginHorizontal="@dimen/dimen_12"
-                    android:backgroundTint="@color/red"
+                    android:layout_marginHorizontal="5dp"
+                    android:backgroundTint="@color/vermilion"
                     android:src="@drawable/nfc_icon"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +79,7 @@
                     android:id="@+id/dashboard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginHorizontal="5dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -125,7 +123,6 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="15dp"
                                 android:layout_marginHorizontal="@dimen/dimen_12"
-                                android:backgroundTint="@color/red"
                                 android:src="@drawable/user_icon"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"></ImageView>
@@ -207,7 +204,6 @@
                                     android:layout_gravity="center"
                                     android:layout_marginTop="15dp"
                                     android:layout_marginHorizontal="@dimen/dimen_12"
-                                    android:backgroundTint="@color/red"
                                     android:src="@drawable/add_icon_2"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"></ImageView>
@@ -269,7 +265,6 @@
                                     android:layout_gravity="center"
                                     android:layout_marginTop="15dp"
                                     android:layout_marginHorizontal="@dimen/dimen_12"
-                                    android:backgroundTint="@color/red"
                                     android:src="@drawable/checkmark_icon"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"></ImageView>
@@ -318,7 +313,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dashboard"
-                    android:layout_marginHorizontal="20dp">
+                    android:layout_marginHorizontal="5dp">
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
@@ -348,7 +343,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/empty_placeholder"
-                        android:textColor="@color/red"
+                        android:textColor="@color/vermilion"
                         android:textSize="@dimen/dimen_16"
                         android:layout_marginTop="@dimen/dimen_12"
                         app:layout_constraintBottom_toBottomOf="parent"

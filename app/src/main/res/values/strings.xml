@@ -97,7 +97,7 @@
     <string name="settings_title">Settings</string>
     <string name="reset_nfc_text">Reset NFC Card</string>
     <string name="see_nfc_card">Check NFC Card Data</string>
-    <string name="reset_app">Reset App</string>
+    <string name="reset_app">Clear Cache</string>
     <string name="reset_app_message">App will close, open app again.</string>
 
     <!-- Saved Preference Data !-->
