@@ -27,4 +27,12 @@ public class VerificationHistory {
     public void setStoreName(String storeName) {
         this.storeName = storeName;
     }
+
+    @Override
+    public String toString() {
+        return "VerificationHistory{" +
+                "dateVerified='" + dateVerified + '\'' +
+                ", storeName='" + storeName + '\'' +
+                '}';
+    }
 }

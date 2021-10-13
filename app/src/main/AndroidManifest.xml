@@ -17,7 +17,8 @@
 
         <activity
             android:name="com.akapps.check_vertification_system_v1.activities.Login"
-            android:theme="@style/LoginTheme">
+            android:theme="@style/LoginTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -26,7 +27,8 @@
 
         <activity
             android:name="com.akapps.check_vertification_system_v1.activities.MainActivity"
-            android:theme="@style/MainTheme">
+            android:theme="@style/MainTheme"
+            android:exported="true">
 
             <intent-filter>
                 <data android:mimeType="text/plain" />

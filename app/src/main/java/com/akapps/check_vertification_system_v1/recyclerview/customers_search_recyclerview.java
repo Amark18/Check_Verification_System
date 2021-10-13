@@ -84,7 +84,7 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
 
         // if customer layout is clicked, bottom sheet opens with their info
         holder.customerLayout.setOnClickListener(v -> {
-            AddCustomerSheet addCustomer = new AddCustomerSheet(currentCustomer, activity, position);
+            AddCustomerSheet addCustomer = new AddCustomerSheet(currentCustomer, activity);
             addCustomer.show(activity.getSupportFragmentManager(), addCustomer.getTag());
         });
     }

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
+
 import androidx.recyclerview.widget.RecyclerView;
 import com.akapps.check_vertification_system_v1.activities.MainActivity;
 import com.akapps.check_vertification_system_v1.R;
@@ -65,6 +67,7 @@ public class FirestoreDatabase {
     }
 
     public void loadCustomerData(boolean updateRecyclerview){
+        Log.d("Heerree", "Updating customer data");
         progressDialog = Helper.showLoading(progressDialog, context, true);
         Dialog finalProgressDialog = progressDialog;
         String lastUpdated = Helper.getPreference(context, context.getString(R.string.last_update_pref));
@@ -155,26 +158,29 @@ public class FirestoreDatabase {
 
     // when viewing a customer, check to see if check cashing status of customer has changed or
     // their verification history and if so, update the local copy with the live copy
-    public boolean updateLocalCustomer(Customer localCustomer, Customer liveCustomer, int positionInList){
-        int index = customers.indexOf(localCustomer);
-        if((!liveCustomer.getVerificationHistory().equals(localCustomer.getVerificationHistory()) ||
-            liveCustomer.isDoNotCash() != localCustomer.isDoNotCash()) && index!=-1) {
-            customers.set(index, liveCustomer);
-            ((MainActivity) currentActivity).notifyCustomerUpdated(positionInList);
+    public boolean updateLocalCustomer(Customer localCustomer, Customer liveCustomer){
+        if(!(getVerificationHistoryString(liveCustomer).equals(getVerificationHistoryString(localCustomer))) ||
+            liveCustomer.isDoNotCash() != localCustomer.isDoNotCash()) {
+            // reflect changes for user to see
+            loadCustomerData(true);
             return true;
         }
         return false;
     }
 
+    private String getVerificationHistoryString(Customer customer){
+        String string = customer.getVerificationHistory().stream().map(Object::toString)
+                .collect(Collectors.joining(", "));
+        Log.d("Heerree", string);
+        return customer.getVerificationHistory().stream().map(Object::toString)
+                .collect(Collectors.joining(", "));
+    }
+
     // updates customer checking status to database and updates UI to reflect change
-    public void updateCustomerStatus(String customerID, String field, boolean updatedValue, int positionInList){
+    public void updateCustomerStatus(String customerID, String field, boolean updatedValue){
         collectionCustomers.document(customerID).update(field, updatedValue);
-        // positionInList is -1 only when using NFC card and it opens customer info
-        // But if searching, then this value is the position of customer in recyclerview
-        if(positionInList != -1) {
-            customers.get(positionInList).setDoNotCash(updatedValue);
-            ((MainActivity) currentActivity).updateLayoutData(customers, true);
-        }
+        // reflect changes for user to see
+        loadCustomerData(true);
     }
 
     // deletes customer from server and cache
@@ -187,8 +193,8 @@ public class FirestoreDatabase {
             deleteImage(profileImagePath);
         deleteImage(idImagePath);
         collectionCustomers.document(customer.getCustomerUniqueId()).delete();
-        // removes customer from list
-        customers.removeIf(customerRemove -> customerRemove.getCustomerUniqueId().equals(customer.getCustomerUniqueId()));
+        // reflect changes for user to see
+        loadCustomerData(true);
     }
 
     // determines if customer exists in database
@@ -241,7 +247,7 @@ public class FirestoreDatabase {
                 customer.getDateAdded().contains(Helper.getDatabaseDate())).collect(Collectors.toList());
     }
 
-    public void uploadImages(Uri profileImageUri, Uri idImageUri, Customer customer, int positionInList){
+    public void uploadImages(Uri profileImageUri, Uri idImageUri, Customer customer){
         int uniqueID = new Random().nextInt(1001) + 200;
         String profileImagePath = customer.getCustomerUniqueId() + profilePicturePath + "_" + uniqueID +  ".jpg";
         String idImagePath = customer.getCustomerUniqueId() + idPicturePath + "_" + uniqueID + ".jpg";
@@ -253,7 +259,7 @@ public class FirestoreDatabase {
                 deleteImage(customer.getProfilePicPath());
             StorageReference profileImageRef = storage.getReference(profileImagePath);
             UploadTask uploadProfileImage = profileImageRef.putFile(profileImageUri);
-            upLoadImage(uploadProfileImage, profileImagePath, customer.getCustomerUniqueId(), positionInList);
+            upLoadImage(uploadProfileImage, profileImagePath, customer.getCustomerUniqueId());
         }
 
         // upload identification
@@ -263,32 +269,24 @@ public class FirestoreDatabase {
                 deleteImage(customer.getCustomerIDPath());
             StorageReference idImageRef = storage.getReference(idImagePath);
             UploadTask uploadIdImage = idImageRef.putFile(idImageUri);
-            upLoadImage(uploadIdImage, idImagePath, customer.getCustomerUniqueId(), positionInList);
+            upLoadImage(uploadIdImage, idImagePath, customer.getCustomerUniqueId());
         }
     }
 
-    private void upLoadImage(UploadTask uploadTask, String imagePath, String customerID, int positionInList){
+    private void upLoadImage(UploadTask uploadTask, String imagePath, String customerID){
         // if image is uploaded successfully, also update their image path in database
         uploadTask.addOnFailureListener(exception ->
                 Helper.showMessage(currentActivity, context.getString(R.string.upload_error_title),
                 context.getString(R.string.upload_error_message), MotionToast.TOAST_ERROR))
                 .addOnSuccessListener(taskSnapshot -> {
-                    if(imagePath.contains(idPicturePath)) {
+                    if(imagePath.contains(idPicturePath))
                         updateCustomer(customerID, context.getString(R.string.field_customerIDPath), imagePath);
-                        if(positionInList != -1){
-                            customers.get(positionInList).setProfilePicPath(imagePath);
-                            ((MainActivity) currentActivity).notifyCustomerUpdated(positionInList);
-                            loadCustomerData(true);
-                        }
-                    }
                     else {
                         updateCustomer(customerID, context.getString(R.string.field_profilePicPath), imagePath);
-                        if(positionInList != -1){
-                            customers.get(positionInList).setCustomerIDPath(imagePath);
-                            ((MainActivity) currentActivity).notifyCustomerUpdated(positionInList);
-                        }
+                        // reflect changes for user to see
+                        loadCustomerData(true);
                     }
-        });
+                });
     }
 
     private void deleteImage(String imagePath){

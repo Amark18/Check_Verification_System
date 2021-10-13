@@ -224,7 +224,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="15dp"
-                    android:src="@drawable/user_icon" />
+                    android:src="@drawable/id_card_icon" />
 
                 <TextView
                     android:id="@+id/change_id_pic_text"

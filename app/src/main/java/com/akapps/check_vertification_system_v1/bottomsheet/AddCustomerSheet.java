@@ -64,7 +64,6 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
     private boolean isEditing;
     private boolean isViewing;
     private Customer customer;
-    private int positionInList;
 
     // layout
     private TextView title;
@@ -100,11 +99,10 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         this.currentActivity = currentActivity;
     }
 
-    public AddCustomerSheet(Customer customer, FragmentActivity currentActivity, int positionInList){
+    public AddCustomerSheet(Customer customer, FragmentActivity currentActivity){
         isViewing = true;
         this.customer = customer;
         this.currentActivity = currentActivity;
-        this.positionInList = positionInList;
     }
 
     @Override
@@ -133,7 +131,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                         if (document.exists()) {
                             // live means up-to-date
                             Customer liveCustomer = document.toObject(Customer.class);
-                            if(firestoreDatabase.updateLocalCustomer(customer, liveCustomer, positionInList))
+                            if(firestoreDatabase.updateLocalCustomer(customer, liveCustomer))
                                 // local customer data needs to be updated since there is new data
                                 customer = liveCustomer;
                             enableViewMode();
@@ -212,7 +210,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                             Glide.with(getContext())
                                     .load(uri)
                                     .apply(RequestOptions.bitmapTransform(new RoundedCorners(60)))
-                                    .placeholder(getActivity().getDrawable(R.drawable.user_icon))
+                                    .placeholder(getActivity().getDrawable(R.drawable.id_card_icon))
                                     .into(customerLicense);
                         }
                     } else if (result.getResultCode() == ImagePicker.RESULT_ERROR) {}
@@ -241,7 +239,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         });
 
         customerLicenseLayout.setOnClickListener(v -> {
-            if(isEditing) {
+            if(isAddMode || isEditing) {
                 isProfilePicSelected = false;
                 openPictureDialog();
             }
@@ -253,7 +251,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         });
 
         customerPhoto.setOnClickListener(v -> {
-            if(isEditing) {
+            if(isAddMode || isEditing) {
                 isProfilePicSelected = true;
                 openPictureDialog();
             }
@@ -265,7 +263,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         });
 
         changeProfilePicText.setOnClickListener(v -> {
-            if(isEditing) {
+            if(isAddMode || isEditing) {
                 isProfilePicSelected = true;
                 openPictureDialog();
             }
@@ -298,9 +296,9 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                 // checks to see if profile image / check image / customer check status was changed
                 if(profileImageUri != null || licenseImageUri != null  || customer.isDoNotCash() != doNotCashSwitch.isChecked()){
                     if(profileImageUri != null || licenseImageUri != null)
-                        firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customer, positionInList);
+                        firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customer);
                     if(customer.isDoNotCash() != doNotCashSwitch.isChecked())
-                        firestoreDatabase.updateCustomerStatus(customer.getCustomerUniqueId(), "doNotCash", doNotCashSwitch.isChecked(), positionInList);
+                        firestoreDatabase.updateCustomerStatus(customer.getCustomerUniqueId(), "doNotCash", doNotCashSwitch.isChecked());
                     this.dismiss();
                     Helper.showMessage(getActivity(), getString(R.string.customer_updated_title),
                             getString(R.string.customer_updated_message),
@@ -329,7 +327,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                             }
                             else {
                                 firestoreDatabase.addCustomer(firstName, lastName, Integer.parseInt(year), "", "");
-                                firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, new Customer(customerID), -1);
+                                firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, new Customer(customerID));
                                 ((MainActivity) getContext()).showNfcPrompt(customerID, false);
                                 // update dashboard
                                 firestoreDatabase.loadCustomerData(true);
@@ -352,6 +350,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
 
     private void enableAddMode(){
         resetModes();
+        isAddMode = true;
         title.setText(getContext().getString(R.string.add_text));
         nfcTapButton.setVisibility(View.GONE);
         verificationHistoryButton.setVisibility(View.GONE);
@@ -436,7 +435,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
             Glide.with(getContext())
                     .load(firebaseStorage.getReference(customer.getCustomerIDPath()))
                     .apply(RequestOptions.bitmapTransform(new RoundedCorners(60)))
-                    .placeholder(getActivity().getDrawable(R.drawable.user_icon))
+                    .placeholder(getActivity().getDrawable(R.drawable.id_card_icon))
                     .into(customerLicense);
         }
     }
@@ -455,7 +454,6 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
 
     private void deleteCustomer(){
         firestoreDatabase.deleteCustomer(customer);
-        ((MainActivity) currentActivity).customerDeletedUpdateLayout(positionInList);
         Helper.showMessage(getActivity(), getString(R.string.customer_deleted_title),
                 getString(R.string.customer_deleted_message),
                 MotionToast.TOAST_WARNING);

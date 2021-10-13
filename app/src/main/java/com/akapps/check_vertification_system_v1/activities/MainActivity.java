@@ -246,9 +246,6 @@ public class MainActivity extends AppCompatActivity {
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             @Override
             public void onCentreButtonClick() {
-                // if search bar is open, close it
-                if(searchView.getVisibility() == View.VISIBLE)
-                    closeSearch();
                 // opens bottom sheet so user can add a new customer
                 bottomSheetHelper.openCustomerSheet(MainActivity.this, null);
             }
@@ -397,15 +394,6 @@ public class MainActivity extends AppCompatActivity {
                 // do nothing, recyclerview is not being viewed
             }
         }
-    }
-
-    public void notifyCustomerUpdated(int positionInList){
-        adapterCustomers.notifyItemChanged(positionInList);
-    }
-
-    public void customerDeletedUpdateLayout(int positionInList){
-        adapterCustomers.notifyItemRemoved(positionInList);
-        firestoreDatabase.loadCustomerData(true);
     }
 
     // closes search by "pressing on" home icon at position 0
