@@ -54,4 +54,5 @@ dependencies {
     implementation 'com.github.Deishelon:RoundedBottomSheet:1.0.1'          // bottom sheet
     implementation 'com.github.Drjacky:ImagePicker:2.1.13'                  // image picker / camera
     implementation 'com.github.yash786agg:AnimatedLoadingIndicator:v1.3'    // loading screen
+    implementation 'com.github.stfalcon-studio:StfalconImageViewer:v1.0.1'  // image full screen
 }

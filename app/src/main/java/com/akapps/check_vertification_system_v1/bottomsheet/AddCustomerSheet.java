@@ -38,7 +38,13 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.stfalcon.imageviewer.StfalconImageViewer;
+import com.stfalcon.imageviewer.loader.ImageLoader;
+
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.Intrinsics;
@@ -135,12 +141,11 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                         else
                             // customer does not exist in database so it was deleted by another user
                             deleteCustomer();
-                        Helper.showLoading(progressDialog, getContext(), false);
                     }
                     else {
-                        // error (cannot get data from database)
-                        Helper.showLoading(progressDialog, getContext(), false);
+                        // error (cannot get data from database...probably from no internet connection)
                     }
+            Helper.showLoading(progressDialog, getContext(), false);
         });
     }
 
@@ -148,10 +153,11 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         ImagePicker.Builder camera = ImagePicker.Companion.with(getActivity())
                 .crop()
                 .cropFreeStyle()
-                .maxResultSize(1080, 1080, true);
+                .maxResultSize(384, 384, true);
 
         if(isProfilePicSelected)
             camera.cropOval();
+
 
         // required function to use kotlin library
         camera.createIntentFromDialog((Function1) (new Function1() {
@@ -235,18 +241,39 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         });
 
         customerLicenseLayout.setOnClickListener(v -> {
-            isProfilePicSelected = false;
-            openPictureDialog();
+            if(isEditing) {
+                isProfilePicSelected = false;
+                openPictureDialog();
+            }
+        });
+        customerLicenseLayout.setOnLongClickListener(v -> {
+            if(isViewing)
+                openImagesFullscreen();
+            return false;
         });
 
         customerPhoto.setOnClickListener(v -> {
-            isProfilePicSelected = true;
-            openPictureDialog();
+            if(isEditing) {
+                isProfilePicSelected = true;
+                openPictureDialog();
+            }
+        });
+        customerPhoto.setOnLongClickListener(v -> {
+            if(isViewing)
+               openImagesFullscreen();
+            return false;
         });
 
         changeProfilePicText.setOnClickListener(v -> {
-            isProfilePicSelected = true;
-            openPictureDialog();
+            if(isEditing) {
+                isProfilePicSelected = true;
+                openPictureDialog();
+            }
+        });
+        changeProfilePicText.setOnLongClickListener(v -> {
+            if(isViewing)
+                openImagesFullscreen();
+            return false;
         });
 
         nfcTapButton.setOnClickListener(v -> {
@@ -271,7 +298,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                 // checks to see if profile image / check image / customer check status was changed
                 if(profileImageUri != null || licenseImageUri != null  || customer.isDoNotCash() != doNotCashSwitch.isChecked()){
                     if(profileImageUri != null || licenseImageUri != null)
-                        firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customer.getCustomerUniqueId(), positionInList);
+                        firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customer, positionInList);
                     if(customer.isDoNotCash() != doNotCashSwitch.isChecked())
                         firestoreDatabase.updateCustomerStatus(customer.getCustomerUniqueId(), "doNotCash", doNotCashSwitch.isChecked(), positionInList);
                     this.dismiss();
@@ -302,7 +329,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                             }
                             else {
                                 firestoreDatabase.addCustomer(firstName, lastName, Integer.parseInt(year), "", "");
-                                firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customerID, -1);
+                                firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, new Customer(customerID), -1);
                                 ((MainActivity) getContext()).showNfcPrompt(customerID, false);
                                 // update dashboard
                                 firestoreDatabase.loadCustomerData(true);
@@ -362,9 +389,6 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
     private void viewCustomerMode(boolean status){
         nameInput.setEnabled(false);
         yearInput.setEnabled(false);
-        changeProfilePicText.setEnabled(status);
-        customerLicenseLayout.setEnabled(status);
-        customerPhoto.setEnabled(status);
 
         if(!status) {
             // status is false (aka viewing)
@@ -407,12 +431,26 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                     .into(customerPhoto);
         }
 
-        // gets ID photo from firebase storage
-        Glide.with(getContext())
-                .load(firebaseStorage.getReference(customer.getCustomerIDPath()))
-                .apply(RequestOptions.bitmapTransform(new RoundedCorners(60)))
-                .placeholder(getActivity().getDrawable(R.drawable.user_icon))
-                .into(customerLicense);
+        if(!customer.getCustomerIDPath().isEmpty()) {
+            // gets ID photo from firebase storage
+            Glide.with(getContext())
+                    .load(firebaseStorage.getReference(customer.getCustomerIDPath()))
+                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(60)))
+                    .placeholder(getActivity().getDrawable(R.drawable.user_icon))
+                    .into(customerLicense);
+        }
+    }
+
+    private void openImagesFullscreen(){
+
+        ArrayList<String> images = new ArrayList<>();
+        if(!customer.getProfilePicPath().isEmpty())
+            images.add(customer.getProfilePicPath());
+        images.add(customer.getCustomerIDPath());
+        new StfalconImageViewer.Builder<>(getContext(), images, (imageView, image) ->
+                Glide.with(getContext())
+                        .load(FirebaseStorage.getInstance().getReference(image))
+                        .into(imageView)).show();
     }
 
     private void deleteCustomer(){

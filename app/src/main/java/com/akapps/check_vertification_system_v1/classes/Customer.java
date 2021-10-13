@@ -20,6 +20,11 @@ public class Customer {
 
     public Customer(){}
 
+    public Customer(String customerUniqueId){
+        this.customerUniqueId = customerUniqueId;
+        profilePicPath = customerIDPath = "";
+    }
+
     public Customer(String firstName, String lastName, int dobYear,
                     String customerUniqueId, String dateAdded, String dateVerified,
                     String profilePicPath, String customerIDPath, String timeStampAdded) {

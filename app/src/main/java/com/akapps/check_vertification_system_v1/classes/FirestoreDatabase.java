@@ -241,23 +241,29 @@ public class FirestoreDatabase {
                 customer.getDateAdded().contains(Helper.getDatabaseDate())).collect(Collectors.toList());
     }
 
-    public void uploadImages(Uri profileImageUri, Uri idImageUri, String customerID, int positionInList){
+    public void uploadImages(Uri profileImageUri, Uri idImageUri, Customer customer, int positionInList){
         int uniqueID = new Random().nextInt(1001) + 200;
-        String profileImagePath = customerID + profilePicturePath + "_" + uniqueID +  ".jpg";
-        String idImagePath = customerID + idPicturePath + "_" + uniqueID + ".jpg";
+        String profileImagePath = customer.getCustomerUniqueId() + profilePicturePath + "_" + uniqueID +  ".jpg";
+        String idImagePath = customer.getCustomerUniqueId() + idPicturePath + "_" + uniqueID + ".jpg";
 
         // uploads profile picture
         if(profileImageUri != null) {
+            // delete old profile image
+            if(!customer.getProfilePicPath().isEmpty())
+                deleteImage(customer.getProfilePicPath());
             StorageReference profileImageRef = storage.getReference(profileImagePath);
             UploadTask uploadProfileImage = profileImageRef.putFile(profileImageUri);
-            upLoadImage(uploadProfileImage, profileImagePath, customerID, positionInList);
+            upLoadImage(uploadProfileImage, profileImagePath, customer.getCustomerUniqueId(), positionInList);
         }
 
         // upload identification
         if(idImageUri != null) {
+            // delete old id image
+            if(!customer.getCustomerIDPath().isEmpty())
+                deleteImage(customer.getCustomerIDPath());
             StorageReference idImageRef = storage.getReference(idImagePath);
             UploadTask uploadIdImage = idImageRef.putFile(idImageUri);
-            upLoadImage(uploadIdImage, idImagePath, customerID, positionInList);
+            upLoadImage(uploadIdImage, idImagePath, customer.getCustomerUniqueId(), positionInList);
         }
     }
 
@@ -272,6 +278,7 @@ public class FirestoreDatabase {
                         if(positionInList != -1){
                             customers.get(positionInList).setProfilePicPath(imagePath);
                             ((MainActivity) currentActivity).notifyCustomerUpdated(positionInList);
+                            loadCustomerData(true);
                         }
                     }
                     else {

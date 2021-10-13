@@ -12,7 +12,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Check_Vertification_System_V1">
+        android:theme="@style/Theme.Check_Vertification_System_V1"
+        android:hardwareAccelerated="true">
 
         <activity
             android:name="com.akapps.check_vertification_system_v1.activities.Login"
