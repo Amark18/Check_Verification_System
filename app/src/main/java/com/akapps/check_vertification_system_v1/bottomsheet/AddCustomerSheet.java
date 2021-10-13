@@ -1,5 +1,6 @@
 package com.akapps.check_vertification_system_v1.bottomsheet;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,8 +36,8 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import org.jetbrains.annotations.NotNull;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -77,9 +78,8 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
     private LottieAnimationView verificationHistoryButton;
     private LinearLayout warningLayout;
     private SwitchMaterial doNotCashSwitch;
-    // recyclerview
-    private ImageView profilePic;
-    private MaterialCardView warningLayoutColor;
+    // Dialog
+    private Dialog progressDialog;
 
     // activity
     private FragmentActivity currentActivity;
@@ -94,14 +94,11 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         this.currentActivity = currentActivity;
     }
 
-    public AddCustomerSheet(Customer customer, FragmentActivity currentActivity,
-                            int positionInList, ImageView profilePic, MaterialCardView warningLayoutColor){
+    public AddCustomerSheet(Customer customer, FragmentActivity currentActivity, int positionInList){
         isViewing = true;
         this.customer = customer;
         this.currentActivity = currentActivity;
         this.positionInList = positionInList;
-        this.profilePic = profilePic;
-        this.warningLayoutColor = warningLayoutColor;
     }
 
     @Override
@@ -113,10 +110,38 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
 
         if(isAddMode)
             enableAddMode();
-        else if(isViewing)
-            enableViewMode();
+        else if(isViewing) {
+            progressDialog = Helper.showLoading(progressDialog, getContext(), true);
+            // makes sure that this customer actually exists since local copy is being using at the moment
+            getLiveCustomerData();
+        }
 
         return view;
+    }
+
+    private void getLiveCustomerData(){
+        firestoreDatabase.getCustomersCollectionRef().document(customer.getCustomerUniqueId())
+                .get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            // live means up-to-date
+                            Customer liveCustomer = document.toObject(Customer.class);
+                            if(firestoreDatabase.updateLocalCustomer(customer, liveCustomer, positionInList))
+                                // local customer data needs to be updated since there is new data
+                                customer = liveCustomer;
+                            enableViewMode();
+                        }
+                        else
+                            // customer does not exist in database so it was deleted by another user
+                            deleteCustomer();
+                        Helper.showLoading(progressDialog, getContext(), false);
+                    }
+                    else {
+                        // error (cannot get data from database)
+                        Helper.showLoading(progressDialog, getContext(), false);
+                    }
+        });
     }
 
     private void openPictureDialog(){
@@ -205,9 +230,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         });
 
         editCustomer.setOnLongClickListener(v -> {
-            firestoreDatabase.deleteCustomer(customer);
-            ((MainActivity) getContext()).customerDeletedUpdateLayout(positionInList);
-            this.dismiss();
+            deleteCustomer();
             return false;
         });
 
@@ -245,32 +268,12 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
 
         addCustomer.setOnClickListener(v -> {
             if(isEditing){
+                // checks to see if profile image / check image / customer check status was changed
                 if(profileImageUri != null || licenseImageUri != null  || customer.isDoNotCash() != doNotCashSwitch.isChecked()){
-                    if(profileImageUri != null || licenseImageUri != null) {
-                        firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customer.getCustomerUniqueId());
-                        // updates customer recyclerview layout to reflect change of profile picture
-                        // prevents need to pull down to refresh
-                        if(profilePic != null){
-                            Glide.with(getContext())
-                                    .load(profileImageUri)
-                                    .circleCrop()
-                                    .placeholder(getActivity().getDrawable(R.drawable.user_icon))
-                                    .into(profilePic);
-                        }
-
-                    }
-                    if(customer.isDoNotCash() != doNotCashSwitch.isChecked()) {
+                    if(profileImageUri != null || licenseImageUri != null)
+                        firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customer.getCustomerUniqueId(), positionInList);
+                    if(customer.isDoNotCash() != doNotCashSwitch.isChecked())
                         firestoreDatabase.updateCustomerStatus(customer.getCustomerUniqueId(), "doNotCash", doNotCashSwitch.isChecked(), positionInList);
-                        // updates customer recyclerview layout to reflect change of warning status
-                        if(warningLayoutColor != null){
-                            if(doNotCashSwitch.isChecked()) {
-                                warningLayoutColor.setVisibility(View.VISIBLE);
-                                warningLayoutColor.setCardBackgroundColor(getContext().getColor(R.color.vermilion));
-                            }
-                            else
-                                warningLayoutColor.setVisibility(View.INVISIBLE);
-                        }
-                    }
                     this.dismiss();
                     Helper.showMessage(getActivity(), getString(R.string.customer_updated_title),
                             getString(R.string.customer_updated_message),
@@ -285,6 +288,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
 
                 String fullName = Helper.formatName(name, getContext());
 
+                // if input is correct, then customer is added to the system
                 if (fullName.length() > 0) {
                     String firstName = fullName.split(getContext().getString(R.string.split))[0];
                     String lastName = fullName.split(getContext().getString(R.string.split))[1];
@@ -298,7 +302,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                             }
                             else {
                                 firestoreDatabase.addCustomer(firstName, lastName, Integer.parseInt(year), "", "");
-                                firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customerID);
+                                firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customerID, -1);
                                 ((MainActivity) getContext()).showNfcPrompt(customerID, false);
                                 // update dashboard
                                 firestoreDatabase.loadCustomerData(true);
@@ -330,7 +334,6 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
     private void enableViewMode(){
         resetModes();
         isViewing = true;
-        firestoreDatabase = new FirestoreDatabase(getActivity(), getContext());
         title.setText(getContext().getString(R.string.view_text));
         editCustomer.setVisibility(View.VISIBLE);
         viewCustomerMode(false);
@@ -387,29 +390,38 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         verificationHistoryButton.setVisibility(status ? View.GONE: View.VISIBLE);
     }
 
+    // loads profile picture and ID picture from firebase storage
     private void loadData(Customer customer){
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         String fullName = customer.getFirstName() + " " + customer.getLastName();
         nameInput.setText(fullName);
         yearInput.setText("" + customer.getDobYear());
 
+        // profile picture is optional, checking if profile picture exists
         if(!customer.getProfilePicPath().isEmpty()) {
-            StorageReference profilePicRef = firebaseStorage.getReference(customer.getProfilePicPath());
             // gets profile photo from firebase storage
             Glide.with(getContext())
-                    .load(profilePicRef)
+                    .load(firebaseStorage.getReference(customer.getProfilePicPath()))
                     .circleCrop()
                     .placeholder(getActivity().getDrawable(R.drawable.user_icon))
                     .into(customerPhoto);
         }
 
-        StorageReference idPicRef = firebaseStorage.getReference(customer.getCustomerIDPath());
         // gets ID photo from firebase storage
         Glide.with(getContext())
-                .load(idPicRef)
+                .load(firebaseStorage.getReference(customer.getCustomerIDPath()))
                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(60)))
                 .placeholder(getActivity().getDrawable(R.drawable.user_icon))
                 .into(customerLicense);
+    }
+
+    private void deleteCustomer(){
+        firestoreDatabase.deleteCustomer(customer);
+        ((MainActivity) currentActivity).customerDeletedUpdateLayout(positionInList);
+        Helper.showMessage(getActivity(), getString(R.string.customer_deleted_title),
+                getString(R.string.customer_deleted_message),
+                MotionToast.TOAST_WARNING);
+        this.dismiss();
     }
 
     @Override

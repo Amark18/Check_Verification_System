@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 public class Animation {
 
     // layout
-    private SearchView searchView;
-    private TextView closeSearch;
-    private ImageView nfcStatus;
-    private LinearLayout searchLayout;
-    private RecyclerView customerRecyclerview;
-    private TextView emptyRecyclerviewMessage;
-    private ImageView settings;
+    private final SearchView searchView;
+    private final TextView closeSearch;
+    private final ImageView nfcStatus;
+    private final LinearLayout searchLayout;
+    private final RecyclerView customerRecyclerview;
+    private final TextView emptyRecyclerviewMessage;
+    private final ImageView settings;
 
     // variables
     private final int longAnimationDuration = 1000;

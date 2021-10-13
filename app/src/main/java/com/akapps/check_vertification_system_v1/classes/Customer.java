@@ -2,6 +2,7 @@ package com.akapps.check_vertification_system_v1.classes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Customer {
 
@@ -10,6 +11,7 @@ public class Customer {
     private int dobYear;
     private String customerUniqueId;
     private String dateAdded;
+    private String timeStampAdded;
     private String dateVerified;
     private String profilePicPath;
     private String customerIDPath;
@@ -20,7 +22,7 @@ public class Customer {
 
     public Customer(String firstName, String lastName, int dobYear,
                     String customerUniqueId, String dateAdded, String dateVerified,
-                    String profilePicPath, String customerIDPath) {
+                    String profilePicPath, String customerIDPath, String timeStampAdded) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dobYear = dobYear;
@@ -30,6 +32,7 @@ public class Customer {
         this.profilePicPath = profilePicPath;
         this.customerIDPath = customerIDPath;
         this.verificationHistory = new ArrayList<>();
+        this.timeStampAdded = timeStampAdded;
     }
 
     public String getFirstName() {
@@ -110,6 +113,14 @@ public class Customer {
 
     public void setDoNotCash(boolean doNotCash) {
         this.doNotCash = doNotCash;
+    }
+
+    public String getTimeStampAdded() {
+        return timeStampAdded;
+    }
+
+    public void setTimeStampAdded(String timeStampAdded) {
+        this.timeStampAdded = timeStampAdded;
     }
 }
 

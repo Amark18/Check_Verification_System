@@ -7,6 +7,11 @@ import com.akapps.check_vertification_system_v1.bottomsheet.SettingsSheet;
 import com.akapps.check_vertification_system_v1.bottomsheet.VerificationHistorySheet;
 import java.util.ArrayList;
 
+/**
+ * This class ensures that there is only one bottom sheet
+ * open at a time and prevents duplicates
+ */
+
 public class BottomSheetHelper {
 
     // activity
@@ -30,7 +35,7 @@ public class BottomSheetHelper {
         if(currentActivity!=null && customer == null)
             addCustomerSheet = new AddCustomerSheet(currentActivity);
         else if(customer != null)
-            addCustomerSheet = new AddCustomerSheet(customer, currentActivity, -1, null, null);
+            addCustomerSheet = new AddCustomerSheet(customer, currentActivity, -1);
         if(currentActivity != null || customer!= null)
             addCustomerSheet.show(currentActivity.getSupportFragmentManager(), addCustomerSheet.getTag());
     }

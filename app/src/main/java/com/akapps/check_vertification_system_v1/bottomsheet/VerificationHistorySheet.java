@@ -40,8 +40,7 @@ public class VerificationHistorySheet extends RoundedBottomSheetDialogFragment{
         // settings up recyclerview and populate it
         historyRecyclerview.setHasFixedSize(true);
         historyRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecyclerView.Adapter adapterHistory = new history_verification_recyclerview(history);
-        historyRecyclerview.setAdapter(adapterHistory);
+        historyRecyclerview.setAdapter(new history_verification_recyclerview(history));
 
         closeFilter.setOnClickListener(v -> {
             this.dismiss();

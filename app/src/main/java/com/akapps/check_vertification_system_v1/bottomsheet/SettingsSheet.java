@@ -2,7 +2,6 @@ package com.akapps.check_vertification_system_v1.bottomsheet;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

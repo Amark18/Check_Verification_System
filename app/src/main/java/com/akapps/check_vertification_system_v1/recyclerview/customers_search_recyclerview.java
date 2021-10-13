@@ -1,7 +1,6 @@
 package com.akapps.check_vertification_system_v1.recyclerview;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,8 +53,7 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
     @Override
     public customers_search_recyclerview.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_customer_layout, parent, false);
-        MyViewHolder vh = new MyViewHolder(v);
-        return vh;
+        return new MyViewHolder(v);
     }
 
     @Override
@@ -63,11 +61,13 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
         // retrieves current customer object
         Customer currentCustomer= customers.get(position);
 
+        holder.customerFullName.setText(currentCustomer.getFirstName() + " " + currentCustomer.getLastName());
+        holder.customerYear.setText(String.valueOf(currentCustomer.getDobYear()));
+
         holder.warningLayoutColor.getLayoutParams().width = Helper.getWidthScreen(activity) / 4;
         // if customer is set to do not cash, there is an indicator above their photo to reflect that
-        if(currentCustomer.isDoNotCash()) {
+        if(currentCustomer.isDoNotCash())
             holder.warningLayoutColor.setVisibility(View.VISIBLE);
-        }
         else
             holder.warningLayoutColor.setVisibility(View.INVISIBLE);
 
@@ -82,13 +82,9 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
                     .into(holder.customerImage);
         }
 
-        holder.customerFullName.setText(currentCustomer.getFirstName() + " " + currentCustomer.getLastName());
-        holder.customerYear.setText(String.valueOf(currentCustomer.getDobYear()));
-
         // if customer layout is clicked, bottom sheet opens with their info
         holder.customerLayout.setOnClickListener(v -> {
-            AddCustomerSheet addCustomer = new AddCustomerSheet(currentCustomer, activity,
-                    position, holder.customerImage, holder.warningLayoutColor);
+            AddCustomerSheet addCustomer = new AddCustomerSheet(currentCustomer, activity, position);
             addCustomer.show(activity.getSupportFragmentManager(), addCustomer.getTag());
         });
     }

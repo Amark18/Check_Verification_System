@@ -53,6 +53,7 @@ public class Login extends AppCompatActivity{
         setContentView(R.layout.activity_login);
 
         initializeLayout();
+        // pin login only required once every 24 hours
         autoLogin();
     }
 
@@ -139,7 +140,7 @@ public class Login extends AppCompatActivity{
     // checks to see if phone has fingerprint capability
     private boolean isFingerprintWorking(){
         BiometricManager biometricManager = BiometricManager.from(this);
-        switch (biometricManager.canAuthenticate()) {
+        switch (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)) {
             case BiometricManager.BIOMETRIC_SUCCESS:
                 return true;
             default:
@@ -147,6 +148,7 @@ public class Login extends AppCompatActivity{
         }
     }
 
+    // if the time since last login is less than 24 hours, log user in automatically
     private void autoLogin(){
         lastLoginDate = Helper.getPreference(context, getString(R.string.login_pref));
 

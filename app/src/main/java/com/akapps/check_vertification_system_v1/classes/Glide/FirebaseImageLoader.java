@@ -19,9 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /**
- * FirebaseImageLoader class could not be found so I added it from
- * FirebaseUI Library so it could work with the Glide library to use
- * with Firebase storage
+ * FirebaseImageLoader class could not be found in any imports so
+ * I added it from FirebaseUI Library (on Github) so it could work
+ * with the Glide library to use with Firebase storage
  */
 
 public class FirebaseImageLoader implements ModelLoader<StorageReference, InputStream> {

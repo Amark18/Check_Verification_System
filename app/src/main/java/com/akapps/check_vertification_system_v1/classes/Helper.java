@@ -71,8 +71,7 @@ public class Helper {
             return true;
         }
         else
-            Helper.showMessage(activity, context.getString(R.string.nfc_text),
-                    context.getString(R.string.nfc_message),
+            Helper.showMessage(activity, context.getString(R.string.nfc_text), context.getString(R.string.nfc_message),
                     MotionToast.TOAST_ERROR);
         return false;
     }
@@ -121,8 +120,6 @@ public class Helper {
                 progressDialog = new Dialog(context);
                 progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 progressDialog.setContentView(R.layout.custom_dialog_progress);
-
-                /* Custom setting to change TextView text,Color and Text Size according to your Preference*/
 
                 TextView progressTv = progressDialog.findViewById(R.id.progress_tv);
                 progressTv.setText(context.getResources().getString(R.string.loading));
@@ -185,7 +182,7 @@ public class Helper {
         return sdf.format(c.getTime());
     }
 
-    public static String getVerificationDate(){
+    public static String getCurrentDate(){
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm:ss a");
         return sdf.format(c.getTime());
@@ -195,7 +192,7 @@ public class Helper {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm:ss a", Locale.ENGLISH);
         try {
-            cal.setTime(sdf.parse(date));// all done
+            cal.setTime(sdf.parse(date));
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -24,12 +24,12 @@ import www.sanju.motiontoast.MotionToast;
 public class NFC {
 
     // NFC
-    private NfcAdapter nfcAdapter;
-    private PendingIntent pendingIntent;
+    private final NfcAdapter nfcAdapter;
+    private final PendingIntent pendingIntent;
 
     // activity
-    private FragmentActivity currentActivity;
-    private Context context;
+    private final FragmentActivity currentActivity;
+    private final Context context;
 
     // layout
     private ImageView nfcStatus;
@@ -95,7 +95,7 @@ public class NFC {
                 MotionToast.TOAST_SUCCESS);
     }
 
-    // creates record to putin nfc card
+    // creates record to put in nfc card
     public NdefRecord createRecord(String text) throws UnsupportedEncodingException {
         String lang       = "en";
         byte[] textBytes  = text.getBytes();
@@ -117,7 +117,7 @@ public class NFC {
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
         String[] techList = tag.getTechList();
-        for (int i = 0; i<techList.length; i++) {
+        for (int i = 0; i < techList.length; i++) {
             if (techList[i].equals(Ndef.class.getName())) {
                 Ndef ndef = Ndef.get(tag);
                 try {
@@ -148,7 +148,8 @@ public class NFC {
                         Helper.showMessage(currentActivity, "Read Failed", "Try again!",
                                 MotionToast.TOAST_ERROR);
                     ndef.close();
-                } catch (FormatException | IOException e) {
+                }
+                catch (FormatException | IOException e) {
                     e.printStackTrace();
                 }
                 break;

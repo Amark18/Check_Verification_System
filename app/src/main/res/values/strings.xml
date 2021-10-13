@@ -32,12 +32,14 @@
 
     <!-- Firestore Database !-->
     <string name="database_main_collection">customers</string>
-    <string name="database_error_title">Database Error</string>
-    <string name="database_error">Not able to get data</string>
+    <string name="database_error_title">Connection Error</string>
+    <string name="database_error">Using saved data, check internet connection</string>
     <!-- Database Fields !-->
     <string name="field_profilePicPath">profilePicPath</string>
     <string name="field_customerIDPath">customerIDPath</string>
     <string name="field_verifiedToday">dateVerified</string>
+    <string name="field_timeStampAdded">timeStampAdded</string>
+    <string name="field_verificationHistory">verificationHistory</string>
     <!-- Error !-->
     <string name="year_error">Insert Year (Ex. 1999)</string>
     <string name="name_error">First + Last Name</string>
@@ -76,6 +78,8 @@
     <string name="customer_updated_message">Customer Updated</string>
     <string name="customer_added_title">Success</string>
     <string name="customer_added_message">Customer Added</string>
+    <string name="customer_deleted_title">Deleted</string>
+    <string name="customer_deleted_message">Customer has been deleted</string>
 
     <!-- NFC Sheet !-->
     <string name="nfc_title">Tap Card</string>
@@ -104,5 +108,6 @@
     <string name="fingerprint_pref">fingerprint</string>
     <string name="fingerprint_enabled">enabled</string>
     <string name="login_pref">login</string>
+    <string name="last_update_pref">last update</string>
 
 </resources>

@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -84,8 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isSearching;
     private boolean isViewingDashboard;
 
-    // database
-    private ArrayList<Customer> customers;
+    // firestore database
     public FirestoreDatabase firestoreDatabase;
 
     @Override
@@ -94,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = this;
 
-        // locks orientation
+        // locks orientation, this app should not be used in landscape
         Helper.setOrientation(this, context);
 
         initializeLayout(savedInstanceState);
@@ -109,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 customerRecyclerview, emptyRecyclerviewMessage, nfcAdapter, settings);
 
         // initialize Database
-        firestoreDatabase = new FirestoreDatabase(this, context);
+        firestoreDatabase = new FirestoreDatabase(MainActivity.this, context);
         firestoreDatabase.loadCustomerData(false);
     }
 
@@ -165,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             nfc.readNFCTag(intent, true, writeString);
             writeNfcMode = false;
         }
-        // read card to output card data to user
+        // read card to output card data to user (used in settings sheet)
         else if(nfc != null && readNfcMode){
             nfc.readNFCTag(intent, false, getString(R.string.output_data));
             readNfcMode = false;
@@ -183,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
         nfc = new NFC(this, context, nfcAdapter, pendingIntent, nfcStatus, bottomSheetHelper);
     }
 
+    // this method determines whether to read or write to next card tap via NFC
     public void showNfcPrompt(String customerId, boolean readNfcMode){
         if(readNfcMode)
             this.readNfcMode = true;
@@ -237,8 +236,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String typingQuery) {
                 if(typingQuery.length() > 0)
-                    firestoreDatabase.searchCustomer(typingQuery);
-                else
+                    firestoreDatabase.searchForCustomer(typingQuery);
+                else if(isSearching)
                     populateRecyclerview(new ArrayList<>());
                 return false;
             }
@@ -258,15 +257,16 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(int itemIndex, String itemName) {
                 // search is selected
                if(itemIndex == 1) {
-                   // if search is selected, that means that dashboard is not in view
+                   // if search is selected and nothing else is
+                   // currently selected, then current view is isSearching
                    if(isViewingTotalInSystem || isViewingAddedToday || isViewingVerifiedToday)
                        isSearching = isViewingDashboard = false;
                    else {
                        isSearching = true;
                        isViewingDashboard = isViewingTotalInSystem = isViewingAddedToday = isViewingVerifiedToday = false;
                    }
+                   // animation to open search view
                    animation.slideUp(searchLayout, dash, showKeyboard);
-                   firestoreDatabase.loadCustomerData(false);
                    // resets boolean
                    showKeyboard = true;
                }
@@ -276,6 +276,7 @@ public class MainActivity extends AppCompatActivity {
                    // thus, we are back to dashboard and not viewing anything
                    isSearching = isViewingTotalInSystem = isViewingAddedToday = isViewingVerifiedToday = false;
                    isViewingDashboard = true;
+                   // animation to close search view
                    animation.slideDown(searchLayout, dash);
                }
             }
@@ -307,34 +308,29 @@ public class MainActivity extends AppCompatActivity {
 
         // displays all customers
         totalInSystemCardView.setOnClickListener(v -> {
-            showKeyboard = false;
             isViewingTotalInSystem = true;
-            spaceNavigationView.changeCurrentItem(1);
-            new Handler().postDelayed(() -> {
-                populateRecyclerview(customers);
-            }, mediumDuration);
+            isViewingVerifiedToday = isViewingAddedToday = false;
+            showFilterResults(firestoreDatabase.getCustomers());
         });
 
         // displays customers added today
         addedTodayCardView.setOnClickListener(v -> {
             isViewingAddedToday = true;
-            isViewingVerifiedToday = false;
-            isViewingTotalInSystem = isViewingVerifiedToday = isViewingDashboard = false;
+            isViewingVerifiedToday = isViewingTotalInSystem = false;
             showFilterResults(firestoreDatabase.getAddedTodayList());
         });
 
         // displays customers verified today (a.k.a they used an NFC card today)
         verifiedTodayCardView.setOnClickListener(v -> {
             isViewingVerifiedToday = true;
-            isViewingAddedToday = false;
+            isViewingAddedToday = isViewingTotalInSystem = false;
             showFilterResults(firestoreDatabase.getVerifiedTodayList());
         });
     }
 
     private void showFilterResults(ArrayList<Customer> list){
-        showKeyboard = false;
-        // when filtering, these two views will always be false
-        isViewingTotalInSystem = isViewingDashboard = false;
+        // this will be always be false when filtering
+        showKeyboard = isViewingDashboard = isSearching = false;
         if(list.size() > 0) {
             spaceNavigationView.changeCurrentItem(1);
             new Handler().postDelayed(() -> {
@@ -358,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
 
     // finds customer and opens their information via bottom sheet
     public void findCustomer(String customerId){
-        ArrayList<Customer> result = (ArrayList<Customer>) customers.stream().filter(customer -> customer.getCustomerUniqueId().contains(customerId)).collect(Collectors.toList());
+        ArrayList<Customer> result = (ArrayList<Customer>) firestoreDatabase.getCustomers().stream().filter(customer -> customer.getCustomerUniqueId().contains(customerId)).collect(Collectors.toList());
 
         if(customerId.isEmpty())
             Helper.showMessage(this, context.getString(R.string.read_nfc_title), context.getString(R.string.read_nfc_empty_message),
@@ -371,52 +367,43 @@ public class MainActivity extends AppCompatActivity {
             // customer has been found using NFC card, so open a bottom sheet so their data can be viewed
             bottomSheetHelper.openCustomerSheet(MainActivity.this, result.get(0));
             // customer has tapped card, so it is logged in their history
-            firestoreDatabase.addHistoryRecord(result.get(0));
-            // update customer verification date to today to reflect in dashboard
-            if(!result.get(0).getDateVerified().equals(Helper.getDatabaseDate())) {
-                firestoreDatabase.updateCustomer(result.get(0).getCustomerUniqueId(),
-                        getString(R.string.field_verifiedToday), Helper.getDatabaseDate());
-            }
+            // also updates customer verification date to today to reflect in dashboard
+            firestoreDatabase.addHistoryAndDateVerified(result.get(0));
         }
     }
 
     // updates customers to be up-to-date and updates dashboard data
-    // if searching, then recyclerview is shown with updated data
     public void updateLayoutData(ArrayList<Customer> updatedCustomers, boolean updateRecyclerview){
-        customers = updatedCustomers;
-        String total = "" + customers.size();
-        String added = "" + customers.stream().filter(customer ->
+        String total = "" + updatedCustomers.size();
+        String added = "" + updatedCustomers.stream().filter(customer ->
                 customer.getDateAdded().contains(Helper.getDatabaseDate())).collect(Collectors.toList()).size();
-        String verified = "" + customers.stream().filter(customer ->
+        String verified = "" + updatedCustomers.stream().filter(customer ->
                 customer.getDateVerified().contains(Helper.getDatabaseDate())).collect(Collectors.toList()).size();
         totalInSystemText.setText(total);
         addedTodayText.setText(added);
         verifiedTodayText.setText(verified);
         // after getting updated data from database, this ensures that the
-        // respective list is updated with the new data
+        // respective list is updated with the new data via the current view
         if(updateRecyclerview) {
             if(isSearching)
-                firestoreDatabase.searchCustomer(searchView.getQuery().toString());
+                firestoreDatabase.searchForCustomer(searchView.getQuery().toString());
             else if(isViewingAddedToday)
                 showFilterResults(firestoreDatabase.getAddedTodayList());
             else if(isViewingVerifiedToday)
                 showFilterResults(firestoreDatabase.getVerifiedTodayList());
             else if(isViewingTotalInSystem)
-                populateRecyclerview(customers);
+                populateRecyclerview(updatedCustomers);
             else if(isViewingDashboard){
                 // do nothing, recyclerview is not being viewed
             }
         }
     }
 
-    // updates do not cash status of customer after updating it
-    // prevents unnecessary and inefficient call to database
-    public void updateCustomerWarningStatus(boolean updatedStatus, int positionInList){
-        customers.get(positionInList).setDoNotCash(updatedStatus);
+    public void notifyCustomerUpdated(int positionInList){
+        adapterCustomers.notifyItemChanged(positionInList);
     }
 
     public void customerDeletedUpdateLayout(int positionInList){
-        customers.remove(positionInList);
         adapterCustomers.notifyItemRemoved(positionInList);
         firestoreDatabase.loadCustomerData(true);
     }

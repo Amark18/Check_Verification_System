@@ -37,8 +37,7 @@ public class history_verification_recyclerview extends RecyclerView.Adapter<hist
     @Override
     public history_verification_recyclerview.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_history_layout, parent, false);
-        MyViewHolder vh = new MyViewHolder(v);
-        return vh;
+        return new MyViewHolder(v);
     }
 
     @Override
