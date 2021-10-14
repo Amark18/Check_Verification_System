@@ -1,4 +1,4 @@
-package com.akapps.check_vertification_system_v1.classes;
+package com.akapps.check_verification_system.classes;
 
 import android.animation.ObjectAnimator;
 import android.nfc.NfcAdapter;

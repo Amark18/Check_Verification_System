@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.akapps.check_vertification_system_v1">
+    package="com.akapps.check_verification_system">
 
     <uses-permission android:name="android.permission.NFC" />
     <uses-feature android:name="android.hardware.nfc" />
@@ -16,7 +16,7 @@
         android:hardwareAccelerated="true">
 
         <activity
-            android:name="com.akapps.check_vertification_system_v1.activities.PinLoginActivity"
+            android:name="com.akapps.check_verification_system.activities.PinLoginActivity"
             android:theme="@style/LoginTheme"
             android:exported="true">
             <intent-filter>
@@ -26,7 +26,7 @@
         </activity>
 
         <activity
-            android:name="com.akapps.check_vertification_system_v1.activities.MainActivity"
+            android:name="com.akapps.check_verification_system.activities.MainActivity"
             android:theme="@style/MainTheme"
             android:exported="true">
 

@@ -1,12 +1,12 @@
-package com.akapps.check_vertification_system_v1.classes;
+package com.akapps.check_verification_system.classes;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
-import com.akapps.check_vertification_system_v1.activities.MainActivity;
-import com.akapps.check_vertification_system_v1.R;
+
+import com.akapps.check_verification_system.activities.MainActivity;
+import com.akapps.check_verification_system.R;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;

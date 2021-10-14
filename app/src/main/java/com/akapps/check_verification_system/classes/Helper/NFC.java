@@ -1,4 +1,4 @@
-package com.akapps.check_vertification_system_v1.classes;
+package com.akapps.check_verification_system.classes;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -15,8 +15,8 @@ import android.provider.Settings;
 import android.widget.ImageView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
-import com.akapps.check_vertification_system_v1.R;
-import com.akapps.check_vertification_system_v1.activities.MainActivity;
+import com.akapps.check_verification_system.R;
+import com.akapps.check_verification_system.activities.MainActivity;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import www.sanju.motiontoast.MotionToast;

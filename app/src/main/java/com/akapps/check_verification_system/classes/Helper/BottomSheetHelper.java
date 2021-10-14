@@ -1,10 +1,10 @@
-package com.akapps.check_vertification_system_v1.classes;
+package com.akapps.check_verification_system.classes;
 
 import androidx.fragment.app.FragmentActivity;
-import com.akapps.check_vertification_system_v1.bottomsheet.AddCustomerSheet;
-import com.akapps.check_vertification_system_v1.bottomsheet.NfcSheet;
-import com.akapps.check_vertification_system_v1.bottomsheet.SettingsSheet;
-import com.akapps.check_vertification_system_v1.bottomsheet.VerificationHistorySheet;
+import com.akapps.check_verification_system.bottomsheet.AddCustomerSheet;
+import com.akapps.check_verification_system.bottomsheet.NfcSheet;
+import com.akapps.check_verification_system.bottomsheet.SettingsSheet;
+import com.akapps.check_verification_system.bottomsheet.VerificationHistorySheet;
 import java.util.ArrayList;
 
 /**

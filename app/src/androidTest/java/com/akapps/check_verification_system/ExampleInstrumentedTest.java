@@ -1,4 +1,4 @@
-package com.akapps.check_vertification_system_v1;
+package com.akapps.check_verification_system;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.akapps.check_vertification_system_v1", appContext.getPackageName());
+        assertEquals("com.akapps.check_verification_system", appContext.getPackageName());
     }
 }

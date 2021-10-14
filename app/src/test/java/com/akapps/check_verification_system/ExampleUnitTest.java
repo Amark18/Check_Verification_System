@@ -1,4 +1,4 @@
-package com.akapps.check_vertification_system_v1;
+package com.akapps.check_verification_system;
 
 import org.junit.Test;
 

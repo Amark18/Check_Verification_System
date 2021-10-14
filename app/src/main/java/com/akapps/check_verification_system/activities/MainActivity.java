@@ -1,4 +1,4 @@
-package com.akapps.check_vertification_system_v1.activities;
+package com.akapps.check_verification_system.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -16,14 +16,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
-import com.akapps.check_vertification_system_v1.R;
-import com.akapps.check_vertification_system_v1.classes.Animation;
-import com.akapps.check_vertification_system_v1.classes.BottomSheetHelper;
-import com.akapps.check_vertification_system_v1.classes.Customer;
-import com.akapps.check_vertification_system_v1.classes.FirestoreDatabase;
-import com.akapps.check_vertification_system_v1.classes.Helper;
-import com.akapps.check_vertification_system_v1.classes.NFC;
-import com.akapps.check_vertification_system_v1.recyclerview.customers_search_recyclerview;
+import com.akapps.check_verification_system.R;
+import com.akapps.check_verification_system.classes.Animation;
+import com.akapps.check_verification_system.classes.BottomSheetHelper;
+import com.akapps.check_verification_system.classes.Customer;
+import com.akapps.check_verification_system.classes.FirestoreDatabase;
+import com.akapps.check_verification_system.classes.Helper;
+import com.akapps.check_verification_system.classes.NFC;
+import com.akapps.check_verification_system.recyclerview.customers_search_recyclerview;
 import com.google.android.material.card.MaterialCardView;
 import com.irfaan008.irbottomnavigation.SpaceItem;
 import com.irfaan008.irbottomnavigation.SpaceNavigationView;

@@ -1,4 +1,4 @@
-package com.akapps.check_vertification_system_v1.bottomsheet;
+package com.akapps.check_verification_system.bottomsheet;
 
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
@@ -13,9 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
-import com.akapps.check_vertification_system_v1.R;
-import com.akapps.check_vertification_system_v1.activities.MainActivity;
-import com.akapps.check_vertification_system_v1.classes.Helper;
+import com.akapps.check_verification_system.R;
+import com.akapps.check_verification_system.activities.MainActivity;
+import com.akapps.check_verification_system.classes.Helper;
 import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialogFragment;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;

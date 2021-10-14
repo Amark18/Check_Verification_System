@@ -14,7 +14,7 @@
         android:layout_marginTop="30dp"
         android:fontFamily="@font/baloo_bhai"
         android:gravity="center"
-        android:text="@string/app_name_proper"
+        android:text="@string/app_name"
         android:textColor="@color/orangeRed"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"

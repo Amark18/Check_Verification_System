@@ -1,4 +1,4 @@
-package com.akapps.check_vertification_system_v1.classes.Glide;
+package com.akapps.check_verification_system.classes.Glide;
 
 import android.content.Context;
 import com.bumptech.glide.Glide;

@@ -1,4 +1,4 @@
-package com.akapps.check_vertification_system_v1.bottomsheet;
+package com.akapps.check_verification_system.bottomsheet;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -18,11 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import com.airbnb.lottie.LottieAnimationView;
-import com.akapps.check_vertification_system_v1.R;
-import com.akapps.check_vertification_system_v1.activities.MainActivity;
-import com.akapps.check_vertification_system_v1.classes.Customer;
-import com.akapps.check_vertification_system_v1.classes.FirestoreDatabase;
-import com.akapps.check_vertification_system_v1.classes.Helper;
+import com.akapps.check_verification_system.R;
+import com.akapps.check_verification_system.activities.MainActivity;
+import com.akapps.check_verification_system.classes.Customer;
+import com.akapps.check_verification_system.classes.FirestoreDatabase;
+import com.akapps.check_verification_system.classes.Helper;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;

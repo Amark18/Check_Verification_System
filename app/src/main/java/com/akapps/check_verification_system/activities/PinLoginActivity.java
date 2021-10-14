@@ -1,4 +1,4 @@
-package com.akapps.check_vertification_system_v1.activities;
+package com.akapps.check_verification_system.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,10 +13,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
-import com.akapps.check_vertification_system_v1.R;
-import com.akapps.check_vertification_system_v1.bottomsheet.AccountLoginSheet;
-import com.akapps.check_vertification_system_v1.classes.Helper;
-import com.google.firebase.auth.FirebaseAuth;
+import com.akapps.check_verification_system.R;
+import com.akapps.check_verification_system.bottomsheet.AccountLoginSheet;
+import com.akapps.check_verification_system.classes.Helper;
 import com.mukesh.OtpView;
 import java.util.Calendar;
 import java.util.concurrent.Executor;

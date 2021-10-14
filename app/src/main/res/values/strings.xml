@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Check Verification System</string>
-    <string name="app_name_proper">Check Verification System</string>
 
     <!-- PinLoginActivity screen !-->
     <string name="login_message_pin_only">LOGIN WITH PASSCODE</string>

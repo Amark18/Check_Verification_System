@@ -1,4 +1,4 @@
-package com.akapps.check_vertification_system_v1.classes;
+package com.akapps.check_verification_system.classes;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -14,7 +14,7 @@ import android.view.Window;
 import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-import com.akapps.check_vertification_system_v1.R;
+import com.akapps.check_verification_system.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

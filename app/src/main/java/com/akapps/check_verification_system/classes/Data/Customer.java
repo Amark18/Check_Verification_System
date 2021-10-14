@@ -1,8 +1,7 @@
-package com.akapps.check_vertification_system_v1.classes;
+package com.akapps.check_verification_system.classes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Customer {
 

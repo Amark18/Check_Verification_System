@@ -1,4 +1,4 @@
-package com.akapps.check_vertification_system_v1.recyclerview;
+package com.akapps.check_verification_system.recyclerview;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,10 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import com.akapps.check_vertification_system_v1.bottomsheet.AddCustomerSheet;
-import com.akapps.check_vertification_system_v1.R;
-import com.akapps.check_vertification_system_v1.classes.Customer;
-import com.akapps.check_vertification_system_v1.classes.Helper;
+import com.akapps.check_verification_system.bottomsheet.AddCustomerSheet;
+import com.akapps.check_verification_system.R;
+import com.akapps.check_verification_system.classes.Customer;
+import com.akapps.check_verification_system.classes.Helper;
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.storage.FirebaseStorage;

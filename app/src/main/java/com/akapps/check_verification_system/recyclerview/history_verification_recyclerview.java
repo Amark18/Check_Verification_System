@@ -1,13 +1,13 @@
-package com.akapps.check_vertification_system_v1.recyclerview;
+package com.akapps.check_verification_system.recyclerview;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.akapps.check_vertification_system_v1.R;
-import com.akapps.check_vertification_system_v1.classes.Helper;
-import com.akapps.check_vertification_system_v1.classes.VerificationHistory;
+import com.akapps.check_verification_system.R;
+import com.akapps.check_verification_system.classes.Helper;
+import com.akapps.check_verification_system.classes.VerificationHistory;
 import java.util.ArrayList;
 
 public class history_verification_recyclerview extends RecyclerView.Adapter<history_verification_recyclerview.MyViewHolder>{

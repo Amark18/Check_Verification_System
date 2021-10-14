@@ -9,7 +9,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.akapps.check_vertification_system_v1"
+        applicationId "com.akapps.check_verification_system"
         minSdkVersion 26
         targetSdkVersion 31
         versionCode 1
@@ -42,7 +42,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // implementations
-    implementation platform('com.google.firebase:firebase-bom:28.4.0')      // firebase
+    implementation platform('com.google.firebase:firebase-bom:28.4.2')      // firebase
     implementation 'com.google.firebase:firebase-auth'                      // authentication
     implementation "androidx.biometric:biometric:1.1.0"                     // fingerprint authentication
     implementation 'com.airbnb.android:lottie:4.2.0'                        // lottie animation
