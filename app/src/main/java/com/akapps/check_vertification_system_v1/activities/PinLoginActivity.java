@@ -14,13 +14,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.akapps.check_vertification_system_v1.R;
+import com.akapps.check_vertification_system_v1.bottomsheet.AccountLoginSheet;
 import com.akapps.check_vertification_system_v1.classes.Helper;
+import com.google.firebase.auth.FirebaseAuth;
 import com.mukesh.OtpView;
 import java.util.Calendar;
 import java.util.concurrent.Executor;
 import www.sanju.motiontoast.MotionToast;
 
-public class Login extends AppCompatActivity{
+public class PinLoginActivity extends AppCompatActivity{
 
     // activity
     private Context context;
@@ -42,6 +44,9 @@ public class Login extends AppCompatActivity{
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
 
+    // bottom sheet
+    private AccountLoginSheet accountLoginSheet;
+
     @Override
     public void onBackPressed() {
         // catches if back button is pressed
@@ -53,8 +58,14 @@ public class Login extends AppCompatActivity{
         setContentView(R.layout.activity_login);
 
         initializeLayout();
-        // pin login only required once every 24 hours
-        autoLogin();
+
+        // checks to see if user has logged in and if so, then lets them enter a pin afterwards
+        if(Helper.isAccountLoggedIn(context))
+            // pin login only required once every 24 hours
+            autoLogin();
+        else
+            openAccountLoginSheet();
+
     }
 
     private void initializeLayout(){
@@ -117,10 +128,15 @@ public class Login extends AppCompatActivity{
             @Override
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
-                Helper.showMessage(Login.this, getString(R.string.fingerprint_error_text), getString(R.string.fingerprint_error),
+                Helper.showMessage(PinLoginActivity.this, getString(R.string.fingerprint_error_text), getString(R.string.fingerprint_error),
                         MotionToast.TOAST_ERROR);
             }
         });
+    }
+
+    private void openAccountLoginSheet(){
+        accountLoginSheet = new AccountLoginSheet();
+        accountLoginSheet.show(getSupportFragmentManager(), accountLoginSheet.getTag());
     }
 
     // pin is based on the current year and the hour
@@ -157,7 +173,7 @@ public class Login extends AppCompatActivity{
             if (!isLoginNeeded)
                 openMainPage();
             else
-                Helper.showMessage(Login.this, getString(R.string.login_again), getString(R.string.login_message_timeout),
+                Helper.showMessage(PinLoginActivity.this, getString(R.string.login_again), getString(R.string.login_message_timeout),
                         MotionToast.TOAST_WARNING);
         }
     }

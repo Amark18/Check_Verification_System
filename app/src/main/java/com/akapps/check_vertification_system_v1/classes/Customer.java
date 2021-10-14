@@ -12,6 +12,7 @@ public class Customer {
     private String customerUniqueId;
     private String dateAdded;
     private String timeStampAdded;
+    private String storeAdded;
     private String dateVerified;
     private String profilePicPath;
     private String customerIDPath;
@@ -27,7 +28,7 @@ public class Customer {
 
     public Customer(String firstName, String lastName, int dobYear,
                     String customerUniqueId, String dateAdded, String dateVerified,
-                    String profilePicPath, String customerIDPath, String timeStampAdded) {
+                    String profilePicPath, String customerIDPath, String timeStampAdded, String storeAdded) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dobYear = dobYear;
@@ -38,6 +39,7 @@ public class Customer {
         this.customerIDPath = customerIDPath;
         this.verificationHistory = new ArrayList<>();
         this.timeStampAdded = timeStampAdded;
+        this.storeAdded = storeAdded;
     }
 
     public String getFirstName() {
@@ -126,6 +128,14 @@ public class Customer {
 
     public void setTimeStampAdded(String timeStampAdded) {
         this.timeStampAdded = timeStampAdded;
+    }
+
+    public String getStoreAdded() {
+        return storeAdded;
+    }
+
+    public void setStoreAdded(String storeAdded) {
+        this.storeAdded = storeAdded;
     }
 }
 

@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+
 import com.akapps.check_vertification_system_v1.R;
 import com.akapps.check_vertification_system_v1.activities.MainActivity;
 import com.akapps.check_vertification_system_v1.classes.Helper;
@@ -17,6 +19,8 @@ import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialogFragment;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.jetbrains.annotations.NotNull;
 import www.sanju.motiontoast.MotionToast;
 
@@ -25,23 +29,33 @@ public class SettingsSheet extends RoundedBottomSheetDialogFragment{
     // variables
     private final int messageDuration = 1500;
     private String dataRead;
+    private FragmentActivity currentActivity;
 
-    public SettingsSheet(){}
+    public SettingsSheet(FragmentActivity currentActivity){
+        this.currentActivity = currentActivity;
+    }
 
-    public SettingsSheet(String dataRead){
+    public SettingsSheet(String dataRead, FragmentActivity currentActivity){
         this.dataRead = dataRead;
+        this.currentActivity = currentActivity;
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.settings_sheet, container, false);
+        View view = inflater.inflate(R.layout.bottom_sheet_settings, container, false);
         view.setBackgroundColor(requireContext().getColor(R.color.grayDark));
 
         ImageView closeFilter = view.findViewById(R.id.close_filter);
         MaterialCardView resetNfcCard = view.findViewById(R.id.reset_nfc_card);
         MaterialCardView readNfcCard = view.findViewById(R.id.read_nfc_card);
         MaterialCardView resetApp = view.findViewById(R.id.reset_app);
+        MaterialCardView logOut = view.findViewById(R.id.log_out);
         TextView cardReadText = view.findViewById(R.id.text_read);
+
+        if(!Helper.checkNfcStatus(getActivity(), getContext())){
+            resetNfcCard.setVisibility(View.GONE);
+            readNfcCard.setVisibility(View.GONE);
+        }
 
         if(dataRead != null && !dataRead.isEmpty()) {
             dataRead = dataRead.replace("en", "");
@@ -65,11 +79,22 @@ public class SettingsSheet extends RoundedBottomSheetDialogFragment{
             }, messageDuration);
         });
 
+        logOut.setOnClickListener(view1 -> logOut());
+
         closeFilter.setOnClickListener(v -> {
             this.dismiss();
         });
 
         return view;
+    }
+
+    private void logOut(){
+        Helper.savePreference(getContext(), null,
+                getContext().getString(R.string.account_login_pref));
+        // sign out user
+        FirebaseAuth.getInstance().signOut();
+        this.dismiss();
+        ((MainActivity) currentActivity).logOut();
     }
 
     @Override

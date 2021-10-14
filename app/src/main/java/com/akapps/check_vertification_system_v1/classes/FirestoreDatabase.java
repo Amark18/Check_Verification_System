@@ -5,14 +5,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
-
-import androidx.recyclerview.widget.RecyclerView;
 import com.akapps.check_vertification_system_v1.activities.MainActivity;
 import com.akapps.check_vertification_system_v1.R;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.Source;
 import com.google.firebase.firestore.WriteBatch;
@@ -44,7 +43,7 @@ public class FirestoreDatabase {
     // variables
     private final String profilePicturePath  = "_profilePic";
     private final String idPicturePath  = "_idPic";
-    private final String storeName = "Oasis";
+    private String storeName;
 
     // layout
     private Dialog progressDialog;
@@ -56,6 +55,7 @@ public class FirestoreDatabase {
         storage = FirebaseStorage.getInstance();
         collectionCustomers = db.collection(context.getString(R.string.database_main_collection));
         customers = new ArrayList<>();
+        storeName = Helper.getStoreName(context);
     }
 
     public ArrayList<Customer> getCustomers(){
@@ -67,13 +67,13 @@ public class FirestoreDatabase {
     }
 
     public void loadCustomerData(boolean updateRecyclerview){
-        Log.d("Heerree", "Updating customer data");
         progressDialog = Helper.showLoading(progressDialog, context, true);
         Dialog finalProgressDialog = progressDialog;
         String lastUpdated = Helper.getPreference(context, context.getString(R.string.last_update_pref));
         // when app is first used, all customers are loaded
         if(lastUpdated == null) {
             collectionCustomers
+                    .orderBy("timeStampAdded", Query.Direction.DESCENDING)
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -91,6 +91,7 @@ public class FirestoreDatabase {
         else{
             // gets current list from cache (for when closing and opening app again)
             collectionCustomers
+                    .orderBy("timeStampAdded", Query.Direction.DESCENDING)
                     .get(Source.CACHE)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -132,7 +133,8 @@ public class FirestoreDatabase {
     public void addCustomer(String firstName, String lastName, int dobYear, String profilePicPath, String customerIDPath){
         String customerID = firstName.charAt(0) + lastName + "" + dobYear;
         Customer addCustomer = new Customer(firstName, lastName, dobYear, customerID,
-                Helper.getDatabaseDate(), "", profilePicPath, customerIDPath, Helper.getCurrentDate());
+                Helper.getDatabaseDate(), "", profilePicPath, customerIDPath,
+                Helper.getCurrentDate(), Helper.getStoreName(context));
         collectionCustomers.document(customerID).set(addCustomer);
     }
 
@@ -169,9 +171,6 @@ public class FirestoreDatabase {
     }
 
     private String getVerificationHistoryString(Customer customer){
-        String string = customer.getVerificationHistory().stream().map(Object::toString)
-                .collect(Collectors.joining(", "));
-        Log.d("Heerree", string);
         return customer.getVerificationHistory().stream().map(Object::toString)
                 .collect(Collectors.joining(", "));
     }

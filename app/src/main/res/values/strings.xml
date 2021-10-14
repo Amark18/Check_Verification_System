@@ -2,7 +2,7 @@
     <string name="app_name">Check Verification System</string>
     <string name="app_name_proper">Check Verification System</string>
 
-    <!-- Login screen !-->
+    <!-- PinLoginActivity screen !-->
     <string name="login_message_pin_only">LOGIN WITH PASSCODE</string>
     <string name="login_message_both">LOGIN WITH FINGERPRINT OR PASSCODE</string>
     <string name="fingerprint_error_text">Fingerprint Error</string>
@@ -19,6 +19,8 @@
     <string name="search_hint">Find someone…</string>
     <string name="number_placeholder">9999</string>
     <string name="nfc_text">NFC Disabled</string>
+    <string name="no_customers_title">No Customers</string>
+    <string name="no_customers_message">Cannot search for something non existent</string>
 
     <!-- Commands !-->
     <string name="try_again">TRY AGAIN</string>
@@ -55,6 +57,19 @@
 
     <!-- User Choices !-->
     <string name="cancel">CANCEL</string>
+
+    <!-- Account Login Sheet !-->
+    <string name="login_title">Login</string>
+    <string name="login_error_title">Wrong Login/Password</string>
+    <string name="login_error_message">Please try again.</string>
+    <string name="login_success_title">Logged In</string>
+    <string name="login_success_message">Please enter pin</string>
+    <string name="login_max_title">Too many attempts</string>
+    <string name="login_max_message">Please contact admin</string>
+    <string name="email_input_hint">Email</string>
+    <string name="password_input_hint">Password</string>
+    <string name="email_end_format">\@oasis.com</string>
+    <string name="input_error">Incorrect Input</string>
 
     <!-- Add Customer Sheet !-->
     <string name="customer_sheet_title">New</string>
@@ -103,11 +118,13 @@
     <string name="see_nfc_card">Check NFC Card Data</string>
     <string name="reset_app">Clear Cache</string>
     <string name="reset_app_message">App will close, open app again.</string>
+    <string name="log_out">Log Out</string>
 
     <!-- Saved Preference Data !-->
     <string name="fingerprint_pref">fingerprint</string>
     <string name="fingerprint_enabled">enabled</string>
     <string name="login_pref">login</string>
     <string name="last_update_pref">last update</string>
+    <string name="account_login_pref">account login</string>
 
 </resources>

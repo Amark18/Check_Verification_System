@@ -16,7 +16,7 @@
         android:hardwareAccelerated="true">
 
         <activity
-            android:name="com.akapps.check_vertification_system_v1.activities.Login"
+            android:name="com.akapps.check_vertification_system_v1.activities.PinLoginActivity"
             android:theme="@style/LoginTheme"
             android:exported="true">
             <intent-filter>

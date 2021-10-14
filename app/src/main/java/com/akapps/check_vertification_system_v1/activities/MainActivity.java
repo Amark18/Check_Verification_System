@@ -254,18 +254,27 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(int itemIndex, String itemName) {
                 // search is selected
                if(itemIndex == 1) {
-                   // if search is selected and nothing else is
-                   // currently selected, then current view is isSearching
-                   if(isViewingTotalInSystem || isViewingAddedToday || isViewingVerifiedToday)
-                       isSearching = isViewingDashboard = false;
-                   else {
-                       isSearching = true;
-                       isViewingDashboard = isViewingTotalInSystem = isViewingAddedToday = isViewingVerifiedToday = false;
+                   // if there are customers, then open
+                   if(firestoreDatabase.getCustomers().size() > 0) {
+                       // if search is selected and nothing else is
+                       // currently selected, then current view is isSearching
+                       if (isViewingTotalInSystem || isViewingAddedToday || isViewingVerifiedToday)
+                           isSearching = isViewingDashboard = false;
+                       else {
+                           isSearching = true;
+                           isViewingDashboard = isViewingTotalInSystem = isViewingAddedToday = isViewingVerifiedToday = false;
+                       }
+                       // animation to open search view
+                       animation.slideUp(searchLayout, dash, showKeyboard);
+                       // resets boolean
+                       showKeyboard = true;
                    }
-                   // animation to open search view
-                   animation.slideUp(searchLayout, dash, showKeyboard);
-                   // resets boolean
-                   showKeyboard = true;
+                   else{
+                       Helper.showMessage(MainActivity.this, context.getString(R.string.no_customers_title),
+                               context.getString(R.string.no_customers_message),
+                               MotionToast.TOAST_ERROR);
+                       new Handler().postDelayed(() -> closeSearch(), mediumDuration);
+                   }
                }
                // home is selected
                else if(itemIndex == 0) {
@@ -394,6 +403,13 @@ public class MainActivity extends AppCompatActivity {
                 // do nothing, recyclerview is not being viewed
             }
         }
+    }
+
+    public void logOut(){
+        bottomSheetHelper.closeAllSheets();
+        Intent main = new Intent(this, PinLoginActivity.class);
+        startActivity(main);
+        finish();
     }
 
     // closes search by "pressing on" home icon at position 0

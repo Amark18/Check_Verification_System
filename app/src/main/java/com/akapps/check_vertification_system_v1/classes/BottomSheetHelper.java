@@ -63,9 +63,9 @@ public class BottomSheetHelper {
         if(settingsSheet != null)
             settingsSheet.dismiss();
         if(nfcData.isEmpty())
-            settingsSheet = new SettingsSheet();
+            settingsSheet = new SettingsSheet(currentActivity);
         else
-            settingsSheet = new SettingsSheet(nfcData);
+            settingsSheet = new SettingsSheet(nfcData, currentActivity);
         settingsSheet.show(currentActivity.getSupportFragmentManager(), settingsSheet.getTag());
     }
 

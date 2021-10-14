@@ -39,7 +39,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.stfalcon.imageviewer.StfalconImageViewer;
-import com.stfalcon.imageviewer.loader.ImageLoader;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -107,7 +106,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.add_customer_sheet, container, false);
+        View view = inflater.inflate(R.layout.bottom_sheet_add_customer, container, false);
         view.setBackgroundColor(requireContext().getColor(R.color.grayDark));
 
         initializeLayout(view);
@@ -420,7 +419,6 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         nameInput.setText(fullName);
         yearInput.setText("" + customer.getDobYear());
 
-        // profile picture is optional, checking if profile picture exists
         if(!customer.getProfilePicPath().isEmpty()) {
             // gets profile photo from firebase storage
             Glide.with(getContext())
@@ -441,11 +439,11 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
     }
 
     private void openImagesFullscreen(){
-
         ArrayList<String> images = new ArrayList<>();
         if(!customer.getProfilePicPath().isEmpty())
             images.add(customer.getProfilePicPath());
-        images.add(customer.getCustomerIDPath());
+        if(!customer.getCustomerIDPath().isEmpty())
+            images.add(customer.getCustomerIDPath());
         new StfalconImageViewer.Builder<>(getContext(), images, (imageView, image) ->
                 Glide.with(getContext())
                         .load(FirebaseStorage.getInstance().getReference(image))

@@ -15,6 +15,9 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import com.akapps.check_vertification_system_v1.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -102,6 +105,12 @@ public class Helper {
         SharedPreferences sharedPreferences = context.getSharedPreferences("app", MODE_PRIVATE);
         String data = sharedPreferences.getString(key, null);
         return data;
+    }
+
+    // checks to see if user has logged in via email and password
+    public static boolean isAccountLoggedIn(Context context){
+        String isLoggedIn = getPreference(context, context.getString(R.string.account_login_pref));
+        return isLoggedIn == null ? false : true;
     }
 
     public static void showMessage(Activity activity, String title, String message, String typeOfMessage){
@@ -208,6 +217,16 @@ public class Helper {
             e.printStackTrace();
         }
         return cal;
+    }
+
+    public static String getStoreName(Context context){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String email = user.getEmail().replace(context.getString(R.string.email_end_format), "");
+            // capitalize fist letter
+            return email.substring(0, 1).toUpperCase() + email.substring(1);
+        }
+        return "Oasis";
     }
 
     public static String getTimeDifference(Calendar calendar){

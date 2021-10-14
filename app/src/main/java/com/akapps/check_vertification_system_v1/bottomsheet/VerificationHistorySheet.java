@@ -31,7 +31,7 @@ public class VerificationHistorySheet extends RoundedBottomSheetDialogFragment{
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.verification_history_sheet, container, false);
+        View view = inflater.inflate(R.layout.bottom_sheet_verification_history, container, false);
         view.setBackgroundColor(requireContext().getColor(R.color.grayDark));
 
         ImageView closeFilter = view.findViewById(R.id.close_filter);

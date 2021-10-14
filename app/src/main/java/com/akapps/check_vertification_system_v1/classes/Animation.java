@@ -38,10 +38,8 @@ public class Animation {
         this.emptyRecyclerviewMessage = emptyRecyclerviewMessage;
         this.nfcAdapter = nfcAdapter;
         this.settings = settings;
-        if(nfcAdapter == null) {
+        if(nfcAdapter == null)
             nfcStatus.setVisibility(View.GONE);
-            settings.setVisibility(View.GONE);
-        }
     }
 
     // slides up the search bar to be on the top and sets whatever on top to be invisible
