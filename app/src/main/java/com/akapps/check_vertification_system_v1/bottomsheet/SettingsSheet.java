@@ -1,5 +1,6 @@
 package com.akapps.check_vertification_system_v1.bottomsheet;
 
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -51,8 +52,11 @@ public class SettingsSheet extends RoundedBottomSheetDialogFragment{
         MaterialCardView resetApp = view.findViewById(R.id.reset_app);
         MaterialCardView logOut = view.findViewById(R.id.log_out);
         TextView cardReadText = view.findViewById(R.id.text_read);
+        TextView storeAccount = view.findViewById(R.id.account_store);
 
-        if(!Helper.checkNfcStatus(getActivity(), getContext())){
+        storeAccount.setText(Helper.getStoreName(getContext()));
+
+        if (NfcAdapter.getDefaultAdapter(getContext()) == null) {
             resetNfcCard.setVisibility(View.GONE);
             readNfcCard.setVisibility(View.GONE);
         }

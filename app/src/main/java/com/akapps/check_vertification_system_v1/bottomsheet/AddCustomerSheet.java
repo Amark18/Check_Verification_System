@@ -141,6 +141,8 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                     }
                     else {
                         // error (cannot get data from database...probably from no internet connection)
+                        // use local data instead
+                        enableViewMode();
                     }
             Helper.showLoading(progressDialog, getContext(), false);
         });

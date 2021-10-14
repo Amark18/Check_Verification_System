@@ -38,17 +38,13 @@ public class Animation {
         this.emptyRecyclerviewMessage = emptyRecyclerviewMessage;
         this.nfcAdapter = nfcAdapter;
         this.settings = settings;
-        if(nfcAdapter == null)
-            nfcStatus.setVisibility(View.GONE);
     }
 
     // slides up the search bar to be on the top and sets whatever on top to be invisible
     public void slideUp(View move, View other, boolean showKeyboard){
         new Handler().postDelayed(() -> {
-            if(nfcAdapter != null) {
-                nfcStatus.animate().alpha(0.0f).setDuration(mediumAnimationDuration).withEndAction(() -> nfcStatus.setVisibility(View.GONE));
-                settings.animate().alpha(0.0f).setDuration(mediumAnimationDuration).withEndAction(() -> settings.setVisibility(View.GONE));
-            }
+            nfcStatus.animate().alpha(0.0f).setDuration(mediumAnimationDuration).withEndAction(() -> nfcStatus.setVisibility(View.GONE));
+            settings.animate().alpha(0.0f).setDuration(mediumAnimationDuration).withEndAction(() -> settings.setVisibility(View.GONE));
             closeSearch.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withStartAction(() -> closeSearch.setVisibility(View.VISIBLE));
             emptyRecyclerviewMessage.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withStartAction(() -> emptyRecyclerviewMessage.setVisibility(View.VISIBLE));
             move.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withStartAction(() -> move.setVisibility(View.VISIBLE));
@@ -69,10 +65,8 @@ public class Animation {
     // slides down the search bar to its default position and
     public void slideDown(View move,View other){
         new Handler().postDelayed(() -> {
-            if(nfcAdapter != null) {
-                nfcStatus.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withEndAction(() -> nfcStatus.setVisibility(View.VISIBLE));
-                settings.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withEndAction(() -> settings.setVisibility(View.VISIBLE));
-            }
+            nfcStatus.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withEndAction(() -> nfcStatus.setVisibility(View.VISIBLE));
+            settings.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withEndAction(() -> settings.setVisibility(View.VISIBLE));
             closeSearch.animate().alpha(0.0f).setDuration(mediumAnimationDuration).withEndAction(() -> closeSearch.setVisibility(View.INVISIBLE));
             move.animate().alpha(0.0f).setDuration(mediumAnimationDuration).withEndAction(() -> move.setVisibility(View.GONE));
             other.animate().alpha(1.0f).setDuration(mediumAnimationDuration);

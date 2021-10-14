@@ -119,6 +119,7 @@
     <string name="reset_app">Clear Cache</string>
     <string name="reset_app_message">App will close, open app again.</string>
     <string name="log_out">Log Out</string>
+    <string name="account_text">Account</string>
 
     <!-- Saved Preference Data !-->
     <string name="fingerprint_pref">fingerprint</string>

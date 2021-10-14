@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grayDark">
@@ -24,27 +25,25 @@
                     android:id="@+id/settings"
                     android:layout_width="32dp"
                     android:layout_height="36dp"
-                    android:layout_marginTop="@dimen/dimen_12"
                     android:layout_marginLeft="5dp"
                     android:src="@drawable/settings_icon"
+                    app:layout_constraintBottom_toBottomOf="@+id/date"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"></ImageView>
+                    app:layout_constraintTop_toTopOf="@+id/date"></ImageView>
 
                 <TextView
                     android:id="@+id/date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginVertical="12dp"
+                    android:fontFamily="@font/baloo_bhai"
+                    android:gravity="center|bottom"
                     android:text="@string/date_text"
                     android:textColor="@color/gray"
-                    android:textSize="@dimen/dimen_16"
-                    android:fontFamily="@font/baloo_bhai"
-                    android:layout_marginHorizontal="10dp"
-                    android:gravity="center"
-                    android:layout_marginVertical="@dimen/dimen_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-                </TextView>
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toStartOf="@+id/nfc_icon"
+                    app:layout_constraintStart_toEndOf="@+id/settings"
+                    app:layout_constraintTop_toTopOf="parent"></TextView>
 
                 <TextView
                     android:id="@+id/close_search"
@@ -53,27 +52,27 @@
                     android:layout_marginHorizontal="15dp"
                     android:fontFamily="@font/baloo_bhai"
                     android:gravity="top|right"
-                    android:paddingTop="@dimen/dimen_24"
                     android:text="@string/close_text"
                     android:textColor="@color/vermilion"
                     android:textSize="@dimen/dimen_16"
                     android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/date"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-                </TextView>
+                    app:layout_constraintTop_toTopOf="@+id/date"></TextView>
 
                 <ImageView
                     android:id="@+id/nfc_icon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="right"
-                    android:layout_marginTop="15dp"
                     android:layout_marginHorizontal="15dp"
+                    android:layout_marginBottom="2dp"
                     android:backgroundTint="@color/vermilion"
                     android:src="@drawable/nfc_icon"
                     android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/date"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"></ImageView>
+                    app:layout_constraintTop_toTopOf="@+id/date"></ImageView>
 
                 <LinearLayout
                     android:id="@+id/dashboard"
