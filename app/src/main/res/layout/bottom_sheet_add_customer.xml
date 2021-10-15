@@ -146,13 +146,41 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/customer_photo"/>
 
+        <TextView
+            android:id="@+id/account_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/baloo_bhai"
+            android:gravity="center|left"
+            android:text="@string/store_text"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/change_profile_pic_text" />
+
+        <TextView
+            android:id="@+id/account_store"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/baloo_bhai"
+            android:gravity="center|right"
+            android:text="@string/account_text"
+            android:textColor="@color/orangeRed"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/account_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/account_text"
+            app:layout_constraintTop_toTopOf="@+id/account_text" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/insert_name_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:hint="@string/name_input_hint"
             android:textColorHint="@color/white"
             app:boxStrokeColor="@color/blueDark"
@@ -162,7 +190,7 @@
             app:hintTextColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/change_profile_pic_text">
+            app:layout_constraintTop_toBottomOf="@+id/account_text">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/insert_name"

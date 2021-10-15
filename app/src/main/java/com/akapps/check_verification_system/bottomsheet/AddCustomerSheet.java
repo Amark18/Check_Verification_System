@@ -39,11 +39,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.stfalcon.imageviewer.StfalconImageViewer;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
-
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.Intrinsics;
@@ -82,8 +79,8 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
     private LottieAnimationView verificationHistoryButton;
     private LinearLayout warningLayout;
     private SwitchMaterial doNotCashSwitch;
-    // Dialog
-    private Dialog progressDialog;
+    private TextView cardReadText;
+    private TextView storeAccount;
 
     // activity
     private FragmentActivity currentActivity;
@@ -114,7 +111,8 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         if(isAddMode)
             enableAddMode();
         else if(isViewing) {
-            progressDialog = Helper.showLoading(progressDialog, getContext(), true);
+            // show local customer right way before attempting to update
+            enableViewMode();
             // makes sure that this customer actually exists since local copy is being using at the moment
             getLiveCustomerData();
         }
@@ -128,23 +126,25 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
+                            firestoreDatabase.checkConnection(true);
                             // live means up-to-date
                             Customer liveCustomer = document.toObject(Customer.class);
-                            if(firestoreDatabase.updateLocalCustomer(customer, liveCustomer))
+                            if(firestoreDatabase.updateLocalCustomer(customer, liveCustomer)) {
                                 // local customer data needs to be updated since there is new data
                                 customer = liveCustomer;
-                            enableViewMode();
+                                enableViewMode();
+                            }
                         }
-                        else
+                        else {
                             // customer does not exist in database so it was deleted by another user
                             deleteCustomer();
+                        }
                     }
                     else {
                         // error (cannot get data from database...probably from no internet connection)
                         // use local data instead
                         enableViewMode();
                     }
-            Helper.showLoading(progressDialog, getContext(), false);
         });
     }
 
@@ -190,7 +190,10 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         verificationHistoryButton = view.findViewById(R.id.tap_history_animation);
         warningLayout = view.findViewById(R.id.warning_layout);
         doNotCashSwitch = view.findViewById(R.id.do_not_cash_switch);
+        cardReadText = view.findViewById(R.id.account_text);
+        storeAccount = view.findViewById(R.id.account_store);
 
+        storeAccount.setText(Helper.getStoreName(getContext()));
         firestoreDatabase =  ((MainActivity) currentActivity).firestoreDatabase;
 
         // catches result of taking a photo or selecting from gallery
@@ -356,18 +359,22 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         nfcTapButton.setVisibility(View.GONE);
         verificationHistoryButton.setVisibility(View.GONE);
         warningLayout.setVisibility(View.GONE);
+        cardReadText.setVisibility(View.GONE);
+        storeAccount.setVisibility(View.GONE);
     }
 
     private void enableViewMode(){
-        resetModes();
-        isViewing = true;
-        title.setText(getContext().getString(R.string.view_text));
-        editCustomer.setVisibility(View.VISIBLE);
-        viewCustomerMode(false);
-        loadData(customer);
+        try {
+            resetModes();
+            isViewing = true;
+            title.setText(getContext().getString(R.string.view_text));
+            editCustomer.setVisibility(View.VISIBLE);
+            viewCustomerMode(false);
+            loadData(customer);
 
-        if(customer.isDoNotCash())
-            warningLayout.setVisibility(View.VISIBLE);
+            if(customer.isDoNotCash())
+                warningLayout.setVisibility(View.VISIBLE);
+        }catch (Exception e){ }
     }
 
     private void enableEditMode(){
@@ -412,6 +419,8 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         changeProfilePicText.setVisibility(status ? View.VISIBLE: View.GONE);
         nfcTapButton.setVisibility(status ? View.GONE: View.VISIBLE);
         verificationHistoryButton.setVisibility(status ? View.GONE: View.VISIBLE);
+        cardReadText.setVisibility(status ? View.GONE: View.VISIBLE);
+        storeAccount.setVisibility(status ? View.GONE: View.VISIBLE);
     }
 
     // loads profile picture and ID picture from firebase storage

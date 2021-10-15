@@ -94,6 +94,7 @@
     <string name="customer_added_message">Customer Added</string>
     <string name="customer_deleted_title">Deleted</string>
     <string name="customer_deleted_message">Customer has been deleted</string>
+    <string name="store_text">Store</string>
 
     <!-- NFC Sheet !-->
     <string name="nfc_title">Tap Card</string>
@@ -108,7 +109,7 @@
     <string name="history_error_title">No History</string>
     <string name="history_error_message">Customer has not used the NFC Card</string>
     <string name="ago_text">ago</string>
-    <string name="store_text">Oasis</string>
+    <string name="oasis_text">Oasis</string>
     <string name="time_ago_text">Time ago</string>
 
     <!-- Settings Sheet !-->

@@ -39,7 +39,7 @@
                     android:id="@+id/store"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/store_text"
+                    android:text="@string/oasis_text"
                     android:layout_weight="2"
                     android:gravity="right"
                     android:textColor="@color/cornflower_blue"

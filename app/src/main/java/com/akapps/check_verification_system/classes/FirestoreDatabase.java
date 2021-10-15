@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
+import android.view.View;
+import android.widget.TextView;
 
 import com.akapps.check_verification_system.activities.MainActivity;
 import com.akapps.check_verification_system.R;
+import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -47,10 +50,15 @@ public class FirestoreDatabase {
 
     // layout
     private Dialog progressDialog;
+    private MaterialCardView internetWarningColor;
+    private TextView internetMessage;
 
     public FirestoreDatabase(Activity activity, Context context){
         this.currentActivity = activity;
         this.context = context;
+        this.internetWarningColor = activity.findViewById(R.id.internet_connected);
+        internetWarningColor.getLayoutParams().width = 3 * Helper.getWidthScreen(activity) / 4;
+        this.internetMessage = activity.findViewById(R.id.internet_message);
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         collectionCustomers = db.collection(context.getString(R.string.database_main_collection));
@@ -81,10 +89,11 @@ public class FirestoreDatabase {
                                 customers.add(document.toObject(Customer.class));
                             Helper.savePreference(context, Helper.getCurrentDate(), context.getString(R.string.last_update_pref));
                             ((MainActivity) context).updateLayoutData(customers, updateRecyclerview);
-                        } else
+                        } else {
                             Helper.showMessage(currentActivity, context.getString(R.string.database_error_title),
                                     context.getString(R.string.database_error),
                                     MotionToast.TOAST_ERROR);
+                        }
                         Helper.showLoading(finalProgressDialog, context, false);
                     });
         }
@@ -111,7 +120,9 @@ public class FirestoreDatabase {
                                             }
                                             Helper.savePreference(context, Helper.getCurrentDate(), context.getString(R.string.last_update_pref));
                                             ((MainActivity) context).updateLayoutData(customers, updateRecyclerview);
+                                            checkConnection(true);
                                         } else {
+                                            checkConnection(false);
                                             ((MainActivity) context).updateLayoutData(customers, updateRecyclerview);
                                             Helper.showMessage(currentActivity, context.getString(R.string.database_error_title),
                                                     context.getString(R.string.database_error),
@@ -119,11 +130,8 @@ public class FirestoreDatabase {
                                         }
                                         Helper.showLoading(finalProgressDialog, context, false);
                                     });
-                        } else {
-                            Helper.showMessage(currentActivity, context.getString(R.string.database_error_title),
-                                    context.getString(R.string.database_error),
-                                    MotionToast.TOAST_ERROR);
-                        }
+                        } else
+                            checkConnection(false);
                         Helper.showLoading(finalProgressDialog, context, false);
                     });
         }
@@ -213,7 +221,8 @@ public class FirestoreDatabase {
         // history is only updated if there is a 1 min difference between updates
         if(history.size() == 0 || Helper.compareDates(Helper.convertStringDateToMilli(history.get(0).getDateVerified()), 1)){
             batch.update(customerRef, context.getString(R.string.field_verificationHistory),
-                    FieldValue.arrayUnion(new VerificationHistory(Helper.getCurrentDate(), storeName)));
+                    FieldValue.arrayUnion(new VerificationHistory(Helper.getCurrentDate(),
+                            storeName)));
         }
 
         if(!customer.getDateVerified().equals(Helper.getDatabaseDate()))
@@ -244,6 +253,17 @@ public class FirestoreDatabase {
     public ArrayList<Customer> getAddedTodayList(){
         return  (ArrayList<Customer>) customers.stream().filter(customer ->
                 customer.getDateAdded().contains(Helper.getDatabaseDate())).collect(Collectors.toList());
+    }
+
+    public void checkConnection(boolean status){
+        if(status) {
+            internetWarningColor.setVisibility(View.GONE);
+            internetMessage.setVisibility(View.GONE);
+        }
+        else {
+            internetWarningColor.setVisibility(View.VISIBLE);
+            internetMessage.setVisibility(View.VISIBLE);
+        }
     }
 
     public void uploadImages(Uri profileImageUri, Uri idImageUri, Customer customer){

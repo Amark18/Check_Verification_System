@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,6 +29,14 @@ import com.google.android.material.card.MaterialCardView;
 import com.irfaan008.irbottomnavigation.SpaceItem;
 import com.irfaan008.irbottomnavigation.SpaceNavigationView;
 import com.irfaan008.irbottomnavigation.SpaceOnClickListener;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import www.sanju.motiontoast.MotionToast;
@@ -99,8 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
         // ensures sheets only have one instance
         bottomSheetHelper = new BottomSheetHelper(this);
-
-        initializeNFC();
 
         // initialize animation
         animation = new Animation(searchView, closeSearch, nfcStatus, searchLayout,

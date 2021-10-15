@@ -21,6 +21,7 @@
     <color name="gray">#787887</color>
     <color name="grayDark">#3c3c44</color>
     <color name="orangeRed">#ff6600</color>
+    <color name="transparent">#00ffffff</color>
 
     <color name="mtrl_textinput_default_box_stroke_color">@color/blueDark</color>
 </resources>

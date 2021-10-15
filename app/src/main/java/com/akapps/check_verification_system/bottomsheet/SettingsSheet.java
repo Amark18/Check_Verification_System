@@ -70,9 +70,17 @@ public class SettingsSheet extends RoundedBottomSheetDialogFragment{
             cardReadText.setText(cardReadText.getText() + "\nCard data: " + dataRead);
         }
 
-        resetNfcCard.setOnClickListener(v -> ((MainActivity) getContext()).showNfcPrompt("", false));
+        resetNfcCard.setOnClickListener(view12 -> {
+            if(Helper.checkNfcStatus(getActivity(), getContext())) {
+                ((MainActivity) getContext()).showNfcPrompt("", false);
+            }
+        });
 
-        readNfcCard.setOnClickListener(v -> ((MainActivity) getContext()).showNfcPrompt("", true));
+        readNfcCard.setOnClickListener(view13 -> {
+            if(Helper.checkNfcStatus(getActivity(), getContext())) {
+                ((MainActivity) getContext()).showNfcPrompt("", true);
+            }
+        });
 
         resetApp.setOnClickListener(v -> {
             Helper.showMessage(getActivity(), getContext().getString(R.string.reset_app),
