@@ -32,7 +32,7 @@ public class AccountLoginSheet extends RoundedBottomSheetDialogFragment{
 
     // variables
     private int loginAttempts;
-    private final int maxLoginAttempts = 5;
+    private final int maxLoginAttempts = 3;
     private BottomSheetDialog dialog;
 
     // layout

@@ -37,6 +37,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Source;
 import com.google.firebase.storage.FirebaseStorage;
 import com.stfalcon.imageviewer.StfalconImageViewer;
 import org.jetbrains.annotations.NotNull;
@@ -122,7 +123,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
 
     private void getLiveCustomerData(){
         firestoreDatabase.getCustomersCollectionRef().document(customer.getCustomerUniqueId())
-                .get().addOnCompleteListener(task -> {
+                .get(Source.SERVER).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
@@ -143,6 +144,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                     else {
                         // error (cannot get data from database...probably from no internet connection)
                         // use local data instead
+                        firestoreDatabase.checkConnection(false);
                         enableViewMode();
                     }
         });
@@ -193,7 +195,6 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         cardReadText = view.findViewById(R.id.account_text);
         storeAccount = view.findViewById(R.id.account_store);
 
-        storeAccount.setText(Helper.getStoreName(getContext()));
         firestoreDatabase =  ((MainActivity) currentActivity).firestoreDatabase;
 
         // catches result of taking a photo or selecting from gallery
@@ -368,6 +369,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
             resetModes();
             isViewing = true;
             title.setText(getContext().getString(R.string.view_text));
+            storeAccount.setText(customer.getStoreAdded());
             editCustomer.setVisibility(View.VISIBLE);
             viewCustomerMode(false);
             loadData(customer);

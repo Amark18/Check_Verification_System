@@ -116,10 +116,29 @@
     <string name="settings_title">Settings</string>
     <string name="reset_nfc_text">Reset NFC Card</string>
     <string name="see_nfc_card">Check NFC Card Data</string>
-    <string name="reset_app">Clear Cache</string>
+    <string name="reset_app">Reset</string>
     <string name="reset_app_message">App will close, open app again.</string>
     <string name="log_out">Log Out</string>
     <string name="account_text">Account</string>
+
+    <!-- Info Sheet !-->
+    <string name="info_title">Credits</string>
+    <string name="credits_text">
+
+        Icons from Freepik www.flaticon.com\n\n
+
+        Github Libraries Used:\n\n
+
+        Icon Animations -\n https://github.com/airbnb/lottie-android \n\n
+        Image Loading -\n https://github.com/bumptech/glide \n\n
+        Toasts -\n https://github.com/Spikeysanju/MotionToast \n\n
+        Pin -\n https://github.com/mukeshsolanki/android-otpview-pinview \n\n
+        Bottom Navigation -\n https://github.com/irfaan008/IRBottomNavigationView \n\n
+        Bottom Sheets -\n https://github.com/Deishelon/RoundedBottomSheet \n\n
+        Image Picker -\n https://github.com/Drjacky/ImagePicker \n\n
+        Loading -\n https://github.com/yash786agg/AnimatedLoadingIndicator \n\n
+        Full Screen Image Viewer -\n https://github.com/stfalcon-studio/StfalconImageViewer \n\n
+    </string>
 
     <!-- Saved Preference Data !-->
     <string name="fingerprint_pref">fingerprint</string>

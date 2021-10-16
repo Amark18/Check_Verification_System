@@ -279,7 +279,7 @@
             android:padding="15dp"
             android:text="@string/add_customer"
             android:textColor="@color/white"
-            app:backgroundTint="@color/flamingo"
+            app:backgroundTint="@color/orangeRed"
             app:cornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

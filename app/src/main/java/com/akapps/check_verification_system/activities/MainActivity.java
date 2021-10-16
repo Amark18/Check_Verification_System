@@ -109,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
         // ensures sheets only have one instance
         bottomSheetHelper = new BottomSheetHelper(this);
 
+        initializeNFC();
+
         // initialize animation
         animation = new Animation(searchView, closeSearch, nfcStatus, searchLayout,
                 customerRecyclerview, emptyRecyclerviewMessage, nfcAdapter, settings);
@@ -300,6 +302,9 @@ public class MainActivity extends AppCompatActivity {
 
         // pulling down updates data and updates recyclerview
         swipeRefreshLayout.setOnRefreshListener(() -> {
+            // checks to see if NFC status chaned
+            if (nfcAdapter != null)
+                nfc.checkNfcStatus();
             // retrieves data from database to see if there is any updates
             firestoreDatabase.loadCustomerData(customerRecyclerview.getAdapter() != null ? true : false);
             swipeRefreshLayout.setRefreshing(false);

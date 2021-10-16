@@ -47,6 +47,7 @@ public class SettingsSheet extends RoundedBottomSheetDialogFragment{
         view.setBackgroundColor(requireContext().getColor(R.color.grayDark));
 
         ImageView closeFilter = view.findViewById(R.id.close_filter);
+        ImageView info = view.findViewById(R.id.info);
         MaterialCardView resetNfcCard = view.findViewById(R.id.reset_nfc_card);
         MaterialCardView readNfcCard = view.findViewById(R.id.read_nfc_card);
         MaterialCardView resetApp = view.findViewById(R.id.reset_app);
@@ -93,9 +94,12 @@ public class SettingsSheet extends RoundedBottomSheetDialogFragment{
 
         logOut.setOnClickListener(view1 -> logOut());
 
-        closeFilter.setOnClickListener(v -> {
-            this.dismiss();
+        info.setOnClickListener(view14 -> {
+            InfoSheet infoSheet = new InfoSheet();
+            infoSheet.show(currentActivity.getSupportFragmentManager(), infoSheet.getTag());
         });
+
+        closeFilter.setOnClickListener(v -> this.dismiss());
 
         return view;
     }

@@ -29,56 +29,42 @@
                 app:cardCornerRadius="15dp">
             </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/customer_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginVertical="10dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:src="@drawable/user_icon">
+            </ImageView>
 
-                <ImageView
-                    android:id="@+id/customer_image"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:layout_marginVertical="10dp"
-                    android:gravity="center"
-                    android:src="@drawable/user_icon">
-                </ImageView>
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/customer_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginHorizontal="@dimen/dimen_8"
+                android:gravity="center_horizontal"
+                android:minLines="2"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="@string/fullname_placeholder"
+                android:textSize="@dimen/dimen_16"
+                android:textColor="@color/white">
+            </TextView>
 
-                <TextView
-                    android:id="@+id/customer_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/dimen_8"
-                    android:gravity="center|top"
-                    android:minLines="2"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    android:text="@string/fullname_placeholder"
-                    android:textSize="@dimen/dimen_16"
-                    android:textColor="@color/white">
-                </TextView>
-
-                <TextView
-                    android:id="@+id/customer_year"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="@dimen/dimen_4"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center|center_horizontal"
-                    android:text="@string/year_placeholder"
-                    android:textSize="@dimen/dimen_16"
-                    android:textColor="@color/white">
-                </TextView>
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/customer_year"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="@dimen/dimen_4"
+                android:layout_marginBottom="10dp"
+                android:gravity="center|center_horizontal"
+                android:text="@string/year_placeholder"
+                android:textSize="@dimen/dimen_16"
+                android:textStyle="bold"
+                android:textColor="@color/grayDark">
+            </TextView>
 
         </LinearLayout>
 

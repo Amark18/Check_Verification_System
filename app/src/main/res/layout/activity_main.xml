@@ -26,11 +26,10 @@
                     android:layout_width="0dp"
                     android:layout_height="5dp"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="5dp"
                     app:cardBackgroundColor="@color/vermilion"
                     app:cardCornerRadius="15dp"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@+id/date"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -65,7 +64,7 @@
                     android:id="@+id/date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="24dp"
+                    android:layout_marginVertical="20dp"
                     android:fontFamily="@font/baloo_bhai"
                     android:gravity="center|bottom"
                     android:text="@string/date_text"
@@ -73,7 +72,7 @@
                     android:textSize="20dp"
                     app:layout_constraintEnd_toStartOf="@+id/nfc_icon"
                     app:layout_constraintStart_toEndOf="@+id/settings"
-                    app:layout_constraintTop_toBottomOf="@id/internet_connected"></TextView>
+                    app:layout_constraintTop_toBottomOf="@id/internet_message"></TextView>
 
                 <TextView
                     android:id="@+id/close_search"
@@ -96,7 +95,6 @@
                     android:layout_height="30dp"
                     android:layout_gravity="right"
                     android:layout_marginHorizontal="15dp"
-                    android:layout_marginBottom="2dp"
                     android:backgroundTint="@color/vermilion"
                     android:src="@drawable/nfc_icon"
                     android:visibility="visible"
