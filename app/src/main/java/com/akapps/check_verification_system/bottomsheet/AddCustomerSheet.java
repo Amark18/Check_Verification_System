@@ -1,6 +1,5 @@
 package com.akapps.check_verification_system.bottomsheet;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -244,27 +243,21 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         });
 
         customerLicenseLayout.setOnClickListener(v -> {
-            if(isAddMode || isEditing) {
+            if(isViewing)
+                openImagesFullscreen(customerLicense, 1);
+            else if(isAddMode || isEditing) {
                 isProfilePicSelected = false;
                 openPictureDialog();
             }
         });
-        customerLicenseLayout.setOnLongClickListener(v -> {
-            if(isViewing)
-                openImagesFullscreen();
-            return false;
-        });
 
         customerPhoto.setOnClickListener(v -> {
-            if(isAddMode || isEditing) {
+            if(isViewing)
+                openImagesFullscreen(customerPhoto, 0);
+            else if(isAddMode || isEditing) {
                 isProfilePicSelected = true;
                 openPictureDialog();
             }
-        });
-        customerPhoto.setOnLongClickListener(v -> {
-            if(isViewing)
-               openImagesFullscreen();
-            return false;
         });
 
         changeProfilePicText.setOnClickListener(v -> {
@@ -272,11 +265,6 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
                 isProfilePicSelected = true;
                 openPictureDialog();
             }
-        });
-        changeProfilePicText.setOnLongClickListener(v -> {
-            if(isViewing)
-                openImagesFullscreen();
-            return false;
         });
 
         nfcTapButton.setOnClickListener(v -> {
@@ -451,16 +439,24 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
         }
     }
 
-    private void openImagesFullscreen(){
+    private void openImagesFullscreen(ImageView view, int start){
         ArrayList<String> images = new ArrayList<>();
         if(!customer.getProfilePicPath().isEmpty())
             images.add(customer.getProfilePicPath());
         if(!customer.getCustomerIDPath().isEmpty())
             images.add(customer.getCustomerIDPath());
+
         new StfalconImageViewer.Builder<>(getContext(), images, (imageView, image) ->
                 Glide.with(getContext())
                         .load(FirebaseStorage.getInstance().getReference(image))
-                        .into(imageView)).show();
+                        .into(imageView))
+                .withBackgroundColor(getContext().getColor(R.color.grayDark))
+                .allowZooming(true)
+                .allowSwipeToDismiss(true)
+                .withHiddenStatusBar(false)
+                .withStartPosition(start)
+                .withTransitionFrom(view)
+                .show();
     }
 
     private void deleteCustomer(){

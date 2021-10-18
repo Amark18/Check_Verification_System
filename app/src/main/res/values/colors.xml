@@ -23,5 +23,5 @@
     <color name="orangeRed">#ff6600</color>
     <color name="transparent">#00ffffff</color>
 
-    <color name="mtrl_textinput_default_box_stroke_color">@color/blueDark</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#0099ff</color>
 </resources>

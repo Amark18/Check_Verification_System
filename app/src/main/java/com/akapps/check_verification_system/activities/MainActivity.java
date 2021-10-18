@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,19 +28,12 @@ import com.google.android.material.card.MaterialCardView;
 import com.irfaan008.irbottomnavigation.SpaceItem;
 import com.irfaan008.irbottomnavigation.SpaceNavigationView;
 import com.irfaan008.irbottomnavigation.SpaceOnClickListener;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.URL;
-import java.net.UnknownHostException;
+
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import www.sanju.motiontoast.MotionToast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     // NFC
     private NFC nfc;
@@ -80,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
 
     // variables
+    private final int gridSpan = 2;
     private final int mediumDuration = 1000;
     private boolean writeNfcMode = false;
     private boolean readNfcMode = false;
@@ -223,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
 
         // setting up
         customerRecyclerview.setHasFixedSize(true);
-        customerRecyclerview.setLayoutManager(new GridLayoutManager(context, 2));
+        customerRecyclerview.setLayoutManager(new GridLayoutManager(context, gridSpan));
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(new SpaceItem("home", R.drawable.home_icon));
         spaceNavigationView.addSpaceItem(new SpaceItem("search", R.drawable.search_icon));
@@ -326,23 +319,30 @@ public class MainActivity extends AppCompatActivity {
 
         // displays all customers
         totalInSystemCardView.setOnClickListener(v -> {
-            isViewingTotalInSystem = true;
-            isViewingVerifiedToday = isViewingAddedToday = false;
-            showFilterResults(firestoreDatabase.getCustomers());
+            // prevents invisible dashboard from being clicked
+            if(!isSearching) {
+                isViewingTotalInSystem = true;
+                isViewingVerifiedToday = isViewingAddedToday = false;
+                showFilterResults(firestoreDatabase.getCustomers());
+            }
         });
 
         // displays customers added today
         addedTodayCardView.setOnClickListener(v -> {
-            isViewingAddedToday = true;
-            isViewingVerifiedToday = isViewingTotalInSystem = false;
-            showFilterResults(firestoreDatabase.getAddedTodayList());
+            if(!isSearching) {
+                isViewingAddedToday = true;
+                isViewingVerifiedToday = isViewingTotalInSystem = false;
+                showFilterResults(firestoreDatabase.getAddedTodayList());
+            }
         });
 
         // displays customers verified today (a.k.a they used an NFC card today)
         verifiedTodayCardView.setOnClickListener(v -> {
-            isViewingVerifiedToday = true;
-            isViewingAddedToday = isViewingTotalInSystem = false;
-            showFilterResults(firestoreDatabase.getVerifiedTodayList());
+            if(!isSearching) {
+                isViewingVerifiedToday = true;
+                isViewingAddedToday = isViewingTotalInSystem = false;
+                showFilterResults(firestoreDatabase.getVerifiedTodayList());
+            }
         });
     }
 
@@ -430,5 +430,4 @@ public class MainActivity extends AppCompatActivity {
     private void closeSearch(){
         spaceNavigationView.changeCurrentItem(0);
     }
-
 }
