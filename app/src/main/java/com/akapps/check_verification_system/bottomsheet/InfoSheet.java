@@ -28,10 +28,7 @@ public class InfoSheet extends RoundedBottomSheetDialogFragment{
         View view = inflater.inflate(R.layout.bottom_sheet_info, container, false);
         view.setBackgroundColor(requireContext().getColor(R.color.grayDark));
 
-        TextView credit = view.findViewById(R.id.credits);
         ImageView closeFilter = view.findViewById(R.id.close_filter);
-
-        credit.setText(getContext().getString(R.string.credits_text));
 
         closeFilter.setOnClickListener(v -> {
             this.dismiss();
