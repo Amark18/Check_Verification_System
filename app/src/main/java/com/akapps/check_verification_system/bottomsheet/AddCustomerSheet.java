@@ -194,7 +194,13 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
         cardReadText = view.findViewById(R.id.account_text);
         storeAccount = view.findViewById(R.id.account_store);
 
-        firestoreDatabase =  ((MainActivity) currentActivity).firestoreDatabase;
+        // if orientation changes, this prevents app from crashing by closing this bottom sheet
+        try {
+            firestoreDatabase =  ((MainActivity) currentActivity).firestoreDatabase;
+        }
+        catch (Exception e){
+            this.dismiss();
+        }
 
         // catches result of taking a photo or selecting from gallery
         launcher =

@@ -28,9 +28,7 @@ public class NfcSheet extends RoundedBottomSheetDialogFragment{
         LottieAnimationView lottieAnimationView = view.findViewById(R.id.tap_animation);
         lottieAnimationView.getLayoutParams().height =  lottieAnimationView.getLayoutParams().width / 3;
 
-        closeFilter.setOnClickListener(v -> {
-            this.dismiss();
-        });
+        closeFilter.setOnClickListener(v -> this.dismiss());
 
         return view;
     }

@@ -37,6 +37,10 @@ public class VerificationHistorySheet extends RoundedBottomSheetDialogFragment{
         ImageView closeFilter = view.findViewById(R.id.close_filter);
         RecyclerView historyRecyclerview = view.findViewById(R.id.history_recyclerview);
 
+        // if orientation changes, this prevents app from crashing by closing this bottom sheet
+        if(history == null)
+            this.dismiss();
+
         // settings up recyclerview and populate it
         historyRecyclerview.setHasFixedSize(true);
         historyRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));

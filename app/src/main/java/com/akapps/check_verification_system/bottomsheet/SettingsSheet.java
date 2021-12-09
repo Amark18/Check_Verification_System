@@ -32,6 +32,8 @@ public class SettingsSheet extends RoundedBottomSheetDialogFragment{
     private String dataRead;
     private FragmentActivity currentActivity;
 
+    public SettingsSheet(){}
+
     public SettingsSheet(FragmentActivity currentActivity){
         this.currentActivity = currentActivity;
     }
@@ -45,6 +47,10 @@ public class SettingsSheet extends RoundedBottomSheetDialogFragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_settings, container, false);
         view.setBackgroundColor(requireContext().getColor(R.color.grayDark));
+
+        // if orientation changes, this prevents app from crashing by closing this bottom sheet
+        if(currentActivity == null)
+            this.dismiss();
 
         ImageView closeFilter = view.findViewById(R.id.close_filter);
         ImageView info = view.findViewById(R.id.info);
@@ -100,10 +106,7 @@ public class SettingsSheet extends RoundedBottomSheetDialogFragment{
 
         logOut.setOnClickListener(view1 -> logOut());
 
-        info.setOnClickListener(view14 -> {
-            InfoSheet infoSheet = new InfoSheet();
-            infoSheet.show(currentActivity.getSupportFragmentManager(), infoSheet.getTag());
-        });
+        info.setOnClickListener(view14 -> ((MainActivity)currentActivity).bottomSheetHelper.openInfoSheet());
 
         closeFilter.setOnClickListener(v -> this.dismiss());
 

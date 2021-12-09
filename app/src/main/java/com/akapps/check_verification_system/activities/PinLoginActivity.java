@@ -64,7 +64,6 @@ public class PinLoginActivity extends AppCompatActivity{
             autoLogin();
         else
             openAccountLoginSheet();
-
     }
 
     private void initializeLayout(){

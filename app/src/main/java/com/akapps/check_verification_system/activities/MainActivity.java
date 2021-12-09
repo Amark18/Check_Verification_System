@@ -142,12 +142,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        spaceNavigationView.onSaveInstanceState(outState);
-    }
-
-    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         // catches nfc tap by user when app is open
