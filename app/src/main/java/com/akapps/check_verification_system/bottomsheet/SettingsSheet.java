@@ -83,13 +83,19 @@ public class SettingsSheet extends RoundedBottomSheetDialogFragment{
             }
         });
 
-        resetApp.setOnClickListener(v -> {
+        resetApp.setOnClickListener(v -> Helper.showMessage(getActivity(),
+                getContext().getString(R.string.reset_app),
+                getContext().getString(R.string.reset_app_message_1),
+                MotionToast.TOAST_WARNING));
+
+        resetApp.setOnLongClickListener(view15 -> {
             Helper.showMessage(getActivity(), getContext().getString(R.string.reset_app),
-                    getContext().getString(R.string.reset_app_message),
+                    getContext().getString(R.string.reset_app_message_2),
                     MotionToast.TOAST_WARNING);
             new Handler().postDelayed(() -> {
                 Helper.clearAppData(getActivity());
             }, messageDuration);
+            return false;
         });
 
         logOut.setOnClickListener(view1 -> logOut());

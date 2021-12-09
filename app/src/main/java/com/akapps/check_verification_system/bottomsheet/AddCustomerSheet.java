@@ -47,7 +47,7 @@ import kotlin.jvm.internal.Intrinsics;
 import www.sanju.motiontoast.MotionToast;
 import static android.app.Activity.RESULT_OK;
 
-public class AddCustomerSheet extends RoundedBottomSheetDialogFragment{
+public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
 
     // taking photos
     private ActivityResultLauncher<Intent> launcher;

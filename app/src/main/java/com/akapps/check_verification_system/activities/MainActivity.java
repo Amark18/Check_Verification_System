@@ -28,7 +28,6 @@ import com.google.android.material.card.MaterialCardView;
 import com.irfaan008.irbottomnavigation.SpaceItem;
 import com.irfaan008.irbottomnavigation.SpaceNavigationView;
 import com.irfaan008.irbottomnavigation.SpaceOnClickListener;
-
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import www.sanju.motiontoast.MotionToast;
@@ -303,13 +302,9 @@ public class MainActivity extends AppCompatActivity{
             swipeRefreshLayout.setRefreshing(false);
         });
 
-        closeSearch.setOnClickListener(v -> {
-           closeSearch();
-        });
+        closeSearch.setOnClickListener(v -> closeSearch());
 
-        settings.setOnClickListener(v -> {
-            bottomSheetHelper.openSettingsSheet("");
-        });
+        settings.setOnClickListener(v -> bottomSheetHelper.openSettingsSheet(""));
 
         // checks to see if NFC is not enabled and opens NFC settings
         nfcStatus.setOnClickListener(v -> {

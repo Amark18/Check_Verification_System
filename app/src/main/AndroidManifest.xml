@@ -8,13 +8,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
         android:theme="@style/Theme.Check_Verification_System"
-        android:hardwareAccelerated="true">
+        android:hardwareAccelerated="true"
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:supportsRtl="false">
 
         <activity
             android:name="com.akapps.check_verification_system.activities.PinLoginActivity"
@@ -28,7 +29,7 @@
 
         <activity
             android:name="com.akapps.check_verification_system.activities.MainActivity"
-            android:theme="@style/MainTheme"
+            android:theme="@style/Theme.Check_Verification_System"
             android:exported="true">
 
             <intent-filter>

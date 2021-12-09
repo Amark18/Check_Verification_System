@@ -19,7 +19,6 @@ import androidx.core.content.res.ResourcesCompat;
 import com.akapps.check_verification_system.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

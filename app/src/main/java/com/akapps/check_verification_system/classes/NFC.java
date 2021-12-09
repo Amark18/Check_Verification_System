@@ -67,14 +67,12 @@ public class NFC {
 
     // if nfc is not turned on, then it will take them to settings where they can change it
     public void isNfcDisabled(){
-        if(!checkNfcStatus()) {
-            Helper.showMessage(currentActivity, context.getString(R.string.nfc_text),
-                    context.getString(R.string.nfc_message),
-                    MotionToast.TOAST_WARNING);
-            new Handler().postDelayed(() -> {
-                currentActivity.startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
-            }, shortDuration);
-        }
+        Helper.showMessage(currentActivity, context.getString(R.string.nfc_text),
+                context.getString(R.string.nfc_message),
+                MotionToast.TOAST_WARNING);
+        new Handler().postDelayed(() -> {
+            currentActivity.startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
+        }, shortDuration);
     }
 
     // opens nfc bottom sheet to prompt user to tap card

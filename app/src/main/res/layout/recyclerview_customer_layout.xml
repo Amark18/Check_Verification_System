@@ -63,7 +63,7 @@
                 android:text="@string/year_placeholder"
                 android:textSize="@dimen/dimen_16"
                 android:textStyle="bold"
-                android:textColor="@color/grayDark">
+                android:textColor="@color/grayLight">
             </TextView>
 
         </LinearLayout>
