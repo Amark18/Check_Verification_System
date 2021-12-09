@@ -7,7 +7,6 @@
     <style name="LoginTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
         <item name="android:statusBarColor">@color/grayDark</item>
-        <item name="android:windowSplashScreenBackground">@color/orangeRed</item>
     </style>
 
     <style name="AppSearchView" parent="Widget.AppCompat.SearchView" >

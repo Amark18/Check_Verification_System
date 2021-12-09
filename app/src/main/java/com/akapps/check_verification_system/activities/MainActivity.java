@@ -93,9 +93,6 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         context = this;
 
-        // locks orientation, this app should not be used in landscape
-        Helper.setOrientation(this, context);
-
         initializeLayout(savedInstanceState);
 
         // ensures sheets only have one instance
