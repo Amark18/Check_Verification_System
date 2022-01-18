@@ -138,9 +138,9 @@ public class FirestoreDatabase {
     }
 
     // adds customer to database
-    public void addCustomer(String firstName, String lastName, int dobYear, String profilePicPath, String customerIDPath){
+    public void addCustomer(String firstName, String lastName, int dobYear, String phoneNumber, String profilePicPath, String customerIDPath){
         String customerID = firstName.charAt(0) + lastName + "" + dobYear;
-        Customer addCustomer = new Customer(firstName, lastName, dobYear, customerID,
+        Customer addCustomer = new Customer(firstName, lastName, dobYear, phoneNumber, customerID,
                 Helper.getDatabaseDate(), "", profilePicPath, customerIDPath,
                 Helper.getCurrentDate(), Helper.getStoreName(context));
         collectionCustomers.document(customerID).set(addCustomer);
@@ -150,18 +150,20 @@ public class FirestoreDatabase {
     public void searchForCustomer(String query){
         query = query.toLowerCase();
         String finalQuery = query;
-        
+
+        // searches for customer using their name/year of birth/phone number
         ArrayList<Customer> queryCustomers = (ArrayList<Customer>) customers.stream().filter(customer ->
                 customer.getFirstName().toLowerCase().contains(finalQuery) ||
+                        (null != customer.getPhoneNumber() && customer.getPhoneNumber().contains(finalQuery.replace(" ", ""))) ||
                         customer.getLastName().toLowerCase().contains(finalQuery) ||
                         (customer.getFirstName().toLowerCase() + " " +
-                                customer.getLastName().toLowerCase()).contains(finalQuery)||
+                                customer.getLastName().toLowerCase()).contains(finalQuery) ||
                         customer.getCustomerUniqueId().toLowerCase().contains(finalQuery))
                 .collect(Collectors.toList());
         ((MainActivity) context).populateRecyclerview(queryCustomers);
     }
 
-    // updates customer to database
+    // updates customer string data to database
     public void updateCustomer(String customerID, String field, String updatedValue){
         collectionCustomers.document(customerID).update(field, updatedValue);
     }

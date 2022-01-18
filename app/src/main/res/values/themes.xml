@@ -13,7 +13,7 @@
         <item name="android:textSize">@dimen/dimen_16</item>
         <item name="searchHintIcon">@null</item>
         <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:textColorHint">@color/grayLight</item>
         <item name="android:tint">@color/orangeRed</item>
     </style>
 

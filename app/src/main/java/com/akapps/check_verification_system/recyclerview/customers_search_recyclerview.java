@@ -37,6 +37,7 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
         private final ImageView customerImage;
         private final TextView customerFullName;
         private final TextView customerYear;
+        private final TextView customerPhoneNumber;
         private final View view;
 
         public MyViewHolder(View v) {
@@ -45,6 +46,7 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
             customerImage = v.findViewById(R.id.customer_image);
             customerFullName = v.findViewById(R.id.customer_name);
             customerYear = v.findViewById(R.id.customer_year);
+            customerPhoneNumber = v.findViewById(R.id.phone_number);
             warningLayoutColor = v.findViewById(R.id.warningColor);
             view = v;
         }
@@ -69,6 +71,10 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
 
         holder.customerFullName.setText(currentCustomer.getFirstName() + " " + currentCustomer.getLastName());
         holder.customerYear.setText(String.valueOf(currentCustomer.getDobYear()));
+        if(null == currentCustomer.getPhoneNumber() || currentCustomer.getPhoneNumber().equals(""))
+            holder.customerPhoneNumber.setVisibility(View.INVISIBLE);
+        else
+            holder.customerPhoneNumber.setText(Helper.formatPhoneNumber(currentCustomer.getPhoneNumber()));
 
         holder.warningLayoutColor.getLayoutParams().width = Helper.getWidthScreen(activity) / 4;
         // if customer is set to do not cash, there is an indicator above their photo to reflect that

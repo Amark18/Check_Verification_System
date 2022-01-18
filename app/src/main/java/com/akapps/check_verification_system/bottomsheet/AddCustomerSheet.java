@@ -68,6 +68,8 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
     private TextInputEditText nameInput;
     private TextInputLayout yearLayout;
     private TextInputEditText yearInput;
+    private TextInputLayout phoneNumberLayout;
+    private TextInputEditText phoneNumberInput;
     private MaterialButton addCustomer;
     private MaterialCardView customerLicenseLayout;
     private ImageView customerLicense;
@@ -180,6 +182,8 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
         nameInput = view.findViewById(R.id.insert_name);
         yearLayout = view.findViewById(R.id.insert_dob_layout);
         yearInput = view.findViewById(R.id.insert_dob);
+        phoneNumberLayout = view.findViewById(R.id.insert_phone_number_layout);
+        phoneNumberInput= view.findViewById(R.id.insert_phone_number);
         addCustomer = view.findViewById(R.id.add_customer);
         customerLicenseLayout = view.findViewById(R.id.customer_license_layout);
         customerLicense = view.findViewById(R.id.customer_license);
@@ -292,12 +296,21 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
 
         addCustomer.setOnClickListener(v -> {
             if(isEditing){
-                // checks to see if profile image / check image / customer check status was changed
-                if(profileImageUri != null || licenseImageUri != null  || customer.isDoNotCash() != doNotCashSwitch.isChecked()){
+                String newPhoneNumber = phoneNumberInput.getText().toString();
+                boolean isNewPhoneNumber = !newPhoneNumber.equals(customer.getPhoneNumber())
+                        && newPhoneNumber.length() == 10;
+                boolean isDeletingPhoneNumber = !newPhoneNumber.equals(customer.getPhoneNumber())
+                        && newPhoneNumber.length() == 0;
+                // checks to see if profile image / check image / customer check status / or phone number was changed
+                if(profileImageUri != null || licenseImageUri != null  || customer.isDoNotCash() != doNotCashSwitch.isChecked() ||
+                        isNewPhoneNumber || isDeletingPhoneNumber){
                     if(profileImageUri != null || licenseImageUri != null)
                         firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customer);
                     if(customer.isDoNotCash() != doNotCashSwitch.isChecked())
                         firestoreDatabase.updateCustomerStatus(customer.getCustomerUniqueId(), "doNotCash", doNotCashSwitch.isChecked());
+                    if(isNewPhoneNumber || isDeletingPhoneNumber)
+                        firestoreDatabase.updateCustomer(customer.getCustomerUniqueId(), "phoneNumber", newPhoneNumber);
+                    firestoreDatabase.loadCustomerData(true);
                     this.dismiss();
                     Helper.showMessage(getActivity(), getString(R.string.customer_updated_title),
                             getString(R.string.customer_updated_message),
@@ -309,6 +322,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
             else {
                 String name = nameInput.getText().toString();
                 String year = yearInput.getText().toString();
+                String phoneNumber = phoneNumberInput.getText().toString();
 
                 String fullName = Helper.formatName(name, getContext());
 
@@ -325,7 +339,8 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
                                         MotionToast.TOAST_ERROR);
                             }
                             else {
-                                firestoreDatabase.addCustomer(firstName, lastName, Integer.parseInt(year), "", "");
+                                firestoreDatabase.addCustomer(firstName, lastName, Integer.parseInt(year),
+                                        phoneNumber.length() == 10 ? phoneNumber : "", "", "");
                                 firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, new Customer(customerID));
                                 ((MainActivity) getContext()).showNfcPrompt(customerID, false);
                                 // update dashboard
@@ -402,12 +417,20 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
             doNotCashSwitch.setVisibility(View.GONE);
             if(!customer.isDoNotCash())
                 warningLayout.setVisibility(View.GONE);
+            phoneNumberInput.setEnabled(false);
+            phoneNumberInput.setText(customer.getPhoneNumber() == null || customer.getPhoneNumber().equals("") ? "N/A" : customer.getPhoneNumber());
+            if(customer.getPhoneNumber() != null && customer.getPhoneNumber().length() == 10)
+                phoneNumberLayout.setHint(R.string.phone_number_filled_input_hint);
         }
         else {
             // status is true (aka editing)
             editCustomer.setImageDrawable(getContext().getDrawable(R.drawable.delete_icon));
             addCustomer.setText(getContext().getString(R.string.edit_text));
             addCustomer.setBackgroundColor(getContext().getColor(R.color.flamingo));
+            phoneNumberInput.setEnabled(true);
+            // if there is no phone number set, it changes it from N/A to empty so it can be edited faster
+            if(null == customer.getPhoneNumber() || customer.getPhoneNumber().equals(""))
+                phoneNumberInput.setText("");
         }
 
         addCustomer.setVisibility(status ? View.VISIBLE: View.GONE);
@@ -425,6 +448,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
         String fullName = customer.getFirstName() + " " + customer.getLastName();
         nameInput.setText(fullName);
         yearInput.setText("" + customer.getDobYear());
+        phoneNumberInput.setText(customer.getPhoneNumber() == null || customer.getPhoneNumber().equals("") ? "N/A" : "" + customer.getPhoneNumber());
 
         if(!customer.getProfilePicPath().isEmpty()) {
             // gets profile photo from firebase storage
@@ -451,6 +475,11 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
             images.add(customer.getProfilePicPath());
         if(!customer.getCustomerIDPath().isEmpty())
             images.add(customer.getCustomerIDPath());
+
+        // if start position is same size as list (aka out of bounds), decrement it.
+        // occurs when there is only an ID picture (profile pic was not set)
+        if(images.size() == start)
+            start--;
 
         new StfalconImageViewer.Builder<>(getContext(), images, (imageView, image) ->
                 Glide.with(getContext())

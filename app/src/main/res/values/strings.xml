@@ -15,7 +15,7 @@
     <string name="verified_text">Verified</string>
     <string name="added_text">Added</string>
     <string name="today_text">Today</string>
-    <string name="search_hint">Find someone…</string>
+    <string name="search_hint">Search by Name/Year/Phone Number…</string>
     <string name="number_placeholder">9999</string>
     <string name="nfc_text">NFC Disabled</string>
     <string name="no_customers_title">No Customers</string>
@@ -47,6 +47,7 @@
 
     <!-- PlaceHolder !-->
     <string name="fullname_placeholder">Full Name</string>
+    <string name="phone_number_placeholder">Phone #: (###) ###-####</string>
     <string name="year_placeholder">Year of Birth</string>
     <string name="empty_placeholder">man, it\'s so empty...</string>
     <string name="output_data">output_data</string>
@@ -74,6 +75,8 @@
     <string name="customer_sheet_title">New</string>
     <string name="name_input_hint">Full Name</string>
     <string name="dob_input_hint">Birth Year</string>
+    <string name="phone_number_input_hint">Phone # (Optional)</string>
+    <string name="phone_number_filled_input_hint">Phone #</string>
     <string name="license_pic_message_title">ID Picture Missing</string>
     <string name="license_pic_message">ID picture is required</string>
     <string name="upload_error_title">Upload Error</string>

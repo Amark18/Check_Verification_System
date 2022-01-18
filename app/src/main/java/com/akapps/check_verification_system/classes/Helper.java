@@ -164,6 +164,13 @@ public class Helper {
             return "";
     }
 
+    // returns a nicely formatted phone number
+    public static String formatPhoneNumber(String phoneNumber){
+        return "(" + phoneNumber.substring(0,3) + ") " +
+                phoneNumber.substring(3,6) + "-" +
+                phoneNumber.substring(6);
+    }
+
     // compares two dates to see if they are a certain time a part
     public static boolean compareDates(String datetime, int mins) {
         Calendar now = Calendar.getInstance();

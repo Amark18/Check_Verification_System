@@ -8,6 +8,7 @@ public class Customer {
     private String firstName;
     private String lastName;
     private int dobYear;
+    private String phoneNumber;
     private String customerUniqueId;
     private String dateAdded;
     private String timeStampAdded;
@@ -25,12 +26,13 @@ public class Customer {
         profilePicPath = customerIDPath = "";
     }
 
-    public Customer(String firstName, String lastName, int dobYear,
+    public Customer(String firstName, String lastName, int dobYear, String phoneNumber,
                     String customerUniqueId, String dateAdded, String dateVerified,
                     String profilePicPath, String customerIDPath, String timeStampAdded, String storeAdded) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dobYear = dobYear;
+        this.phoneNumber = phoneNumber;
         this.customerUniqueId = customerUniqueId;
         this.dateAdded = dateAdded;
         this.dateVerified = dateVerified;
@@ -63,6 +65,14 @@ public class Customer {
 
     public void setDobYear(int dobYear) {
         this.dobYear = dobYear;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getCustomerUniqueId() {
