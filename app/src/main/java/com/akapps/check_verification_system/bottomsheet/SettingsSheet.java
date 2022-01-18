@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialogFragment;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.jetbrains.annotations.NotNull;
@@ -56,17 +58,25 @@ public class SettingsSheet extends RoundedBottomSheetDialogFragment{
         ImageView info = view.findViewById(R.id.info);
         MaterialCardView resetNfcCard = view.findViewById(R.id.reset_nfc_card);
         MaterialCardView readNfcCard = view.findViewById(R.id.read_nfc_card);
+        MaterialCardView showNfcPrompt = view.findViewById(R.id.show_nfc_prompt);
         MaterialCardView resetApp = view.findViewById(R.id.reset_app);
         MaterialCardView logOut = view.findViewById(R.id.log_out);
         TextView cardReadText = view.findViewById(R.id.text_read);
         TextView storeAccount = view.findViewById(R.id.account_store);
+        SwitchMaterial showNfcSwitch = view.findViewById(R.id.show_nfc_prompt_switch);
 
         storeAccount.setText(Helper.getStoreName(getContext()));
 
         if (NfcAdapter.getDefaultAdapter(getContext()) == null) {
             resetNfcCard.setVisibility(View.GONE);
             readNfcCard.setVisibility(View.GONE);
+            showNfcPrompt.setVisibility(View.GONE);
         }
+
+        // gets user setting for switch
+        String showNfcPromptStatus = Helper.getPreference(getContext(),
+                getContext().getString(R.string.show_nfc_prompt_pref));
+        showNfcSwitch.setChecked(showNfcPromptStatus == null || showNfcPromptStatus.equals("") ? false: true);
 
         if(dataRead != null && !dataRead.isEmpty()) {
             dataRead = dataRead.replace("en", "");
@@ -87,6 +97,12 @@ public class SettingsSheet extends RoundedBottomSheetDialogFragment{
             if(Helper.checkNfcStatus(getActivity(), getContext())) {
                 ((MainActivity) getContext()).showNfcPrompt("", true);
             }
+        });
+
+        showNfcSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
+            String currentNfcPromptStatus = b ? "on" : "";
+            Helper.savePreference(getContext(), currentNfcPromptStatus,
+                    getContext().getString(R.string.show_nfc_prompt_pref));
         });
 
         resetApp.setOnClickListener(v -> Helper.showMessage(getActivity(),

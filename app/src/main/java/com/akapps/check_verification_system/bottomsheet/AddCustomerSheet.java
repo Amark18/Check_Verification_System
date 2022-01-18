@@ -342,7 +342,13 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
                                 firestoreDatabase.addCustomer(firstName, lastName, Integer.parseInt(year),
                                         phoneNumber.length() == 10 ? phoneNumber : "", "", "");
                                 firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, new Customer(customerID));
-                                ((MainActivity) getContext()).showNfcPrompt(customerID, false);
+
+                                // based on user setting, nfc card prompts will be shown
+                                String showNfcPromptStatus = Helper.getPreference(getContext(),
+                                        getContext().getString(R.string.show_nfc_prompt_pref));
+                                if(showNfcPromptStatus != null && !showNfcPromptStatus.equals(""))
+                                    ((MainActivity) getContext()).showNfcPrompt(customerID, false);
+
                                 // update dashboard
                                 firestoreDatabase.loadCustomerData(true);
                                 Helper.showMessage(getActivity(), getString(R.string.customer_added_title),

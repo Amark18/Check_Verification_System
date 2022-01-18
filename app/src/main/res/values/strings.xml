@@ -117,9 +117,10 @@
 
     <!-- Settings Sheet !-->
     <string name="settings_title">Settings</string>
-    <string name="reset_nfc_text">Reset NFC Card</string>
-    <string name="see_nfc_card">Check NFC Card Data</string>
-    <string name="reset_app">Reset</string>
+    <string name="reset_nfc_text">Reset Card</string>
+    <string name="see_nfc_card">Read Card</string>
+    <string name="show_nfc_prompt">Tap After Adding Customer</string>
+    <string name="reset_app">Reset App</string>
     <string name="reset_app_message_1">Long Press reset button to confirm.</string>
     <string name="reset_app_message_2">App will close, open app again.</string>
     <string name="log_out">Log Out</string>
@@ -168,5 +169,6 @@
     <string name="login_pref">login</string>
     <string name="last_update_pref">last update</string>
     <string name="account_login_pref">account login</string>
+    <string name="show_nfc_prompt_pref">nfc prompt</string>
 
 </resources>

@@ -38,4 +38,8 @@
         <item name="colorAccent">@color/red</item>
     </style>
 
+    <style name="SwitchThemeSettings" parent="AppTheme">
+        <item name="colorAccent">@color/orangeRed</item>
+    </style>
+
 </resources>
