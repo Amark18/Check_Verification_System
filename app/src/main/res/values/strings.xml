@@ -14,6 +14,7 @@
     <string name="total_text">Total in System</string>
     <string name="verified_text">Verified</string>
     <string name="added_text">Added</string>
+    <string name="viewed_text">Viewed</string>
     <string name="today_text">Today</string>
     <string name="search_hint">Search by Name/Year/Phone Number…</string>
     <string name="number_placeholder">9999</string>

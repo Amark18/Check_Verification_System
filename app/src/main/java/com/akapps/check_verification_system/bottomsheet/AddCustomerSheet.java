@@ -131,7 +131,11 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
                             firestoreDatabase.checkConnection(true);
                             // live means up-to-date
                             Customer liveCustomer = document.toObject(Customer.class);
+                            // prevents writing to database if customer was viewed today
+                            if(!customer.getDateViewed().equals(liveCustomer.getDateViewed()))
+                                firestoreDatabase.updateCustomer(liveCustomer.getCustomerUniqueId(), "dateViewed", Helper.getDatabaseDate());
                             if(firestoreDatabase.updateLocalCustomer(customer, liveCustomer)) {
+                                // update customer view status
                                 // local customer data needs to be updated since there is new data
                                 customer = liveCustomer;
                                 enableViewMode();

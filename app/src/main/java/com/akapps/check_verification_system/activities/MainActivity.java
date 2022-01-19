@@ -2,6 +2,7 @@ package com.akapps.check_verification_system.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -67,6 +68,8 @@ public class MainActivity extends AppCompatActivity{
     private MaterialCardView addedTodayCardView;
     private TextView verifiedTodayText;
     private MaterialCardView verifiedTodayCardView;
+    private TextView viewedTodayText;
+    private MaterialCardView viewedTodayCardView;
     private TextView emptyRecyclerviewMessage;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity{
     private boolean isViewingTotalInSystem;
     private boolean isViewingAddedToday;
     private boolean isViewingVerifiedToday;
+    private boolean isViewingViewedToday;
     private boolean isSearching;
     private boolean isViewingDashboard;
 
@@ -195,6 +199,8 @@ public class MainActivity extends AppCompatActivity{
         addedTodayCardView = findViewById(R.id.added_layout);
         verifiedTodayText = findViewById(R.id.num_verified);
         verifiedTodayCardView = findViewById(R.id.verified_layout);
+        viewedTodayText = findViewById(R.id.num_viewed);
+        viewedTodayCardView = findViewById(R.id.viewed_layout);
         searchLayout = findViewById(R.id.search_layout_main);
         searchView = findViewById(R.id.searchview);
         spaceNavigationView = findViewById(R.id.space);
@@ -250,11 +256,12 @@ public class MainActivity extends AppCompatActivity{
                    if(firestoreDatabase.getCustomers().size() > 0) {
                        // if search is selected and nothing else is
                        // currently selected, then current view is isSearching
-                       if (isViewingTotalInSystem || isViewingAddedToday || isViewingVerifiedToday)
+                       if (isViewingTotalInSystem || isViewingAddedToday || isViewingVerifiedToday || isViewingViewedToday)
                            isSearching = isViewingDashboard = false;
                        else {
                            isSearching = true;
-                           isViewingDashboard = isViewingTotalInSystem = isViewingAddedToday = isViewingVerifiedToday = false;
+                           isViewingDashboard = isViewingTotalInSystem = isViewingAddedToday =
+                                   isViewingVerifiedToday = isViewingViewedToday = false;
                        }
                        // animation to open search view
                        animation.slideUp(searchLayout, dash, showKeyboard);
@@ -272,7 +279,8 @@ public class MainActivity extends AppCompatActivity{
                else if(itemIndex == 0) {
                    // if home is selected, that means that search/recyclerview was closed
                    // thus, we are back to dashboard and not viewing anything
-                   isSearching = isViewingTotalInSystem = isViewingAddedToday = isViewingVerifiedToday = false;
+                   isSearching = isViewingTotalInSystem = isViewingAddedToday =
+                           isViewingVerifiedToday = isViewingViewedToday = false;
                    isViewingDashboard = true;
                    // animation to close search view
                    animation.slideDown(searchLayout, dash);
@@ -308,7 +316,7 @@ public class MainActivity extends AppCompatActivity{
             // prevents invisible dashboard from being clicked
             if(!isSearching) {
                 isViewingTotalInSystem = true;
-                isViewingVerifiedToday = isViewingAddedToday = false;
+                isViewingViewedToday = isViewingVerifiedToday = isViewingAddedToday = false;
                 showFilterResults(firestoreDatabase.getCustomers());
             }
         });
@@ -317,7 +325,7 @@ public class MainActivity extends AppCompatActivity{
         addedTodayCardView.setOnClickListener(v -> {
             if(!isSearching) {
                 isViewingAddedToday = true;
-                isViewingVerifiedToday = isViewingTotalInSystem = false;
+                isViewingViewedToday = isViewingVerifiedToday = isViewingTotalInSystem = false;
                 showFilterResults(firestoreDatabase.getAddedTodayList());
             }
         });
@@ -326,8 +334,17 @@ public class MainActivity extends AppCompatActivity{
         verifiedTodayCardView.setOnClickListener(v -> {
             if(!isSearching) {
                 isViewingVerifiedToday = true;
-                isViewingAddedToday = isViewingTotalInSystem = false;
+                isViewingViewedToday = isViewingAddedToday = isViewingTotalInSystem = false;
                 showFilterResults(firestoreDatabase.getVerifiedTodayList());
+            }
+        });
+
+        // displays customers viewed today (those clicked to view their information)
+        viewedTodayCardView.setOnClickListener(v -> {
+            if(!isSearching) {
+                isViewingViewedToday = true;
+                isViewingVerifiedToday = isViewingAddedToday = isViewingTotalInSystem = false;
+                showFilterResults(firestoreDatabase.getViewedTodayList());
             }
         });
     }
@@ -383,9 +400,13 @@ public class MainActivity extends AppCompatActivity{
                 customer.getDateAdded().contains(Helper.getDatabaseDate())).collect(Collectors.toList()).size();
         String verified = "" + updatedCustomers.stream().filter(customer ->
                 customer.getDateVerified().contains(Helper.getDatabaseDate())).collect(Collectors.toList()).size();
+        String viewed = "" + updatedCustomers.stream().filter(customer ->
+                customer.getDateViewed().contains(Helper.getDatabaseDate())).collect(Collectors.toList()).size();
+
         totalInSystemText.setText(total);
         addedTodayText.setText(added);
         verifiedTodayText.setText(verified);
+        viewedTodayText.setText(viewed);
         // after getting updated data from database, this ensures that the
         // respective list is updated with the new data via the current view
         if(updateRecyclerview) {

@@ -14,6 +14,7 @@ public class Customer {
     private String timeStampAdded;
     private String storeAdded;
     private String dateVerified;
+    private String dateViewed;
     private String profilePicPath;
     private String customerIDPath;
     private List<VerificationHistory> verificationHistory;
@@ -36,6 +37,7 @@ public class Customer {
         this.customerUniqueId = customerUniqueId;
         this.dateAdded = dateAdded;
         this.dateVerified = dateVerified;
+        this.dateViewed = "";
         this.profilePicPath = profilePicPath;
         this.customerIDPath = customerIDPath;
         this.verificationHistory = new ArrayList<>();
@@ -97,6 +99,14 @@ public class Customer {
 
     public void setDateVerified(String dateVerified) {
         this.dateVerified = dateVerified;
+    }
+
+    public String getDateViewed() {
+        return dateViewed;
+    }
+
+    public void setDateViewed(String dateViewed) {
+        this.dateViewed = dateViewed;
     }
 
     public String getProfilePicPath() {

@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class Animation {
@@ -52,13 +54,10 @@ public class Animation {
             ObjectAnimator searchAnimation = ObjectAnimator.ofFloat(searchLayout, "translationY",(-1 * (move.getY() - other.getY())) + 40);
             searchAnimation.setDuration(longAnimationDuration);
             searchAnimation.start();
-            if(showKeyboard) {
-                // focuses on search and opens keyboard
-                searchView.setIconified(true);
-                searchView.setIconified(false);
-            }
             // clear recyclerview data
             customerRecyclerview.setAdapter(null);
+            // show keyboard after animation to ensure layout has been populated
+            new Handler().postDelayed(() -> showKeyboard(showKeyboard), longAnimationDuration);
         }, smallDelay);
     }
 
@@ -78,5 +77,13 @@ public class Animation {
             // clear search input
             searchView.setQuery("", false);
         }, smallDelay);
+    }
+
+    public void showKeyboard(boolean showKeyboard){
+        if(showKeyboard) {
+            // focuses on search and opens keyboard
+            searchView.setIconified(true);
+            searchView.setIconified(false);
+        }
     }
 }

@@ -30,6 +30,7 @@
         <activity
             android:name="com.akapps.check_verification_system.activities.MainActivity"
             android:theme="@style/Theme.Check_Verification_System"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true">
 
             <intent-filter>

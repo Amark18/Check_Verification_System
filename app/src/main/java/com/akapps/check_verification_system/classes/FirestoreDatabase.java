@@ -168,11 +168,12 @@ public class FirestoreDatabase {
         collectionCustomers.document(customerID).update(field, updatedValue);
     }
 
-    // when viewing a customer, check to see if check cashing status of customer has changed or
-    // their verification history and if so, update the local copy with the live copy
+    // when viewing a customer, check to see if check cashing status of customer has changed/
+    // their verification history/their phone number and if so, update the local copy with the live copy
     public boolean updateLocalCustomer(Customer localCustomer, Customer liveCustomer){
         if(!(getVerificationHistoryString(liveCustomer).equals(getVerificationHistoryString(localCustomer))) ||
-            liveCustomer.isDoNotCash() != localCustomer.isDoNotCash()) {
+            liveCustomer.isDoNotCash() != localCustomer.isDoNotCash() ||
+                !liveCustomer.getPhoneNumber().equals(localCustomer.getPhoneNumber()) ) {
             // reflect changes for user to see
             loadCustomerData(true);
             return true;
@@ -255,6 +256,11 @@ public class FirestoreDatabase {
     public ArrayList<Customer> getAddedTodayList(){
         return  (ArrayList<Customer>) customers.stream().filter(customer ->
                 customer.getDateAdded().contains(Helper.getDatabaseDate())).collect(Collectors.toList());
+    }
+
+    public ArrayList<Customer> getViewedTodayList(){
+        return  (ArrayList<Customer>) customers.stream().filter(customer ->
+                customer.getDateViewed().contains(Helper.getDatabaseDate())).collect(Collectors.toList());
     }
 
     public void checkConnection(boolean status){
