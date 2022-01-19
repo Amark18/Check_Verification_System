@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
+import com.akapps.check_verification_system.BuildConfig;
 import com.akapps.check_verification_system.R;
 import com.akapps.check_verification_system.activities.MainActivity;
 import com.akapps.check_verification_system.classes.Helper;
@@ -64,6 +65,10 @@ public class SettingsSheet extends RoundedBottomSheetDialogFragment{
         TextView cardReadText = view.findViewById(R.id.text_read);
         TextView storeAccount = view.findViewById(R.id.account_store);
         SwitchMaterial showNfcSwitch = view.findViewById(R.id.show_nfc_prompt_switch);
+        TextView appVersion = view.findViewById(R.id.app_version);
+
+        String currentAppVersion = "Version " + BuildConfig.VERSION_NAME;
+        appVersion.setText(currentAppVersion);
 
         storeAccount.setText(Helper.getStoreName(getContext()));
 
