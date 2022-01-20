@@ -19,12 +19,14 @@
     <string name="search_hint">Search by Name/Year/Phone Number…</string>
     <string name="number_placeholder">9999</string>
     <string name="nfc_text">NFC Disabled</string>
+    <string name="no_nfc_text">NFC Disabled</string>
     <string name="no_customers_title">No Customers</string>
     <string name="no_customers_message">Cannot search for something non existent</string>
 
     <!-- Commands !-->
     <string name="try_again">TRY AGAIN</string>
     <string name="nfc_message">Please enable NFC</string>
+    <string name="no_nfc_message">Device has no NFC</string>
     <string name="login_again">Logic Again</string>
     <string name="fingerprint_error">Fingerprint not read, try again!</string>
     <string name="change_photo">Change Customer Photo</string>

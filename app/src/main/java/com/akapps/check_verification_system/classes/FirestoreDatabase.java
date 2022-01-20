@@ -6,7 +6,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
-
 import com.akapps.check_verification_system.activities.MainActivity;
 import com.akapps.check_verification_system.R;
 import com.google.android.material.card.MaterialCardView;

@@ -278,10 +278,10 @@
         android:fontFamily="@font/baloo_bhai"
         android:text=""
         android:textColor="@color/flamingo"
-        android:textSize="16sp"
-        android:layout_margin="20dp"
+        android:textSize="14sp"
+        android:layout_margin="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/log_out"></TextView>
+        app:layout_constraintTop_toBottomOf="@+id/log_out"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

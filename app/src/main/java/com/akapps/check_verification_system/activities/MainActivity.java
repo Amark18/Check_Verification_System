@@ -309,6 +309,10 @@ public class MainActivity extends AppCompatActivity{
         nfcStatus.setOnClickListener(v -> {
             if(nfc != null)
                 nfc.isNfcDisabled();
+            else
+                Helper.showMessage(this, context.getString(R.string.no_nfc_text),
+                        context.getString(R.string.no_nfc_message),
+                        MotionToast.TOAST_WARNING);
         });
 
         // displays all customers

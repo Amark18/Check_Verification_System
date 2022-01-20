@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/amark/Desktop/My Stuff/Docs &amp; School/SDSU_F'21/CS_578_Wireless_Networks/Project_(Check_Vertification_System-Android-App)/app/src/main/res/drawable/id_card_icon.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/amark/Desktop/My Stuff/Docs &amp; School/SDSU_F'21/CS_578_Wireless_Networks/Project_(Check_Vertification_System-Android-App)/app/src/main/res/drawable/nfc_icon.xml" value="0.2708333333333333" />
+        <entry key="..\:/Users/amark/Desktop/My Stuff/Docs &amp; School/SDSU_F'21/CS_578_Wireless_Networks/Project_(Check_Vertification_System-Android-App)/app/src/main/res/drawable/settings_icon.xml" value="0.2708333333333333" />
+        <entry key="..\:/Users/amark/Desktop/My Stuff/Docs &amp; School/SDSU_F'21/CS_578_Wireless_Networks/Project_(Check_Vertification_System-Android-App)/app/src/main/res/layout/activity_main.xml" value="0.31856677524429966" />
         <entry key="..\:/Users/amark/Desktop/My Stuff/Docs &amp; School/SDSU_F'21/CS_578_Wireless_Networks/Project_(Check_Vertification_System-Android-App)/app/src/main/res/layout/bottom_sheet_settings.xml" value="0.2490740740740741" />
       </map>
     </option>

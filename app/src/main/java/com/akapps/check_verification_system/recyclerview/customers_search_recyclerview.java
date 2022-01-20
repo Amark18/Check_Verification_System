@@ -1,14 +1,11 @@
 package com.akapps.check_verification_system.recyclerview;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import com.akapps.check_verification_system.bottomsheet.AddCustomerSheet;
@@ -19,9 +16,6 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 
 public class customers_search_recyclerview extends RecyclerView.Adapter<customers_search_recyclerview.MyViewHolder>{
@@ -69,7 +63,9 @@ public class customers_search_recyclerview extends RecyclerView.Adapter<customer
         // retrieves current customer object
         Customer currentCustomer= customers.get(position);
 
-        holder.customerFullName.setText(currentCustomer.getFirstName() + " " + currentCustomer.getLastName());
+        // populate recyclerview data
+        String customerFullName = currentCustomer.getFirstName() + " " + currentCustomer.getLastName();
+        holder.customerFullName.setText(customerFullName);
         holder.customerYear.setText(String.valueOf(currentCustomer.getDobYear()));
         if(null == currentCustomer.getPhoneNumber() || currentCustomer.getPhoneNumber().equals(""))
             holder.customerPhoneNumber.setVisibility(View.INVISIBLE);
