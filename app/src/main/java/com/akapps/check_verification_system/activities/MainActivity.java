@@ -2,7 +2,6 @@ package com.akapps.check_verification_system.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -12,11 +11,14 @@ import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.akapps.check_verification_system.R;
 import com.akapps.check_verification_system.classes.Animation;
 import com.akapps.check_verification_system.classes.BottomSheetHelper;
@@ -293,7 +295,7 @@ public class MainActivity extends AppCompatActivity{
 
         // pulling down updates data and updates recyclerview
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            // checks to see if NFC status chaned
+            // checks to see if NFC status changed
             if (nfcAdapter != null)
                 nfc.checkNfcStatus();
             // retrieves data from database to see if there is any updates

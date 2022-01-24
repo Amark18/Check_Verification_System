@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.akapps.check_verification_system.R;
+import com.akapps.check_verification_system.activities.PinLoginActivity;
 import com.akapps.check_verification_system.classes.Helper;
 import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialogFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -72,9 +73,11 @@ public class AccountLoginSheet extends RoundedBottomSheetDialogFragment{
                             // Sign in success, update UI with the signed-in user's information
                             Helper.savePreference(getContext(), "true",
                                     getContext().getString(R.string.account_login_pref));
-                            Helper.showMessage(getActivity(), getContext().getString(R.string.login_success_title),
-                                    getContext().getString(R.string.login_success_message),
-                                    MotionToast.TOAST_SUCCESS);
+                            // delete this line after app is in google play store and uncommented line
+                            ((PinLoginActivity)getActivity()).openMainPage();
+//                            Helper.showMessage(getActivity(), getContext().getString(R.string.login_success_title),
+//                                    getContext().getString(R.string.login_success_message),
+//                                    MotionToast.TOAST_SUCCESS);
                             dialog.dismiss();
                         } else {
                             loginAttempts++;

@@ -176,7 +176,7 @@ public class PinLoginActivity extends AppCompatActivity{
         }
     }
 
-    private void openMainPage(){
+    public void openMainPage(){
         // if user logs in for the first time and device has fingerprint hardware
         // next time they log in, they have option to use fingerprint instead
         if(isFingerprintWorking() && Helper.getPreference(context, getString(R.string.fingerprint_pref)) == null)

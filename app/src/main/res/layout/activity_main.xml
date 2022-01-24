@@ -8,6 +8,7 @@
     android:background="@color/grayDark">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -191,24 +192,24 @@
                         android:layout_width="100dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
+                        android:gravity="center"
                         android:layout_marginHorizontal="5dp"
                         android:layout_marginTop="10dp"
-                        android:background="@color/grayDark"
-                        android:elevation="2dp"
                         android:fontFamily="@font/baloo_bhai"
-                        android:gravity="center"
+                        android:background="@color/grayDark"
                         android:text="@string/today_text"
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen_24"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="5dp"
-                        android:layout_marginTop="-10dp"
+                        android:layout_marginTop="-13dp"
+                        app:cardElevation="-2dp"
                         app:cardBackgroundColor="@color/grayDark"
                         app:cardCornerRadius="15dp"
                         app:strokeColor="@color/gray"
@@ -373,8 +374,8 @@
 
                                     <ImageView
                                         android:id="@+id/viewed_icon"
-                                        android:layout_width="60dp"
-                                        android:layout_height="60dp"
+                                        android:layout_width="80dp"
+                                        android:layout_height="80dp"
                                         android:layout_gravity="center"
                                         android:src="@drawable/view_icon_2"
                                         app:layout_constraintEnd_toEndOf="parent"
@@ -385,7 +386,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginHorizontal="15dp"
-                                        android:layout_marginTop="5dp"
+                                        android:layout_marginTop="-15dp"
                                         android:layout_weight="97"
                                         android:fontFamily="@font/amiko"
                                         android:gravity="center"

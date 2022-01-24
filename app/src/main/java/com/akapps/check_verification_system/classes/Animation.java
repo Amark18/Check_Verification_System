@@ -43,8 +43,8 @@ public class Animation {
     // slides up the search bar to be on the top and sets whatever on top to be invisible
     public void slideUp(View move, View other, boolean showKeyboard){
         new Handler().postDelayed(() -> {
-            nfcStatus.animate().alpha(0.0f).setDuration(mediumAnimationDuration).withEndAction(() -> nfcStatus.setVisibility(View.GONE));
-            settings.animate().alpha(0.0f).setDuration(mediumAnimationDuration).withEndAction(() -> settings.setVisibility(View.GONE));
+            nfcStatus.animate().alpha(0.0f).setDuration(mediumAnimationDuration).withEndAction(() -> nfcStatus.setVisibility(View.INVISIBLE));
+            settings.animate().alpha(0.0f).setDuration(mediumAnimationDuration).withEndAction(() -> settings.setVisibility(View.INVISIBLE));
             closeSearch.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withStartAction(() -> closeSearch.setVisibility(View.VISIBLE));
             emptyRecyclerviewMessage.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withStartAction(() -> emptyRecyclerviewMessage.setVisibility(View.VISIBLE));
             move.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withStartAction(() -> move.setVisibility(View.VISIBLE));
