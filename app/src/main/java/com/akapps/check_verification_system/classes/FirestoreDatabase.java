@@ -149,19 +149,21 @@ public class FirestoreDatabase {
 
     // finds all customers matching query and populates recyclerview for user to see
     public void searchForCustomer(String query){
-        query = query.toLowerCase();
-        String finalQuery = query;
+        if(query !=null && !query.equals("")) {
+            query = query.toLowerCase();
+            String finalQuery = query;
 
-        // searches for customer using their name/year of birth/phone number
-        ArrayList<Customer> queryCustomers = (ArrayList<Customer>) customers.stream().filter(customer ->
-                customer.getFirstName().toLowerCase().contains(finalQuery) ||
-                        (null != customer.getPhoneNumber() && customer.getPhoneNumber().contains(finalQuery.replace(" ", ""))) ||
-                        customer.getLastName().toLowerCase().contains(finalQuery) ||
-                        (customer.getFirstName().toLowerCase() + " " +
-                                customer.getLastName().toLowerCase()).contains(finalQuery) ||
-                        customer.getCustomerUniqueId().toLowerCase().contains(finalQuery))
-                .collect(Collectors.toList());
-        ((MainActivity) context).populateRecyclerview(queryCustomers);
+            // searches for customer using their name/year of birth/phone number
+            ArrayList<Customer> queryCustomers = (ArrayList<Customer>) customers.stream().filter(customer ->
+                    customer.getFirstName().toLowerCase().contains(finalQuery) ||
+                            (null != customer.getPhoneNumber() && customer.getPhoneNumber().contains(finalQuery.replace(" ", ""))) ||
+                            customer.getLastName().toLowerCase().contains(finalQuery) ||
+                            (customer.getFirstName().toLowerCase() + " " +
+                                    customer.getLastName().toLowerCase()).contains(finalQuery) ||
+                            customer.getCustomerUniqueId().toLowerCase().contains(finalQuery))
+                    .collect(Collectors.toList());
+            ((MainActivity) context).populateRecyclerview(queryCustomers);
+        }
     }
 
     // updates customer string data to database
