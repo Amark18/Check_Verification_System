@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
                                     isViewingVerifiedToday = isViewingViewedToday = false;
                         }
                         // animation to open search view
-                        animation.slideUp(searchLayout, dash, showKeyboard);
+                        animation.slideUp(tapToRefresh, date, searchLayout, dash, showKeyboard);
                         // resets boolean
                         showKeyboard = true;
                     }
@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
                             isViewingVerifiedToday = isViewingViewedToday = false;
                     isViewingDashboard = true;
                     // animation to close search view
-                    animation.slideDown(searchLayout, dash);
+                    animation.slideDown(tapToRefresh, date, searchLayout, dash);
                 }
             }
 
@@ -308,8 +308,11 @@ public class MainActivity extends AppCompatActivity {
 
         // checks to see if NFC is not enabled and opens NFC settings
         nfcStatus.setOnClickListener(v -> {
-            if(nfc != null)
-                nfc.isNfcDisabled();
+            if(nfc != null) {
+                // if device is NFC capable and it's off, nfc settings screen is opened
+                if (!nfc.checkNfcStatus())
+                    nfc.isNfcDisabled();
+            }
             else
                 Helper.showMessage(this, context.getString(R.string.no_nfc_text),
                         context.getString(R.string.no_nfc_message),

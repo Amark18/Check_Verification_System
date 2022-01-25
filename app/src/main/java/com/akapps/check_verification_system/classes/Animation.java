@@ -1,9 +1,11 @@
 package com.akapps.check_verification_system.classes;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.nfc.NfcAdapter;
 import android.os.Handler;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
@@ -46,17 +48,27 @@ public class Animation {
     }
 
     // slides up the search bar to be on the top and sets whatever on top to be invisible
-    public void slideUp(View move, View other, boolean showKeyboard){
+    public void slideUp(View tapToRefresh, View date, View move, View other, boolean showKeyboard){
         new Handler().postDelayed(() -> {
             nfcStatus.animate().alpha(0.0f).setDuration(mediumAnimationDuration).withEndAction(() -> nfcStatus.setVisibility(View.INVISIBLE));
             settings.animate().alpha(0.0f).setDuration(mediumAnimationDuration).withEndAction(() -> settings.setVisibility(View.INVISIBLE));
-            closeSearch.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withStartAction(() -> closeSearch.setVisibility(View.VISIBLE));
+            closeSearch.setVisibility(View.VISIBLE);
             emptyRecyclerviewMessage.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withStartAction(() -> emptyRecyclerviewMessage.setVisibility(View.VISIBLE));
             move.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withStartAction(() -> move.setVisibility(View.VISIBLE));
             other.animate().alpha(0.0f).setDuration(mediumAnimationDuration);
-            ObjectAnimator searchAnimation = ObjectAnimator.ofFloat(searchLayout, "translationY",(-1 * (move.getY() - other.getY())) + 40);
+            ObjectAnimator dateAnimation = ObjectAnimator.ofFloat(date, "translationY",(date.getY()));
+            ObjectAnimator closeAnimation = ObjectAnimator.ofFloat(closeSearch, "translationY",(date.getY()));
+            ObjectAnimator searchAnimation = ObjectAnimator.ofFloat(searchLayout, "translationY",(-1 * (move.getY() - other.getY())) + 80);
+            ObjectAnimator refreshAnimation = ObjectAnimator.ofFloat(tapToRefresh, "translationY",(-1 * (tapToRefresh.getY() + date.getY())) + 80);
             searchAnimation.setDuration(longAnimationDuration);
+            refreshAnimation.setDuration(longAnimationDuration);
+            dateAnimation.setDuration(longAnimationDuration);
+            closeAnimation.setDuration(longAnimationDuration);
+            dateAnimation.start();
+            closeAnimation.start();
             searchAnimation.start();
+            refreshAnimation.start();
+            tapToRefresh.setVisibility(View.VISIBLE);
             // clear recyclerview data
             customerRecyclerview.setAdapter(null);
             // show keyboard after animation to ensure layout has been populated
@@ -66,21 +78,30 @@ public class Animation {
     }
 
     // slides down the search bar to its default position and
-    public void slideDown(View move,View other){
+    public void slideDown(View tapToRefresh, View date, View move, View other){
         new Handler().postDelayed(() -> {
             nfcStatus.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withEndAction(() -> nfcStatus.setVisibility(View.VISIBLE));
             settings.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withEndAction(() -> settings.setVisibility(View.VISIBLE));
-            closeSearch.animate().alpha(0.0f).setDuration(mediumAnimationDuration).withEndAction(() -> closeSearch.setVisibility(View.INVISIBLE));
             move.animate().alpha(0.0f).setDuration(mediumAnimationDuration).withEndAction(() -> move.setVisibility(View.INVISIBLE));
             other.animate().alpha(1.0f).setDuration(mediumAnimationDuration);
-            ObjectAnimator animation = ObjectAnimator.ofFloat(move, "translationY",   0f);
+            ObjectAnimator dateAnimation = ObjectAnimator.ofFloat(date, "translationY",0f);
+            ObjectAnimator closeAnimation = ObjectAnimator.ofFloat(closeSearch, "translationY", 0f);
+            ObjectAnimator animation = ObjectAnimator.ofFloat(move, "translationY",0f);
+            ObjectAnimator refreshAnimation = ObjectAnimator.ofFloat(tapToRefresh, "translationY",0f);
             animation.setDuration(mediumAnimationDuration);
+            refreshAnimation.setDuration(mediumAnimationDuration);
+            dateAnimation.setDuration(mediumAnimationDuration);
+            closeAnimation.setDuration(mediumAnimationDuration);
+            closeAnimation.start();
+            dateAnimation.start();
             animation.start();
+            refreshAnimation.start();
             // clears recyclerview data
             customerRecyclerview.setAdapter(null);
             // clear search input
             searchView.setQuery("", false);
             new Handler().postDelayed(() -> showTopOfScreen(scrollView), mediumAnimationDuration + smallDelay);
+            new Handler().postDelayed(() -> closeSearch.setVisibility(View.INVISIBLE), mediumAnimationDuration);
         }, smallDelay);
     }
 
@@ -90,10 +111,8 @@ public class Animation {
     }
 
     public void showKeyboard(boolean showKeyboard){
-        if(showKeyboard) {
-            // focuses on search and opens keyboard
-            searchView.setIconified(true);
-            searchView.setIconified(false);
-        }
+        // focuses on search and opens keyboard
+        searchView.setIconified(showKeyboard);
+        searchView.setIconified(!showKeyboard);
     }
 }

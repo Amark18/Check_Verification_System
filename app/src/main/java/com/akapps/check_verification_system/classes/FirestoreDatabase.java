@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 import com.akapps.check_verification_system.activities.MainActivity;
@@ -46,6 +47,7 @@ public class FirestoreDatabase {
     private final String profilePicturePath  = "_profilePic";
     private final String idPicturePath  = "_idPic";
     private String storeName;
+    private final int shortDelay = 250;
 
     // layout
     private Dialog progressDialog;
@@ -93,7 +95,7 @@ public class FirestoreDatabase {
                                     context.getString(R.string.database_error),
                                     MotionToast.TOAST_ERROR);
                         }
-                        Helper.showLoading(finalProgressDialog, context, false);
+                        new Handler().postDelayed(() -> Helper.showLoading(finalProgressDialog, context, false), shortDelay);
                     });
         }
         else{
@@ -131,7 +133,7 @@ public class FirestoreDatabase {
                                     });
                         } else
                             checkConnection(false);
-                        Helper.showLoading(finalProgressDialog, context, false);
+                        new Handler().postDelayed(() -> Helper.showLoading(finalProgressDialog, context, false), shortDelay);
                     });
         }
     }
