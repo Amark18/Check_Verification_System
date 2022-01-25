@@ -89,6 +89,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
 
     // database
     private FirestoreDatabase firestoreDatabase;
+    private FirebaseStorage firebaseStorage;
 
     public AddCustomerSheet(){ }
 
@@ -305,16 +306,23 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
                 boolean isDeletingPhoneNumber = !newPhoneNumber.equals(customer.getPhoneNumber())
                         && newPhoneNumber.length() == 0;
                 // checks to see if profile image / check image / customer check status / or phone number was changed
-                if(profileImageUri != null || licenseImageUri != null  || customer.isDoNotCash() != doNotCashSwitch.isChecked() ||
+                if(profileImageUri != null || licenseImageUri != null  ||
+                        customer.isDoNotCash() != doNotCashSwitch.isChecked() ||
                         isNewPhoneNumber || isDeletingPhoneNumber){
                     if(profileImageUri != null || licenseImageUri != null)
                         firestoreDatabase.uploadImages(profileImageUri, licenseImageUri, customer);
-                    if(customer.isDoNotCash() != doNotCashSwitch.isChecked())
+                    if(customer.isDoNotCash() != doNotCashSwitch.isChecked()) {
                         firestoreDatabase.updateCustomerStatus(customer.getCustomerUniqueId(), "doNotCash", doNotCashSwitch.isChecked());
-                    if(isNewPhoneNumber || isDeletingPhoneNumber)
+                        // update local copy to view changes
+                        customer.setDoNotCash(doNotCashSwitch.isChecked());
+                    }
+                    if(isNewPhoneNumber || isDeletingPhoneNumber) {
                         firestoreDatabase.updateCustomer(customer.getCustomerUniqueId(), "phoneNumber", newPhoneNumber);
+                        // update local copy to view changes
+                        customer.setPhoneNumber(newPhoneNumber);
+                    }
                     firestoreDatabase.loadCustomerData(true);
-                    this.dismiss();
+                    enableViewMode();
                     Helper.showMessage(getActivity(), getString(R.string.customer_updated_title),
                             getString(R.string.customer_updated_message),
                             MotionToast.TOAST_SUCCESS);
@@ -390,7 +398,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
             storeAccount.setText(customer.getStoreAdded());
             editCustomer.setVisibility(View.VISIBLE);
             viewCustomerMode(false);
-            loadData(customer);
+            loadData();
 
             if(customer.isDoNotCash())
                 warningLayout.setVisibility(View.VISIBLE);
@@ -452,13 +460,17 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
     }
 
     // loads profile picture and ID picture from firebase storage
-    private void loadData(Customer customer){
-        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+    private void loadData(){
+        firebaseStorage = FirebaseStorage.getInstance();
         String fullName = customer.getFirstName() + " " + customer.getLastName();
         nameInput.setText(fullName);
         yearInput.setText("" + customer.getDobYear());
         phoneNumberInput.setText(customer.getPhoneNumber() == null || customer.getPhoneNumber().equals("") ? "N/A" : "" + customer.getPhoneNumber());
+        // gets profile and ID pictures from database and populates it for user to see
+        populateImages();
+    }
 
+    private void populateImages(){
         if(!customer.getProfilePicPath().isEmpty()) {
             // gets profile photo from firebase storage
             Glide.with(getContext())

@@ -73,11 +73,9 @@ public class AccountLoginSheet extends RoundedBottomSheetDialogFragment{
                             // Sign in success, update UI with the signed-in user's information
                             Helper.savePreference(getContext(), "true",
                                     getContext().getString(R.string.account_login_pref));
-                            // delete this line after app is in google play store and uncommented line
-                            ((PinLoginActivity)getActivity()).openMainPage();
-//                            Helper.showMessage(getActivity(), getContext().getString(R.string.login_success_title),
-//                                    getContext().getString(R.string.login_success_message),
-//                                    MotionToast.TOAST_SUCCESS);
+                            Helper.showMessage(getActivity(), getContext().getString(R.string.login_success_title),
+                                    getContext().getString(R.string.login_success_message),
+                                    MotionToast.TOAST_SUCCESS);
                             dialog.dismiss();
                         } else {
                             loginAttempts++;

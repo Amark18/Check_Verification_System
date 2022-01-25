@@ -22,6 +22,8 @@
     <string name="no_nfc_text">NFC Disabled</string>
     <string name="no_customers_title">No Customers</string>
     <string name="no_customers_message">Cannot search for something non existent</string>
+    <string name="bottom_nav_home_text">Home</string>
+    <string name="bottom_nav_search_text">Search</string>
 
     <!-- Commands !-->
     <string name="try_again">TRY AGAIN</string>
@@ -33,6 +35,7 @@
     <string name="take_id_photo">Take Picture of ID</string>
     <string name="add_customer">ADD</string>
     <string name="close_text">Close</string>
+    <string name="refresh_text">Tap to Refresh</string>
 
     <!-- Firestore Database !-->
     <string name="database_main_collection">customers</string>

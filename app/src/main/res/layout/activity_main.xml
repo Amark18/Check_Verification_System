@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    android:id="@+id/swiperefresh"
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grayDark">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/main_scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -35,7 +30,7 @@
                     app:cardCornerRadius="15dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"></com.google.android.material.card.MaterialCardView>
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     android:id="@+id/internet_message"
@@ -109,6 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
+                    android:paddingBottom="10dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -358,7 +354,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginHorizontal="5dp"
                                 android:layout_marginTop="10dp"
-                                android:layout_marginBottom="5dp"
+                                android:layout_marginBottom="15dp"
                                 android:layout_weight="1"
                                 app:cardBackgroundColor="@color/flamingo"
                                 app:cardCornerRadius="15dp"
@@ -413,6 +409,28 @@
                             </com.google.android.material.card.MaterialCardView>
 
                         </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/tap_to_refresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:cardElevation="-2dp"
+                        app:strokeColor="@color/gray"
+                        app:strokeWidth="3dp"
+                        android:layout_marginTop="-20dp"
+                        app:cardBackgroundColor="@color/grayDark"
+                        app:cardCornerRadius="15dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="5dp"
+                            android:padding="8dp"
+                            android:text="@string/refresh_text"
+                            android:textColor="@color/white" />
 
                     </com.google.android.material.card.MaterialCardView>
 
@@ -496,6 +514,4 @@
             app:layout_constraintStart_toStartOf="parent"
             app:space_background_color="@color/grayDark" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

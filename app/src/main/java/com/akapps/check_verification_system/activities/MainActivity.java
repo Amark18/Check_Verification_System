@@ -2,23 +2,20 @@ package com.akapps.check_verification_system.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.akapps.check_verification_system.R;
 import com.akapps.check_verification_system.classes.Animation;
 import com.akapps.check_verification_system.classes.BottomSheetHelper;
@@ -35,7 +32,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import www.sanju.motiontoast.MotionToast;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     // NFC
     private NFC nfc;
@@ -55,6 +52,7 @@ public class MainActivity extends AppCompatActivity{
     public BottomSheetHelper bottomSheetHelper;
 
     // layout
+    private NestedScrollView scrollView;
     private TextView date;
     private LinearLayout dash;
     private SearchView searchView;
@@ -73,7 +71,7 @@ public class MainActivity extends AppCompatActivity{
     private TextView viewedTodayText;
     private MaterialCardView viewedTodayCardView;
     private TextView emptyRecyclerviewMessage;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private MaterialCardView tapToRefresh;
 
     // variables
     private final int gridSpan = 2;
@@ -107,7 +105,7 @@ public class MainActivity extends AppCompatActivity{
         initializeNFC();
 
         // initialize animation
-        animation = new Animation(searchView, closeSearch, nfcStatus, searchLayout,
+        animation = new Animation(scrollView, searchView, closeSearch, nfcStatus, searchLayout,
                 customerRecyclerview, emptyRecyclerviewMessage, nfcAdapter, settings);
 
         // initialize Database
@@ -118,7 +116,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public void onBackPressed() {
         // if search bar is open, close it on back press
-        if(searchView.getVisibility() == View.VISIBLE)
+        if (searchView.getVisibility() == View.VISIBLE)
             closeSearch();
     }
 
@@ -143,7 +141,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(bottomSheetHelper != null)
+        if (bottomSheetHelper != null)
             bottomSheetHelper.closeAllSheets();
     }
 
@@ -152,24 +150,24 @@ public class MainActivity extends AppCompatActivity{
         super.onNewIntent(intent);
         // catches nfc tap by user when app is open
         // reads nfc card to open customer
-        if(nfc != null && !writeNfcMode && !readNfcMode) {
+        if (nfc != null && !writeNfcMode && !readNfcMode) {
             nfc.readNFCTag(intent, false, "");
             bottomSheetHelper.closeNfcSheet();
         }
         // writes to nfc card
-        else if(nfc != null && writeNfcMode){
+        else if (nfc != null && writeNfcMode) {
             nfc.readNFCTag(intent, true, writeString);
             writeNfcMode = false;
         }
         // read card to output card data to user (used in settings sheet)
-        else if(nfc != null && readNfcMode){
+        else if (nfc != null && readNfcMode) {
             nfc.readNFCTag(intent, false, getString(R.string.output_data));
             readNfcMode = false;
             bottomSheetHelper.closeNfcSheet();
         }
     }
 
-    private void initializeNFC(){
+    private void initializeNFC() {
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter == null) {
             return; // does not initialize if NFC is not available for device
@@ -180,18 +178,19 @@ public class MainActivity extends AppCompatActivity{
     }
 
     // this method determines whether to read or write to next card tap via NFC
-    public void showNfcPrompt(String customerId, boolean readNfcMode){
-        if(readNfcMode)
+    public void showNfcPrompt(String customerId, boolean readNfcMode) {
+        if (readNfcMode)
             this.readNfcMode = true;
-        else{
+        else {
             writeNfcMode = true;
             writeString = customerId;
         }
-        if(nfc != null)
+        if (nfc != null)
             nfc.showNfcPrompt();
     }
 
-    private void initializeLayout(Bundle savedInstanceState){
+    private void initializeLayout(Bundle savedInstanceState) {
+        scrollView = findViewById(R.id.main_scrollview);
         date = findViewById(R.id.date);
         dash = findViewById(R.id.dashboard);
         settings = findViewById(R.id.settings);
@@ -210,14 +209,14 @@ public class MainActivity extends AppCompatActivity{
         nfcStatus = findViewById(R.id.nfc_icon);
         customerRecyclerview = findViewById(R.id.customers_recyclerview);
         emptyRecyclerviewMessage = findViewById(R.id.recyclerview_empty_text);
-        swipeRefreshLayout = findViewById(R.id.swiperefresh);
+        tapToRefresh = findViewById(R.id.tap_to_refresh);
 
         // setting up
         customerRecyclerview.setHasFixedSize(true);
         customerRecyclerview.setLayoutManager(new GridLayoutManager(context, gridSpan));
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
-        spaceNavigationView.addSpaceItem(new SpaceItem("home", R.drawable.home_icon));
-        spaceNavigationView.addSpaceItem(new SpaceItem("search", R.drawable.search_icon));
+        spaceNavigationView.addSpaceItem(new SpaceItem(getString(R.string.bottom_nav_home_text), R.drawable.home_icon));
+        spaceNavigationView.addSpaceItem(new SpaceItem(getString(R.string.bottom_nav_search_text), R.drawable.search_icon));
         spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
         spaceNavigationView.setCentreButtonRippleColor(ContextCompat.getColor(this, R.color.cerulean_blue));
         spaceNavigationView.showIconOnly();
@@ -235,9 +234,9 @@ public class MainActivity extends AppCompatActivity{
 
             @Override
             public boolean onQueryTextChange(String typingQuery) {
-                if(typingQuery.length() > 0)
+                if (typingQuery.length() > 0)
                     firestoreDatabase.searchForCustomer(typingQuery);
-                else if(isSearching)
+                else if (isSearching)
                     populateRecyclerview(new ArrayList<>());
                 return false;
             }
@@ -253,54 +252,54 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onItemClick(int itemIndex, String itemName) {
                 // search is selected
-               if(itemIndex == 1) {
-                   // if there are customers, then open
-                   if(firestoreDatabase.getCustomers().size() > 0) {
-                       // if search is selected and nothing else is
-                       // currently selected, then current view is isSearching
-                       if (isViewingTotalInSystem || isViewingAddedToday || isViewingVerifiedToday || isViewingViewedToday)
-                           isSearching = isViewingDashboard = false;
-                       else {
-                           isSearching = true;
-                           isViewingDashboard = isViewingTotalInSystem = isViewingAddedToday =
-                                   isViewingVerifiedToday = isViewingViewedToday = false;
-                       }
-                       // animation to open search view
-                       animation.slideUp(searchLayout, dash, showKeyboard);
-                       // resets boolean
-                       showKeyboard = true;
-                   }
-                   else{
-                       Helper.showMessage(MainActivity.this, context.getString(R.string.no_customers_title),
-                               context.getString(R.string.no_customers_message),
-                               MotionToast.TOAST_ERROR);
-                       new Handler().postDelayed(() -> closeSearch(), mediumDuration);
-                   }
-               }
-               // home is selected
-               else if(itemIndex == 0) {
-                   // if home is selected, that means that search/recyclerview was closed
-                   // thus, we are back to dashboard and not viewing anything
-                   isSearching = isViewingTotalInSystem = isViewingAddedToday =
-                           isViewingVerifiedToday = isViewingViewedToday = false;
-                   isViewingDashboard = true;
-                   // animation to close search view
-                   animation.slideDown(searchLayout, dash);
-               }
+                if (itemIndex == 1) {
+                    // if there are customers, then open
+                    if (firestoreDatabase.getCustomers().size() > 0) {
+                        // if search is selected and nothing else is
+                        // currently selected, then current view is isSearching
+                        if (isViewingTotalInSystem || isViewingAddedToday || isViewingVerifiedToday || isViewingViewedToday)
+                            isSearching = isViewingDashboard = false;
+                        else {
+                            isSearching = true;
+                            isViewingDashboard = isViewingTotalInSystem = isViewingAddedToday =
+                                    isViewingVerifiedToday = isViewingViewedToday = false;
+                        }
+                        // animation to open search view
+                        animation.slideUp(searchLayout, dash, showKeyboard);
+                        // resets boolean
+                        showKeyboard = true;
+                    }
+                    else {
+                        Helper.showMessage(MainActivity.this, context.getString(R.string.no_customers_title),
+                                context.getString(R.string.no_customers_message),
+                                MotionToast.TOAST_ERROR);
+                        new Handler().postDelayed(() -> closeSearch(), mediumDuration);
+                    }
+                }
+                // home is selected
+                else if (itemIndex == 0) {
+                    // if home is selected, that means that search/recyclerview was closed
+                    // thus, we are back to dashboard and not viewing anything
+                    isSearching = isViewingTotalInSystem = isViewingAddedToday =
+                            isViewingVerifiedToday = isViewingViewedToday = false;
+                    isViewingDashboard = true;
+                    // animation to close search view
+                    animation.slideDown(searchLayout, dash);
+                }
             }
 
             @Override
-            public void onItemReselected(int itemIndex, String itemName) {}
+            public void onItemReselected(int itemIndex, String itemName) {
+            }
         });
 
-        // pulling down updates data and updates recyclerview
-        swipeRefreshLayout.setOnRefreshListener(() -> {
+        // tap to update data and recyclerview
+        tapToRefresh.setOnClickListener(view -> {
             // checks to see if NFC status changed
             if (nfcAdapter != null)
                 nfc.checkNfcStatus();
             // retrieves data from database to see if there is any updates
             firestoreDatabase.loadCustomerData(customerRecyclerview.getAdapter() != null ? true : false);
-            swipeRefreshLayout.setRefreshing(false);
         });
 
         closeSearch.setOnClickListener(v -> closeSearch());
@@ -360,9 +359,7 @@ public class MainActivity extends AppCompatActivity{
         showKeyboard = isViewingDashboard = isSearching = false;
         if(list.size() > 0) {
             spaceNavigationView.changeCurrentItem(1);
-            new Handler().postDelayed(() -> {
-                populateRecyclerview(list);
-            }, mediumDuration);
+            new Handler().postDelayed(() -> populateRecyclerview(list), mediumDuration);
         }
     }
 
@@ -424,9 +421,6 @@ public class MainActivity extends AppCompatActivity{
                 showFilterResults(firestoreDatabase.getVerifiedTodayList());
             else if(isViewingTotalInSystem)
                 populateRecyclerview(updatedCustomers);
-            else if(isViewingDashboard){
-                // do nothing, recyclerview is not being viewed
-            }
         }
     }
 

@@ -140,7 +140,8 @@ public class PinLoginActivity extends AppCompatActivity{
     // pin is based on the current year and the hour
     private String getCurrentPin(){
         Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.HOUR);
+        int currentHour = calendar.get(Calendar.HOUR) == 0 ? 12 : calendar.get(Calendar.HOUR);
+        return calendar.get(Calendar.YEAR) + "" + currentHour;
     }
 
     private void getFingerprintFromUser(){
