@@ -60,6 +60,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
     private boolean isEditing;
     private boolean isViewing;
     private Customer customer;
+    private boolean isUpdatingCustomer;
 
     // layout
     private TextView title;
@@ -322,6 +323,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
                         customer.setPhoneNumber(newPhoneNumber);
                     }
                     firestoreDatabase.loadCustomerData(true);
+                    isUpdatingCustomer = true;
                     enableViewMode();
                     Helper.showMessage(getActivity(), getString(R.string.customer_updated_title),
                             getString(R.string.customer_updated_message),
@@ -467,7 +469,10 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
         yearInput.setText("" + customer.getDobYear());
         phoneNumberInput.setText(customer.getPhoneNumber() == null || customer.getPhoneNumber().equals("") ? "N/A" : "" + customer.getPhoneNumber());
         // gets profile and ID pictures from database and populates it for user to see
-        populateImages();
+        if(!isUpdatingCustomer)
+            populateImages();
+        else
+            isUpdatingCustomer = false;
     }
 
     private void populateImages(){

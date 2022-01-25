@@ -111,8 +111,10 @@ public class Animation {
     }
 
     public void showKeyboard(boolean showKeyboard){
-        // focuses on search and opens keyboard
-        searchView.setIconified(showKeyboard);
-        searchView.setIconified(!showKeyboard);
+        if(showKeyboard) {
+            // focuses on search and opens keyboard
+            searchView.setIconified(true);
+            searchView.setIconified(false);
+        }
     }
 }
