@@ -94,13 +94,13 @@ public class SettingsSheet extends RoundedBottomSheetDialogFragment{
 
         resetNfcCard.setOnClickListener(view12 -> {
             if(Helper.checkNfcStatus(getActivity(), getContext())) {
-                ((MainActivity) getContext()).showNfcPrompt("", false);
+                ((MainActivity) getContext()).showNfcPrompt("", false, null, null);
             }
         });
 
         readNfcCard.setOnClickListener(view13 -> {
             if(Helper.checkNfcStatus(getActivity(), getContext())) {
-                ((MainActivity) getContext()).showNfcPrompt("", true);
+                ((MainActivity) getContext()).showNfcPrompt("", true, null, null);
             }
         });
 

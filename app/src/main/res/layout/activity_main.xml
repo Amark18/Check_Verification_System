@@ -434,6 +434,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="5dp"
                         android:padding="8dp"
+                        android:layout_gravity="center"
                         android:text="@string/refresh_text"
                         android:textColor="@color/white" />
 

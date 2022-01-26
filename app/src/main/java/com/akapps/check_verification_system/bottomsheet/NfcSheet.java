@@ -6,18 +6,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.airbnb.lottie.LottieAnimationView;
 import com.akapps.check_verification_system.R;
+import com.bumptech.glide.Glide;
 import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialogFragment;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.storage.StorageReference;
+
 import org.jetbrains.annotations.NotNull;
 
 public class NfcSheet extends RoundedBottomSheetDialogFragment{
 
+    private StorageReference profileStoragePath;
+    private String customerName;
+
     public NfcSheet(){}
+
+    public NfcSheet(StorageReference profileStoragePath, String customerName){
+        this.profileStoragePath = profileStoragePath;
+        this.customerName = customerName;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -25,12 +38,28 @@ public class NfcSheet extends RoundedBottomSheetDialogFragment{
         view.setBackgroundColor(requireContext().getColor(R.color.grayDark));
 
         ImageView closeFilter = view.findViewById(R.id.close_filter);
-        LottieAnimationView lottieAnimationView = view.findViewById(R.id.tap_animation);
-        lottieAnimationView.getLayoutParams().height =  lottieAnimationView.getLayoutParams().width / 3;
+        ImageView profileImage = view.findViewById(R.id.profile_image);
+        TextView customerNameText = view.findViewById(R.id.customer_name);
+
+        if(profileStoragePath == null) {
+            profileImage.setVisibility(View.INVISIBLE);
+            customerNameText.setVisibility(View.INVISIBLE);
+        }
+        else
+            populateCustomer(profileImage, customerNameText);
 
         closeFilter.setOnClickListener(v -> this.dismiss());
 
         return view;
+    }
+
+    private void populateCustomer(ImageView profileImage, TextView customerNameText){
+        Glide.with(getContext())
+                .load(profileStoragePath)
+                .circleCrop()
+                .placeholder(getActivity().getDrawable(R.drawable.user_icon))
+                .into(profileImage);
+        customerNameText.setText(customerName);
     }
 
     @Override

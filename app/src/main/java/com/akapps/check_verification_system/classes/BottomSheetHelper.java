@@ -6,6 +6,8 @@ import com.akapps.check_verification_system.bottomsheet.InfoSheet;
 import com.akapps.check_verification_system.bottomsheet.NfcSheet;
 import com.akapps.check_verification_system.bottomsheet.SettingsSheet;
 import com.akapps.check_verification_system.bottomsheet.VerificationHistorySheet;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 
 /**
@@ -46,6 +48,13 @@ public class BottomSheetHelper {
         if(nfcSheet != null)
             nfcSheet.dismiss();
         nfcSheet = new NfcSheet();
+        nfcSheet.show(currentActivity.getSupportFragmentManager(), nfcSheet.getTag());
+    }
+
+    public void openNfcSheet(StorageReference profileStoragePath, String customerName){
+        if(nfcSheet != null)
+            nfcSheet.dismiss();
+        nfcSheet = new NfcSheet(profileStoragePath, customerName);
         nfcSheet.show(currentActivity.getSupportFragmentManager(), nfcSheet.getTag());
     }
 

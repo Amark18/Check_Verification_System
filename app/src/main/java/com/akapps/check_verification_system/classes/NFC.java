@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import com.akapps.check_verification_system.R;
 import com.akapps.check_verification_system.activities.MainActivity;
+import com.google.firebase.storage.StorageReference;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import www.sanju.motiontoast.MotionToast;
@@ -78,6 +80,10 @@ public class NFC {
     // opens nfc bottom sheet to prompt user to tap card
     public void showNfcPrompt(){
         ((MainActivity) currentActivity).bottomSheetHelper.openNfcSheet();
+    }
+
+    public void showNfcPrompt(StorageReference profileStoragePath, String customerName){
+        ((MainActivity) currentActivity).bottomSheetHelper.openNfcSheet(profileStoragePath, customerName);
     }
 
     // writes a message to nfc card

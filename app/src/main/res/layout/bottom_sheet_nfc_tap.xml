@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -28,17 +29,43 @@
         app:layout_constraintEnd_toEndOf="@+id/title"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:src="@drawable/user_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/tap_animation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tap_animation"></ImageView>
+
+    <TextView
+        android:id="@+id/customer_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="2"
+        android:layout_marginRight="10dp"
+        android:text="@string/fullname_placeholder"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dimen_16"
+        app:layout_constraintBottom_toBottomOf="@+id/tap_animation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tap_animation"></TextView>
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/tap_animation"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/nfc_card_read_animation">
-    </com.airbnb.lottie.LottieAnimationView>
+        app:lottie_rawRes="@raw/nfc_card_read_animation"></com.airbnb.lottie.LottieAnimationView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

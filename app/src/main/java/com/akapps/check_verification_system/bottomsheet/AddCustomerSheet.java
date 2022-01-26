@@ -284,7 +284,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
 
         nfcTapButton.setOnClickListener(v -> {
             if(Helper.checkNfcStatus(getActivity(), getContext())) {
-                ((MainActivity) getContext()).showNfcPrompt(customer.getCustomerUniqueId(), false);
+                showNfcPrompt(customer.getCustomerUniqueId());
                 this.dismiss();
             }
         });
@@ -360,7 +360,7 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
                                 String showNfcPromptStatus = Helper.getPreference(getContext(),
                                         getContext().getString(R.string.show_nfc_prompt_pref));
                                 if(showNfcPromptStatus != null && !showNfcPromptStatus.equals(""))
-                                    ((MainActivity) getContext()).showNfcPrompt(customerID, false);
+                                   showNfcPrompt(customerID);
 
                                 // update dashboard
                                 firestoreDatabase.loadCustomerData(true);
@@ -379,6 +379,12 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
                     nameLayout.setError(getContext().getString(R.string.name_error));
             }
         });
+    }
+
+    private void showNfcPrompt(String customerID){
+        ((MainActivity) getContext()).showNfcPrompt(customerID, false,
+                firebaseStorage.getReference(customer.getProfilePicPath()),
+                customer.getFirstName() + " " + customer.getLastName());
     }
 
     private void enableAddMode(){

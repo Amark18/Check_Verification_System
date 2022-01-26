@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.akapps.check_verification_system.activities.MainActivity;
+
 public class Animation {
 
     // layout
@@ -31,6 +33,7 @@ public class Animation {
     private final int mediumAnimationDuration = 500;
     private final int smallDelay = 100;
     private final NfcAdapter nfcAdapter;
+    private int initialWidthOfTapToRefresh;
 
     public Animation(NestedScrollView scrollView, SearchView searchView, TextView closeSearch, ImageView nfcStatus,
                      LinearLayout searchLayout, RecyclerView customerRecyclerview,
@@ -56,10 +59,10 @@ public class Animation {
             emptyRecyclerviewMessage.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withStartAction(() -> emptyRecyclerviewMessage.setVisibility(View.VISIBLE));
             move.animate().alpha(1.0f).setDuration(mediumAnimationDuration).withStartAction(() -> move.setVisibility(View.VISIBLE));
             other.animate().alpha(0.0f).setDuration(mediumAnimationDuration);
-            ObjectAnimator dateAnimation = ObjectAnimator.ofFloat(date, "translationY",(date.getY()));
-            ObjectAnimator closeAnimation = ObjectAnimator.ofFloat(closeSearch, "translationY",(date.getY()));
-            ObjectAnimator searchAnimation = ObjectAnimator.ofFloat(searchLayout, "translationY",(-1 * (move.getY() - other.getY())) + 80);
-            ObjectAnimator refreshAnimation = ObjectAnimator.ofFloat(tapToRefresh, "translationY",(-1 * (tapToRefresh.getY() + date.getY())) + 80);
+            ObjectAnimator dateAnimation = ObjectAnimator.ofFloat(date, "translationY",(date.getY()) + 30);
+            ObjectAnimator closeAnimation = ObjectAnimator.ofFloat(closeSearch, "translationY",(date.getY()) + 30);
+            ObjectAnimator searchAnimation = ObjectAnimator.ofFloat(searchLayout, "translationY",(-1 * (move.getY() - other.getY())) + 120);
+            ObjectAnimator refreshAnimation = ObjectAnimator.ofFloat(tapToRefresh, "translationY",(-1 * (tapToRefresh.getY() + date.getY())) + 70);
             searchAnimation.setDuration(longAnimationDuration);
             refreshAnimation.setDuration(longAnimationDuration);
             dateAnimation.setDuration(longAnimationDuration);
@@ -69,6 +72,8 @@ public class Animation {
             searchAnimation.start();
             refreshAnimation.start();
             tapToRefresh.setVisibility(View.VISIBLE);
+            initialWidthOfTapToRefresh = tapToRefresh.getLayoutParams().width;
+            tapToRefresh.getLayoutParams().width = Helper.getWidthScreen((MainActivity)tapToRefresh.getContext()) / 2;
             // clear recyclerview data
             customerRecyclerview.setAdapter(null);
             // show keyboard after animation to ensure layout has been populated
@@ -96,6 +101,7 @@ public class Animation {
             dateAnimation.start();
             animation.start();
             refreshAnimation.start();
+            tapToRefresh.getLayoutParams().width = initialWidthOfTapToRefresh;
             // clears recyclerview data
             customerRecyclerview.setAdapter(null);
             // clear search input

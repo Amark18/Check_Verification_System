@@ -25,6 +25,7 @@ import com.akapps.check_verification_system.classes.Helper;
 import com.akapps.check_verification_system.classes.NFC;
 import com.akapps.check_verification_system.recyclerview.customers_search_recyclerview;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.storage.StorageReference;
 import com.irfaan008.irbottomnavigation.SpaceItem;
 import com.irfaan008.irbottomnavigation.SpaceNavigationView;
 import com.irfaan008.irbottomnavigation.SpaceOnClickListener;
@@ -178,15 +179,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // this method determines whether to read or write to next card tap via NFC
-    public void showNfcPrompt(String customerId, boolean readNfcMode) {
-        if (readNfcMode)
+    public void showNfcPrompt(String customerId, boolean readNfcMode,
+                              StorageReference profileStoragePath, String customerName) {
+        if (readNfcMode) {
             this.readNfcMode = true;
+        }
         else {
             writeNfcMode = true;
             writeString = customerId;
         }
         if (nfc != null)
-            nfc.showNfcPrompt();
+            if(writeNfcMode)
+                nfc.showNfcPrompt(profileStoragePath, customerName);
+            else
+                nfc.showNfcPrompt();
     }
 
     private void initializeLayout(Bundle savedInstanceState) {
