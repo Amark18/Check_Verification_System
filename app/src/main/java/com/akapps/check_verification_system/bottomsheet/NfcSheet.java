@@ -41,25 +41,26 @@ public class NfcSheet extends RoundedBottomSheetDialogFragment{
         ImageView profileImage = view.findViewById(R.id.profile_image);
         TextView customerNameText = view.findViewById(R.id.customer_name);
 
-        if(profileStoragePath == null) {
-            profileImage.setVisibility(View.INVISIBLE);
-            customerNameText.setVisibility(View.INVISIBLE);
-        }
-        else
-            populateCustomer(profileImage, customerNameText);
-
         closeFilter.setOnClickListener(v -> this.dismiss());
+
+        populateCustomer(profileImage, customerNameText);
 
         return view;
     }
 
     private void populateCustomer(ImageView profileImage, TextView customerNameText){
-        Glide.with(getContext())
-                .load(profileStoragePath)
-                .circleCrop()
-                .placeholder(getActivity().getDrawable(R.drawable.user_icon))
-                .into(profileImage);
-        customerNameText.setText(customerName);
+        if(profileStoragePath != null) {
+            Glide.with(getContext())
+                    .load(profileStoragePath)
+                    .circleCrop()
+                    .placeholder(getActivity().getDrawable(R.drawable.user_icon))
+                    .into(profileImage);
+        }
+
+        if(customerName !=null && !customerName.isEmpty())
+            customerNameText.setText(customerName);
+        else
+            customerNameText.setVisibility(View.INVISIBLE);
     }
 
     @Override

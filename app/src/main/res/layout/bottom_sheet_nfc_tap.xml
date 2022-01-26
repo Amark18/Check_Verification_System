@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/baloo_bhai"
         android:gravity="center"
@@ -26,7 +26,7 @@
         android:layout_height="60dp"
         android:padding="13dp"
         android:src="@drawable/close_icon"
-        app:layout_constraintEnd_toEndOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -43,17 +43,18 @@
 
     <TextView
         android:id="@+id/customer_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:maxLines="2"
-        android:layout_marginRight="10dp"
         android:text="@string/fullname_placeholder"
+        android:layout_marginHorizontal="10dp"
         android:textColor="@color/white"
         android:textSize="@dimen/dimen_16"
         app:layout_constraintBottom_toBottomOf="@+id/tap_animation"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/title"
         app:layout_constraintTop_toTopOf="@+id/tap_animation"></TextView>
 
     <com.airbnb.lottie.LottieAnimationView

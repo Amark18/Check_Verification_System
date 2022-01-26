@@ -38,6 +38,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Source;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.stfalcon.imageviewer.StfalconImageViewer;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
@@ -383,7 +384,8 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
 
     private void showNfcPrompt(String customerID){
         ((MainActivity) getContext()).showNfcPrompt(customerID, false,
-                firebaseStorage.getReference(customer.getProfilePicPath()),
+                customer.getProfilePicPath() == null || customer.getProfilePicPath().equals("") ?
+                        null : firebaseStorage.getReference(customer.getProfilePicPath()),
                 customer.getFirstName() + " " + customer.getLastName());
     }
 
