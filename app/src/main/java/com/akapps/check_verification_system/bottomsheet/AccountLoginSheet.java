@@ -73,9 +73,13 @@ public class AccountLoginSheet extends RoundedBottomSheetDialogFragment{
                             // Sign in success, update UI with the signed-in user's information
                             Helper.savePreference(getContext(), "true",
                                     getContext().getString(R.string.account_login_pref));
-                            Helper.showMessage(getActivity(), getContext().getString(R.string.login_success_title),
-                                    getContext().getString(R.string.login_success_message),
-                                    MotionToast.TOAST_SUCCESS);
+                            // if user is using test email, log them in without pin
+                            if(email.replace(getString(R.string.email_end_format), "").toLowerCase().equals(getString(R.string.test_email)))
+                                ((PinLoginActivity)getActivity()).openMainPage();
+                            else
+                                Helper.showMessage(getActivity(), getContext().getString(R.string.login_success_title),
+                                        getContext().getString(R.string.login_success_message),
+                                        MotionToast.TOAST_SUCCESS);
                             dialog.dismiss();
                         } else {
                             loginAttempts++;

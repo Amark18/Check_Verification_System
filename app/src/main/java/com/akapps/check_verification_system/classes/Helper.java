@@ -109,7 +109,7 @@ public class Helper {
     // checks to see if user has logged in via email and password
     public static boolean isAccountLoggedIn(Context context){
         String isLoggedIn = getPreference(context, context.getString(R.string.account_login_pref));
-        return isLoggedIn == null ? false : true;
+        return isLoggedIn != null;
     }
 
     public static void showMessage(Activity activity, String title, String message, String typeOfMessage){

@@ -7,6 +7,7 @@
     <string name="fingerprint_error_text">Fingerprint Error</string>
     <string name="login_message_timeout">Last login more than 24 hours ago</string>
     <string name="fingerprint">Biometric login</string>
+    <string name="test_email">test</string>
 
     <!-- Main screen - Text !-->
     <string name="dash_text">Dashboard</string>

@@ -89,7 +89,7 @@ public class FirestoreDatabase {
         if(lastUpdated == null) {
             collectionCustomers
                     .orderBy("timeStampAdded", Query.Direction.DESCENDING)
-                    .get()
+                    .get(Source.SERVER)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult())

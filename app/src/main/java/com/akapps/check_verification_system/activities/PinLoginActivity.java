@@ -58,7 +58,7 @@ public class PinLoginActivity extends AppCompatActivity{
 
         initializeLayout();
 
-        // checks to see if user has logged in and if so, then lets them enter a pin afterwards
+        // checks to see if user has logged in and if so, lets them enter a pin afterwards
         if(Helper.isAccountLoggedIn(context))
             // pin login only required once every 24 hours
             autoLogin();
