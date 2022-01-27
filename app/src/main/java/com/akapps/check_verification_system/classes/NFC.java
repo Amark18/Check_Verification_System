@@ -78,12 +78,12 @@ public class NFC {
     }
 
     // opens nfc bottom sheet to prompt user to tap card
-    public void showNfcPrompt(){
-        ((MainActivity) currentActivity).bottomSheetHelper.openNfcSheet();
+    public void showNfcPrompt(String titleMessage){
+        ((MainActivity) currentActivity).bottomSheetHelper.openNfcSheet(titleMessage);
     }
 
-    public void showNfcPrompt(StorageReference profileStoragePath, String customerName){
-        ((MainActivity) currentActivity).bottomSheetHelper.openNfcSheet(profileStoragePath, customerName);
+    public void showNfcPrompt(StorageReference profileImageStoragePath, String customerName){
+        ((MainActivity) currentActivity).bottomSheetHelper.openNfcSheet(profileImageStoragePath, customerName);
     }
 
     // writes a message to nfc card

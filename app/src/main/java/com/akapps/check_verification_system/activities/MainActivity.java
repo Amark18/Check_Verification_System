@@ -181,18 +181,21 @@ public class MainActivity extends AppCompatActivity {
     // this method determines whether to read or write to next card tap via NFC
     public void showNfcPrompt(String customerId, boolean readNfcMode,
                               StorageReference profileStoragePath, String customerName) {
+        String titleMessage;
         if (readNfcMode) {
             this.readNfcMode = true;
+            titleMessage = "Read";
         }
         else {
             writeNfcMode = true;
             writeString = customerId;
+            titleMessage = "Reset";
         }
         if (nfc != null)
             if(writeNfcMode)
                 nfc.showNfcPrompt(profileStoragePath, customerName);
             else
-                nfc.showNfcPrompt();
+                nfc.showNfcPrompt(titleMessage);
     }
 
     private void initializeLayout(Bundle savedInstanceState) {

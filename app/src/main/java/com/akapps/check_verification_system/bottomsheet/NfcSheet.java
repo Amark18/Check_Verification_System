@@ -19,17 +19,23 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.storage.StorageReference;
 
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 public class NfcSheet extends RoundedBottomSheetDialogFragment{
 
     private StorageReference profileStoragePath;
     private String customerName;
 
-    public NfcSheet(){}
+    private String titleMessage;
+
+    public NfcSheet(String titleMessage){
+        this.titleMessage = titleMessage;
+    }
 
     public NfcSheet(StorageReference profileStoragePath, String customerName){
         this.profileStoragePath = profileStoragePath;
         this.customerName = customerName;
+        titleMessage = "";
     }
 
     @Override
@@ -37,9 +43,16 @@ public class NfcSheet extends RoundedBottomSheetDialogFragment{
         View view = inflater.inflate(R.layout.bottom_sheet_nfc_tap, container, false);
         view.setBackgroundColor(requireContext().getColor(R.color.grayDark));
 
+        TextView title = view.findViewById(R.id.title);
         ImageView closeFilter = view.findViewById(R.id.close_filter);
         ImageView profileImage = view.findViewById(R.id.profile_image);
         TextView customerNameText = view.findViewById(R.id.customer_name);
+
+        // set title
+        if(!titleMessage.isEmpty()) {
+            String titleText = title.getText() + " to " + titleMessage;
+            title.setText(titleText);
+        }
 
         closeFilter.setOnClickListener(v -> this.dismiss());
 
@@ -49,6 +62,8 @@ public class NfcSheet extends RoundedBottomSheetDialogFragment{
     }
 
     private void populateCustomer(ImageView profileImage, TextView customerNameText){
+        boolean customerNameExists = customerName !=null && !customerName.isEmpty();
+
         if(profileStoragePath != null) {
             Glide.with(getContext())
                     .load(profileStoragePath)
@@ -56,8 +71,10 @@ public class NfcSheet extends RoundedBottomSheetDialogFragment{
                     .placeholder(getActivity().getDrawable(R.drawable.user_icon))
                     .into(profileImage);
         }
+        else if(customerNameExists)
+            profileImage.setVisibility(View.INVISIBLE);
 
-        if(customerName !=null && !customerName.isEmpty())
+        if(customerNameExists)
             customerNameText.setText(customerName);
         else
             customerNameText.setVisibility(View.INVISIBLE);

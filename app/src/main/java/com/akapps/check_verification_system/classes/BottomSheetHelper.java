@@ -44,10 +44,10 @@ public class BottomSheetHelper {
             addCustomerSheet.show(currentActivity.getSupportFragmentManager(), addCustomerSheet.getTag());
     }
 
-    public void openNfcSheet(){
+    public void openNfcSheet(String titleMessage){
         if(nfcSheet != null)
             nfcSheet.dismiss();
-        nfcSheet = new NfcSheet();
+        nfcSheet = new NfcSheet(titleMessage);
         nfcSheet.show(currentActivity.getSupportFragmentManager(), nfcSheet.getTag());
     }
 

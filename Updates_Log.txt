@@ -1,0 +1,5 @@
+Check Verification System (Update Log):
+
+- Version 2.0 (January 26)
+-- Updated Tap prompt title so user better understands what they are doing when selecting read/reset card in settings
+-- Fixed issue in firebase storage causing old profile/id pictures to not delete, resulting in utilization of more storage than necessary

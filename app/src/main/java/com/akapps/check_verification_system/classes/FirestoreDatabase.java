@@ -5,10 +5,16 @@ import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+
 import com.akapps.check_verification_system.activities.MainActivity;
 import com.akapps.check_verification_system.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -278,7 +284,7 @@ public class FirestoreDatabase {
     }
 
     public void uploadImages(Uri profileImageUri, Uri idImageUri, Customer customer){
-        int uniqueID = new Random().nextInt(1001) + 200;
+        int uniqueID = new Random().nextInt(10001) + 200;
         String profileImagePath = customer.getCustomerUniqueId() + profilePicturePath + "_" + uniqueID +  ".jpg";
         String idImagePath = customer.getCustomerUniqueId() + idPicturePath + "_" + uniqueID + ".jpg";
 
@@ -322,7 +328,7 @@ public class FirestoreDatabase {
     private void deleteImage(String imagePath){
         StorageReference imagePathRef = storage.getReference(imagePath);
 
-        imagePathRef.delete().addOnSuccessListener(aVoid -> { })
-                .addOnFailureListener(exception -> {});
+        imagePathRef.delete().addOnSuccessListener(aVoid -> Log.d("Here", "SUCCESS - Attempt to delete file"))
+                .addOnFailureListener(exception -> Log.d("Here", "FAILURE - Attempt to delete file"));
     }
 }
