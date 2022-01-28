@@ -82,8 +82,8 @@ public class NFC {
         ((MainActivity) currentActivity).bottomSheetHelper.openNfcSheet(titleMessage);
     }
 
-    public void showNfcPrompt(StorageReference profileImageStoragePath, String customerName){
-        ((MainActivity) currentActivity).bottomSheetHelper.openNfcSheet(profileImageStoragePath, customerName);
+    public void showNfcPrompt(String titleMessage, StorageReference profileImageStoragePath, String customerName){
+        ((MainActivity) currentActivity).bottomSheetHelper.openNfcSheet(titleMessage, profileImageStoragePath, customerName);
     }
 
     // writes a message to nfc card

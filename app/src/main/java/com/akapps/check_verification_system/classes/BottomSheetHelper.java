@@ -51,10 +51,10 @@ public class BottomSheetHelper {
         nfcSheet.show(currentActivity.getSupportFragmentManager(), nfcSheet.getTag());
     }
 
-    public void openNfcSheet(StorageReference profileStoragePath, String customerName){
+    public void openNfcSheet(String titleMessage, StorageReference profileStoragePath, String customerName){
         if(nfcSheet != null)
             nfcSheet.dismiss();
-        nfcSheet = new NfcSheet(profileStoragePath, customerName);
+        nfcSheet = new NfcSheet(titleMessage, profileStoragePath, customerName);
         nfcSheet.show(currentActivity.getSupportFragmentManager(), nfcSheet.getTag());
     }
 

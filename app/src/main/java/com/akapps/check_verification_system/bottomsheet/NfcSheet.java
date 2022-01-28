@@ -32,10 +32,10 @@ public class NfcSheet extends RoundedBottomSheetDialogFragment{
         this.titleMessage = titleMessage;
     }
 
-    public NfcSheet(StorageReference profileStoragePath, String customerName){
+    public NfcSheet(String titleMessage, StorageReference profileStoragePath, String customerName){
+        this.titleMessage = titleMessage;
         this.profileStoragePath = profileStoragePath;
         this.customerName = customerName;
-        titleMessage = "";
     }
 
     @Override
@@ -71,7 +71,7 @@ public class NfcSheet extends RoundedBottomSheetDialogFragment{
                     .placeholder(getActivity().getDrawable(R.drawable.user_icon))
                     .into(profileImage);
         }
-        else if(customerNameExists)
+        else
             profileImage.setVisibility(View.INVISIBLE);
 
         if(customerNameExists)

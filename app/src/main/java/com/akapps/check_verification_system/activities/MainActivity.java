@@ -189,11 +189,14 @@ public class MainActivity extends AppCompatActivity {
         else {
             writeNfcMode = true;
             writeString = customerId;
-            titleMessage = "Reset";
+            if(customerId.isEmpty())
+                titleMessage = "Reset";
+            else
+                titleMessage = "";
         }
         if (nfc != null)
             if(writeNfcMode)
-                nfc.showNfcPrompt(profileStoragePath, customerName);
+                nfc.showNfcPrompt(titleMessage, profileStoragePath, customerName);
             else
                 nfc.showNfcPrompt(titleMessage);
     }
