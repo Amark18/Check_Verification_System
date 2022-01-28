@@ -8,6 +8,7 @@ Oasis Check System provides a way to access customer information easily, securel
 * [Features](#features)
 * [Purpose](#purpose)
 * [Tools](#tools)
+* [Download](#download)
 
 ## Preview
 
@@ -48,3 +49,7 @@ There is a lot of risk associated with check cashing and OCS hopes to ease the s
 * Java
 * Firebase (Storage and Authentication)
 * NFC
+
+## Download
+
+Download [app!](https://play.google.com/store/apps/details?id=com.akapps.check_verification_system) (using an Android device)
