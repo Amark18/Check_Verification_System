@@ -207,10 +207,11 @@ public class FirestoreDatabase {
         // deleted customer data, his profile picture, and ID picture
         String profileImagePath = customer.getProfilePicPath();
         String idImagePath = customer.getCustomerIDPath();
-        // profile image path is optional and so we can't delete something if it may not exist
+        // ensures that there are files to delete
         if(!profileImagePath.isEmpty())
             deleteImage(profileImagePath);
-        deleteImage(idImagePath);
+        if(!idImagePath.isEmpty())
+            deleteImage(idImagePath);
         collectionCustomers.document(customer.getCustomerUniqueId()).delete();
         // reflect changes for user to see
         loadCustomerData(true);
