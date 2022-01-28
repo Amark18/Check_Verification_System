@@ -1,4 +1,4 @@
-# Oasis-Check-System
+# Oasis Check System
 
 Oasis Check System provides a way to access customer information easily, securely, and quickly so that cashiers can make better decisions when cashing checks.
 
@@ -20,6 +20,8 @@ Home Page | Sample Customer | Settings Page
 ![home](Screenshots/Regular%20Device/Screenshot_20220127-210113_oneplus-oneplus8pro-portrait.png) | ![sample_customer](Screenshots/Regular%20Device/Screenshot_20220127-210521_oneplus-oneplus8pro-portrait.png) | ![settings](https://github.com/Amark18/Dark-Note/blob/main/Screenshots/Regular%20Device/8_oneplus-oneplus8pro-portrait.png)
 
 ## Features
+
+I made a lot of optimizations to ensure this app works offline, ensuring check cashing remains operational in case of connection issues.
 
 * Home Page: 
   * View the total customers in the system
