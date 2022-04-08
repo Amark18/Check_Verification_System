@@ -166,7 +166,6 @@ public class AddCustomerSheet extends RoundedBottomSheetDialogFragment {
         if(isProfilePicSelected)
             camera.cropOval();
 
-
         // required function to use kotlin library
         camera.createIntentFromDialog((Function1) (new Function1() {
             public Object invoke(Object var1) {

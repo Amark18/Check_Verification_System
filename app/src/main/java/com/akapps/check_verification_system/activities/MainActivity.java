@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             return; // does not initialize if NFC is not available for device
         }
         pendingIntent = PendingIntent.getActivity(context, 0, new Intent(this,
-                getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+                getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_IMMUTABLE);
         nfc = new NFC(this, context, nfcAdapter, pendingIntent, nfcStatus, bottomSheetHelper);
     }
 
