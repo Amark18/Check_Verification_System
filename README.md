@@ -1,4 +1,4 @@
-# Oasis Check System
+# Check Verification System
 
 Oasis Check System provides a way to access customer information easily, securely, and quickly so that cashiers can make better decisions when cashing checks.
 
