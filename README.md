@@ -16,9 +16,9 @@ Oasis Check System provides a way to access customer information easily, securel
 
 ## App Layout
 
-Home Page | Sample Customer | Settings Page
-:-------------------------:|:-------------------------:|:-------------------------:
-![home](Screenshots/Regular%20Device/Screenshot_20220127-210113_oneplus-oneplus8pro-portrait.png) | ![sample_customer](Screenshots/Regular%20Device/Screenshot_20220127-210521_oneplus-oneplus8pro-portrait.png) | ![settings](https://github.com/Amark18/Dark-Note/blob/main/Screenshots/Regular%20Device/8_oneplus-oneplus8pro-portrait.png)
+Home Page | Sample Customer | Settings Page | NFC Tap
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+<img src="Screenshots/Regular%20Device/Screenshot_20220127-210113_oneplus-oneplus8pro-portrait.png" width="355" /> | <img src="Screenshots/Regular%20Device/Screenshot_20220127-210521_oneplus-oneplus8pro-portrait.png" width="335" /> | <img src="Screenshots/Regular%20Device/Screenshot_20220127-210543_oneplus-oneplus8pro-portrait.png" width="340" /> | <img src="Screenshots/Regular%20Device/Screenshot_20220127-210525_oneplus-oneplus8pro-portrait.png" width="360" />
 
 ## Features
 
@@ -38,6 +38,9 @@ I made a lot of optimizations to ensure this app works offline, ensuring check c
   * NFC card data can be viewed or reset
   * Log out of account 
   * Ability to reset account quickly in case of any issues
+* NFC Tap:
+  * allow user info to be saved onto an NFC card
+  * if NFC card is place onto device NFC reader, it will open customer information in the app
 
 ## Purpose
 This app was created for Alkhanshali Inc and their stores to make check cashing easier, both for the cashier and the customer. Oasis Check System (OCS) get rids of hundreds of pages of ID's and digitizes all that information to make it easier and quicker to view and even update information. 
