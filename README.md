@@ -18,7 +18,7 @@ Oasis Check System provides a way to access customer information easily, securel
 
 Home Page | Sample Customer | Settings Page | NFC Tap
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-<img src="Screenshots/Regular%20Device/Screenshot_20220127-210113_oneplus-oneplus8pro-portrait.png" width="355" /> | <img src="Screenshots/Regular%20Device/Screenshot_20220127-210521_oneplus-oneplus8pro-portrait.png" width="335" /> | <img src="Screenshots/Regular%20Device/Screenshot_20220127-210543_oneplus-oneplus8pro-portrait.png" width="340" /> | <img src="Screenshots/Regular%20Device/Screenshot_20220127-210525_oneplus-oneplus8pro-portrait.png" width="360" />
+<img src="Screenshots/Regular%20Device/Screenshot_20220127-210113_oneplus-oneplus8pro-portrait.png" width="355" /> | <img src="Screenshots/Regular%20Device/Screenshot_20220127-210521_oneplus-oneplus8pro-portrait.png" width="335" /> | <img src="Screenshots/Regular%20Device/Screenshot_20220127-210543_oneplus-oneplus8pro-portrait.png" width="340" /> | <img src="Screenshots/Regular%20Device/Screenshot_20220127-210525_oneplus-oneplus8pro-portrait.png" width="370" />
 
 ## Features
 
