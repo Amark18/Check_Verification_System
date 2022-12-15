@@ -47,7 +47,7 @@ I made a lot of optimizations to ensure this app works offline, ensuring check c
   * if NFC card is place onto device NFC reader, it will open customer information in the app
 
 ## Purpose
-This app was created for Alkhanshali Inc and their stores to make check cashing easier, both for the cashier and the customer. Oasis Check System (OCS) get rids of hundreds of pages of ID's and digitizes all that information to make it easier and quicker to view and even update information. 
+This app was created to make check cashing easier, both for the cashier and the customer. Oasis Check System (OCS) can get of the need for keeping physical copies of ID's and digitizes all that information to make it easier and quicker to view and even update information. 
 
 There is a lot of risk associated with check cashing and OCS hopes to ease the stress to save business time and money.
 	
