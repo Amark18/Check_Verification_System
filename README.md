@@ -44,7 +44,7 @@ I made a lot of optimizations to ensure this app works offline, ensuring check c
   * Ability to reset account quickly in case of any issues
 * NFC Tap:
   * allow user info to be saved onto an NFC card
-  * if NFC card is place onto device NFC reader, it will open customer information in the app
+  * if NFC card is placed on the device NFC reader, it will open up the app (if not opened already) and customer information can be viewed
 
 ## Purpose
 This app was created to make check cashing easier, both for the cashier and the customer. Oasis Check System (OCS) can get of the need for keeping physical copies of ID's and digitizes all that information to make it easier and quicker to view and even update information. 
@@ -58,5 +58,4 @@ There is a lot of risk associated with check cashing and OCS hopes to ease the s
 * NFC
 
 ## Download
-
 Download [app!](https://play.google.com/store/apps/details?id=com.akapps.check_verification_system) (using an Android device)
